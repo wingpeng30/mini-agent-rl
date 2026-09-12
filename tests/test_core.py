@@ -46,3 +46,10 @@ def test_search_supports_chinese_query_and_utf8_corpus(tmp_path):
     corpus = json.loads(corpus_path.read_text(encoding="utf-8"))
     results = SearchTool(corpus)._search("故宫位于哪个城市")
     assert results and results[0]["id"] == "中"
+
+@pytest.mark.asyncio
+async def test_tool_observation_stays_structured_json(tmp_path):
+    r, store = runner(tmp_path)
+    group = await r.run_group(Task(id="t4", question="故宫位于哪个城市？", answer="故宫是中国明清两代的皇家宫殿，位于北京。"), 1)
+    rollout = store.get_rollout(group.rollout_ids[0])
+    assert rollout.final_answer == "故宫是中国明清两代的皇家宫殿，位于北京。"

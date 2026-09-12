@@ -1,0 +1,8 @@
+{"id":"bench-01","question":"故宫位于哪个城市？","answer":"故宫是中国明清两代的皇家宫殿，位于北京。","metadata":{"difficulty":"single-hop"}}
+{"id":"bench-02","question":"中国明清两代的皇家宫殿是什么？","answer":"故宫是中国明清两代的皇家宫殿，位于北京。","metadata":{"difficulty":"single-hop"}}
+{"id":"bench-03","question":"北京有哪些皇家宫殿？","answer":"故宫是中国明清两代的皇家宫殿，位于北京。","metadata":{"difficulty":"single-hop"}}
+{"id":"bench-04","question":"故宫和北京有什么关系？","answer":"故宫是中国明清两代的皇家宫殿，位于北京。","metadata":{"difficulty":"relation"}}
+{"id":"bench-05","question":"中国首都的皇家宫殿叫什么？","answer":"故宫是中国明清两代的皇家宫殿，位于北京。","metadata":{"difficulty":"relation"}}
+{"id":"bench-06","question":"强化学习依靠什么优化策略？","answer":"强化学习通过奖励信号优化策略。","metadata":{"difficulty":"single-hop"}}
+{"id":"bench-07","question":"什么学习方法使用奖励信号？","answer":"强化学习通过奖励信号优化策略。","metadata":{"difficulty":"single-hop"}}
+{"id":"bench-08","question":"策略由什么信号优化？","answer":"强化学习通过奖励信号优化策略。","metadata":{"difficulty":"single-hop"}}

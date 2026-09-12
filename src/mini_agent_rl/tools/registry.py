@@ -10,9 +10,27 @@ class Tool:
     async def execute(self, arguments: dict[str, Any]) -> dict[str, Any]:
         start = time.perf_counter()
         try:
+            # Tool schema 是模型和环境之间的边界。首版实现 JSON Schema 的
+            # 必需字段与基本类型校验，避免模型任意参数直接进入工具函数。
+            schema = self.definition.parameters
+            if schema.get("type") == "object":
+                if not isinstance(arguments, dict):
+                    raise ValueError("工具参数必须是 JSON object")
+                for key in schema.get("required", []):
+                    if key not in arguments:
+                        raise ValueError(f"缺少必需参数: {key}")
+                for key, value in arguments.items():
+                    expected = schema.get("properties", {}).get(key, {}).get("type")
+                    if expected == "string" and not isinstance(value, str):
+                        raise ValueError(f"参数 {key} 必须是字符串")
+                    if expected == "number" and (not isinstance(value, (int, float)) or isinstance(value, bool)):
+                        raise ValueError(f"参数 {key} 必须是数字")
             result = self.handler(**arguments)
             if inspect.isawaitable(result): result = await asyncio.wait_for(result, timeout=self.timeout)
-            text = str(result); return {"ok": True, "result": text[:self.max_output], "latency_ms": round((time.perf_counter()-start)*1000, 2)}
+            # JSON 结构的工具输出必须原样保留，供后续模型消息、轨迹回放和
+            # evidence reward 使用；只有普通文本才执行长度截断。
+            normalized = result if isinstance(result, (dict, list, int, float, bool, type(None))) else str(result)[:self.max_output]
+            return {"ok": True, "result": normalized, "latency_ms": round((time.perf_counter()-start)*1000, 2)}
         except Exception as exc: return {"ok": False, "error": str(exc), "latency_ms": round((time.perf_counter()-start)*1000, 2)}
 
 class ToolRegistry:

@@ -23,6 +23,7 @@ class Message(BaseModel):
     role: str
     content: str
     tool_call_id: str | None = None
+    tool_calls: list[ToolCall] = Field(default_factory=list)
 
 class ToolDefinition(BaseModel):
     name: str
@@ -30,16 +31,22 @@ class ToolDefinition(BaseModel):
     parameters: dict[str, Any] = Field(default_factory=dict)
 
 class ToolCall(BaseModel):
+    id: str = Field(default_factory=lambda: f"call_{uuid4().hex}")
     name: str
     arguments: dict[str, Any] = Field(default_factory=dict)
 
 class ModelResponse(BaseModel):
     content: str = ""
-    tool_call: ToolCall | None = None
+    tool_calls: list[ToolCall] = Field(default_factory=list)
     prompt_token_ids: list[int] | None = None
     action_token_ids: list[int] | None = None
     old_logprobs: list[float] | None = None
     usage: dict[str, int | float] = Field(default_factory=dict)
+
+    @property
+    def tool_call(self) -> ToolCall | None:
+        """第一版运行时每一步只执行一个工具；保留便捷访问避免调用方误用列表。"""
+        return self.tool_calls[0] if self.tool_calls else None
 
 class Transition(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid4()))

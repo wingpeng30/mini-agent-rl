@@ -7,10 +7,22 @@
 ```bash
 pip install -e ".[test]"
 mini-agent-rl run --group-size 4
+mini-agent-rl evaluate --task examples/benchmark.jsonl --output reports/baseline.json
 mini-agent-rl export
 ```
 
 默认使用 FakeModel 和内置离线 SearchTool。真实模型可通过 `OpenAICompatibleClient` 接入兼容 Chat Completions 的服务。
+
+## DeepSeek（可选）
+
+不需要部署本地模型。设置环境变量后可切换到 DeepSeek：
+
+```powershell
+$env:DEEPSEEK_API_KEY="在控制台创建的新密钥"
+mini-agent-rl evaluate --backend deepseek --task examples/benchmark.jsonl
+```
+
+默认使用 `https://api.deepseek.com` 与 `deepseek-v4-flash`；密钥不会写入 SQLite、报告或 Git。
 
 ## 当前范围
 
