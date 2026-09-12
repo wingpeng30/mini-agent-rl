@@ -1,0 +1,19 @@
+# Python 运行和测试缓存
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+
+# 本地运行产物：可由 CLI 重新生成，不提交到版本库
+*.db
+*.sqlite
+*.sqlite3
+trajectories.jsonl
+pytest-temp/
+
+# 本地密钥和环境配置，严禁提交
+.env
+.env.*
+!.env.example
