@@ -18,3 +18,7 @@
 - 1 条离线任务、1 个 rollout 的 smoke run 成功，最终 reward 为 `1.170`。
 - 8 条 benchmark、每题 2 个 rollout 的离线评测：执行成功率 `100%`、答案准确率 `87.5%`、平均 reward `1.045`、平均搜索次数 `1.0`。
 - 当前 Codex 沙箱对 pytest 临时目录存在 Windows 权限限制；常规本地环境可使用 `pytest` 运行全部测试。
+
+## 版本记录
+
+本阶段版本为 `v0.2.0`。项目从此遵循语义化版本：每次完成一个可用阶段并推送 GitHub 时，同步更新 `pyproject.toml`、`CHANGELOG.md`，并推送对应 Git tag。

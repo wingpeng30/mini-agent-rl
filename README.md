@@ -2,6 +2,8 @@
 
 一个不下载本地模型、无需 GPU 的最小工具调用 Agent 框架。它保留了强化学习所需的 rollout group、transition、reward、token/logprob 字段和 JSONL 导出边界。
 
+当前版本：**v0.2.0**。完整变更记录见 [CHANGELOG.md](CHANGELOG.md)。
+
 ## 快速运行
 
 ```bash
