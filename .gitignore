@@ -12,8 +12,17 @@ dist/
 *.sqlite3
 trajectories.jsonl
 pytest-temp/
+pytest-temp*/
 .pytest-tmp/
 reports/
+runs-v073/
+data/sft-v040/
+data/hotpot-agent-v041/
+data/hotpot-agent-v072/
+data/rl-v060/
+checkpoints/
+models/
+*.safetensors
 
 # 本地密钥和环境配置，严禁提交
 .env

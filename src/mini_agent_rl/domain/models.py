@@ -3,7 +3,7 @@
 from __future__ import annotations
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Literal
 from uuid import uuid4
 from pydantic import BaseModel, Field
 
@@ -41,7 +41,10 @@ class ModelResponse(BaseModel):
     prompt_token_ids: list[int] | None = None
     action_token_ids: list[int] | None = None
     old_logprobs: list[float] | None = None
+    action_mask: list[int] | None = None
+    parse_error: str | None = None
     usage: dict[str, int | float] = Field(default_factory=dict)
+    raw_text: str | None = None
 
     @property
     def tool_call(self) -> ToolCall | None:
@@ -57,6 +60,7 @@ class Transition(BaseModel):
     observation: dict[str, Any] | None = None
     reward: float = 0.0
     terminated: bool = False
+    termination_reason: str | None = None
 
 class Event(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid4()))
@@ -75,6 +79,9 @@ class Rollout(BaseModel):
     reward_components: dict[str, float] = Field(default_factory=dict)
     final_answer: str | None = None
     error: str | None = None
+    termination_reason: Literal["answer", "invalid_action", "repeated_action", "max_steps", "cancelled", "model_error", "tool_error"] | None = None
+    advantage: float | None = None
+    eligible_for_rl: bool = True
     created_at: datetime = Field(default_factory=now)
     started_at: datetime | None = None
     finished_at: datetime | None = None
@@ -87,3 +94,6 @@ class RolloutGroup(BaseModel):
     mean_reward: float = 0.0
     std_reward: float = 0.0
     success_rate: float = 0.0
+    zero_variance: bool = False
+    # 指纹绑定采集时实际使用的策略，训练前可拒绝“数据与权重不属于同一策略”的误用。
+    policy_fingerprint: dict[str, Any] = Field(default_factory=dict)

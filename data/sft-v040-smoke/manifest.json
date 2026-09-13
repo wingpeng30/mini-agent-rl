@@ -1,0 +1,10 @@
+{
+  "output_dir": "data\\sft-v040-smoke",
+  "seed": 42,
+  "counts": {
+    "train": 4,
+    "validation": 2,
+    "test": 2
+  },
+  "errors": []
+}
