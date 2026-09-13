@@ -117,7 +117,12 @@ class TransformersModelClient:
     def _load(self) -> None:
         try:
             import torch
-            from transformers import AutoModelForMultimodalLM, AutoProcessor, BitsAndBytesConfig
+            from transformers import AutoProcessor, BitsAndBytesConfig
+            try:
+                from transformers import AutoModelForMultimodalLM as model_cls
+            except ImportError:
+                # 旧版 Transformers 没有多模态别名；Qwen 纯文本推理可安全回退。
+                from transformers import AutoModelForCausalLM as model_cls
         except ImportError as exc:
             raise RuntimeError('缺少本地模型依赖，请运行 pip install -e ".[local-model]"') from exc
         kwargs: dict[str, Any] = {
@@ -136,7 +141,7 @@ class TransformersModelClient:
             trust_remote_code=self.config.trust_remote_code,
             local_files_only=self.config.local_files_only,
         )
-        self._model = AutoModelForMultimodalLM.from_pretrained(self.config.model_id, **kwargs)
+        self._model = model_cls.from_pretrained(self.config.model_id, **kwargs)
         if self.config.adapter_path:
             # Adapter 只包含 LoRA 增量参数；先加载冻结的基础模型，再叠加增量，
             # 能保证 base 与 adapter 评测使用完全相同的模型权重和推理配置。
