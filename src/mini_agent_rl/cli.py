@@ -14,8 +14,8 @@ from .training import (generate_dataset, download_hotpot_subset, prepare_final_t
 from .training.sft import train_sft
 
 app=typer.Typer(help="Mini Agent RL：离线、RL-ready 的最小 Agent 框架")
-def default_reward():
-    return CompositeReward([ExactMatchReward(), EvidenceReward(), SupportCoverageReward(), SearchCostPenalty(), RepeatedSearchPenalty(), InvalidActionPenalty(), MaxStepsPenalty(), UngroundedAnswerPenalty()])
+def default_reward(exact_weight: float = 1.0, repeated_penalty: float = -0.5):
+    return CompositeReward([ExactMatchReward(exact_weight), EvidenceReward(), SupportCoverageReward(), SearchCostPenalty(), RepeatedSearchPenalty(repeated_penalty), InvalidActionPenalty(), MaxStepsPenalty(), UngroundedAnswerPenalty()])
 def make_runner(db: str, corpus: str, backend: str = "fake", base_url: str = "https://api.deepseek.com", model: str | None = None, max_concurrency: int = 4, load_in_4bit: bool = False, max_steps: int = 5, seed: int = 0):
     store=SQLiteStore(db); registry=ToolRegistry(); registry.register(SearchTool(json.loads(Path(corpus).read_text(encoding="utf-8"))))
     reward=default_reward()
@@ -270,7 +270,7 @@ def validate_logprob(model_path: str = r"D:\qwen_08b", adapter_path: str = "chec
     typer.echo(f"logprob 验证完成：同实例={'通过' if same_report['passed'] else '失败'}，BF16跨加载={'通过' if bf_gate else '未达标'}，FP32诊断={'通过' if report['gates']['fp32_diagnostic_target_passed'] else '未达标'}，报告={output}")
 
 @app.command(name="train-grpo")
-def train_grpo(model_path: str = r"D:\qwen_08b", adapter_path: str = "checkpoints/qwen35-08b-sft-v052", data: str = "data/hotpot-agent-v041/train.jsonl", task_limit: int = 5, group_size: int = 4, output_dir: str = "checkpoints/qwen35-08b-grpo-v070-smoke", seed: int = 42, max_steps: int = 3, stability_report: str = "reports/logprob-stability-v061.json", db: str | None = None, report: str | None = None):
+def train_grpo(model_path: str = r"D:\qwen_08b", adapter_path: str = "checkpoints/qwen35-08b-sft-v052", data: str = "data/hotpot-agent-v041/train.jsonl", task_limit: int = 5, group_size: int = 4, output_dir: str = "checkpoints/qwen35-08b-grpo-v070-smoke", seed: int = 42, max_steps: int = 3, stability_report: str = "reports/logprob-stability-v061.json", db: str | None = None, report: str | None = None, load_in_4bit: bool = False, max_input_tokens: int = 1024, exact_weight: float = 1.0, repeated_penalty: float = -0.5):
     """同实例采样、重算 old/reference logprob 并更新 LoRA；小规模 5×4 冒烟默认配置。"""
     report_path = Path(stability_report)
     if not report_path.exists():
@@ -284,8 +284,8 @@ def train_grpo(model_path: str = r"D:\qwen_08b", adapter_path: str = "checkpoint
     report_path_out = report or str(Path("reports") / f"{run_stem}.json")
     store=SQLiteStore(db_path); registry=ToolRegistry(); registry.register(SearchTool(corpus))
     # 训练上下文独立收紧到 1024；推理默认仍可使用 2048，避免改变基线评测行为。
-    client=TransformersModelClient(LocalModelConfig(model_id=model_path, adapter_path=adapter_path, deterministic=True, max_input_tokens=1024))
-    runner=AgentRunner(client, registry, default_reward(), store, max_steps=max_steps, max_concurrency=1, temperature=.7, anti_repeat_prompt=True, base_seed=seed)
+    client=TransformersModelClient(LocalModelConfig(model_id=model_path, adapter_path=adapter_path, deterministic=True, max_input_tokens=max_input_tokens, load_in_4bit=load_in_4bit))
+    runner=AgentRunner(client, registry, default_reward(exact_weight, repeated_penalty), store, max_steps=max_steps, max_concurrency=1, temperature=.7, anti_repeat_prompt=True, base_seed=seed)
     # 加载后的指纹会在进入训练前再次核对；这里先捕获“采样起点”而非路径字符串。
     client._load(); expected=client.policy_fingerprint()
     trainer=MinimalGRPOTrainer(client, runner, store, GRPOConfig())

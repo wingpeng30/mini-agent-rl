@@ -9,7 +9,8 @@ class RewardFunction(Protocol):
 
 def norm(text: str | None) -> str: return re.sub(r"\s+", " ", (text or "").strip().lower())
 class ExactMatchReward:
-    def evaluate(self, task, transitions, final_answer): return {"exact_match": 1.0 if norm(task.answer) == norm(final_answer) else 0.0}
+    def __init__(self, weight: float = 1.0): self.weight = weight
+    def evaluate(self, task, transitions, final_answer): return {"exact_match": self.weight if norm(task.answer) == norm(final_answer) else 0.0}
 class EvidenceReward:
     def evaluate(self, task, transitions, final_answer):
         answer = norm(final_answer); return {"evidence_supported": 0.2 if any(answer and answer in norm(str(t.observation)) for t in transitions) else 0.0}
@@ -25,8 +26,9 @@ class SupportCoverageReward:
 class SearchCostPenalty:
     def evaluate(self, task, transitions, final_answer): return {"search_cost": -0.03 * sum(1 for t in transitions if t.response.tool_call and t.response.tool_call.name == "search")}
 class RepeatedSearchPenalty:
+    def __init__(self, penalty: float = -0.5): self.penalty = penalty
     def evaluate(self, task, transitions, final_answer):
-        return {"repeated_search": -0.5 if any(t.termination_reason == "repeated_action" for t in transitions) else 0.0}
+        return {"repeated_search": self.penalty if any(t.termination_reason == "repeated_action" for t in transitions) else 0.0}
 class InvalidActionPenalty:
     def evaluate(self, task, transitions, final_answer): return {"invalid_action": -0.5 if any(t.termination_reason == "invalid_action" for t in transitions) else 0.0}
 class MaxStepsPenalty:
