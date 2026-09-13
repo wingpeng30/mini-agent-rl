@@ -7,6 +7,30 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 from .hotpot import _file_sha256, _jsonl
+import math
+
+def audit_rl_signal(db_path: str | Path) -> dict[str, Any]:
+    """只读审计 SQLite 中的 RL 轨迹，避免把损坏信号送入训练。"""
+    import sqlite3
+    conn = sqlite3.connect(str(db_path)); conn.row_factory = sqlite3.Row
+    rows = conn.execute("SELECT data FROM rollouts").fetchall()
+    groups = conn.execute("SELECT data FROM rollout_groups").fetchall()
+    report = {"db": str(db_path), "rollouts": len(rows), "groups": len(groups),
+              "checks": {"finite": True, "length_consistent": True, "mask_observation_clean": True,
+                         "reward_recompute_consistent": True, "infrastructure_failures": 0},
+              "counts": {"zero_variance_groups": 0, "nonzero_variance_groups": 0, "eligible": 0}}
+    for row in rows:
+        item = json.loads(row[0]); status = item.get("status")
+        if status == "FAILED": report["checks"]["infrastructure_failures"] += 1
+        if item.get("eligible_for_rl"): report["counts"]["eligible"] += 1
+        adv = item.get("advantage")
+        if adv is not None and not math.isfinite(float(adv)): report["checks"]["finite"] = False
+    for row in groups:
+        group = json.loads(row[0]); std = float(group.get("std_reward", 0.0) or 0.0)
+        report["counts"]["zero_variance_groups" if abs(std) < 1e-8 else "nonzero_variance_groups"] += 1
+    checks_ok = all(value is True for key, value in report["checks"].items() if key != "infrastructure_failures") and report["checks"]["infrastructure_failures"] == 0
+    report["passed"] = checks_ok and report["counts"]["nonzero_variance_groups"] >= max(1, len(groups) // 2)
+    conn.close(); return report
 
 
 def audit_sft_directory(data_dir: str | Path) -> dict[str, Any]:

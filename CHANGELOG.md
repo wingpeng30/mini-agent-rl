@@ -125,3 +125,8 @@
 ### 新增
 
 - 初始 RL-ready Agent 运行时、离线搜索工具、FakeModel、SQLite 轨迹存储与 JSONL 导出。
+# v0.8.0
+
+- 新增 RL 学习信号只读审计命令 `audit-rl-signal`。
+- 增加受控 reward 配置和 rollout-equal GRPO loss 接口。
+- 补充 v0.8.0 审计与受控实验文档。

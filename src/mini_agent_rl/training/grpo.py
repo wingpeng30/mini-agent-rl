@@ -17,6 +17,16 @@ class GRPOConfig:
     policy_epochs: int = 2
     max_grad_norm: float = 1.0
 
+@dataclass
+class RewardConfig:
+    """受控消融的奖励权重；只改变明确指定的单项。"""
+    exact_match: float = 1.0
+    repeated_search: float = -0.5
+
+def rollout_equal_grpo_loss(current, old, reference, advantage: float, clip_epsilon: float, kl_beta: float):
+    """单条 rollout 内聚合 token，调用方对 rollout 等权平均。"""
+    return clipped_grpo_loss(current, old, reference, advantage, clip_epsilon, kl_beta)
+
 
 def clipped_grpo_loss(current, old, reference, advantage: float, clip_epsilon: float, kl_beta: float):
     """逐 action-token 广播 rollout advantage 的 clipped GRPO + reference KL。"""
@@ -61,11 +71,18 @@ class MinimalGRPOTrainer:
         epoch_metrics = []
         for _ in range(self.config.policy_epochs):
             optimizer.zero_grad(set_to_none=True); losses=[]; kls=[]; clips=[]
-            for rollout, transition, old, reference in frozen:
-                current = self.client.score_action_tensor(transition.messages, transition.response.action_token_ids or [], True)
-                loss, kl, clipped = clipped_grpo_loss(current, old, reference, rollout.advantage or 0.0, self.config.clip_epsilon, self.config.kl_beta)
-                if not torch.isfinite(loss): raise RuntimeError("GRPO loss 出现 NaN/Inf")
-                (loss / len(frozen)).backward(); losses.append(float(loss.detach())); kls.append(float(kl)); clips.append(float(clipped))
+            by_rollout = {}
+            for sample in frozen: by_rollout.setdefault(sample[0].id, []).append(sample)
+            rollout_losses = []
+            for samples_for_rollout in by_rollout.values():
+                token_losses=[]; token_kls=[]; token_clips=[]
+                for rollout, transition, old, reference in samples_for_rollout:
+                    current = self.client.score_action_tensor(transition.messages, transition.response.action_token_ids or [], True)
+                    loss, kl, clipped = clipped_grpo_loss(current, old, reference, rollout.advantage or 0.0, self.config.clip_epsilon, self.config.kl_beta)
+                    if not torch.isfinite(loss): raise RuntimeError("GRPO loss 出现 NaN/Inf")
+                    token_losses.append(loss); token_kls.append(kl); token_clips.append(clipped)
+                rollout_losses.append(torch.stack(token_losses).mean()); losses.append(float(rollout_losses[-1].detach())); kls.append(float(torch.stack(token_kls).mean())); clips.append(float(torch.stack(token_clips).mean()))
+            torch.stack(rollout_losses).mean().backward()
             grad_norm = float(torch.nn.utils.clip_grad_norm_(params, self.config.max_grad_norm))
             if not math.isfinite(grad_norm): raise RuntimeError("梯度范数出现 NaN/Inf")
             optimizer.step(); epoch_metrics.append({"loss": sum(losses)/len(losses), "kl": sum(kls)/len(kls), "clip_fraction": sum(clips)/len(clips), "grad_norm": grad_norm})

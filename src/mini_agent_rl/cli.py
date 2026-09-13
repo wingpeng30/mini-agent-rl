@@ -9,7 +9,7 @@ from .reward import *
 from .runtime import AgentRunner
 from .storage import SQLiteStore
 from .evaluation import evaluate_tasks, hotpot_sft_to_tasks_and_corpus, load_tasks, rl_rollout_metrics, write_report, diagnose_store, file_sha256
-from .training import (generate_dataset, download_hotpot_subset, prepare_final_test, audit_sft_directory, audit_final_test, compare_logprobs,
+from .training import (generate_dataset, download_hotpot_subset, prepare_final_test, audit_sft_directory, audit_final_test, audit_rl_signal, compare_logprobs,
                        stable_same_instance, GRPOConfig, MinimalGRPOTrainer)
 from .training.sft import train_sft
 
@@ -91,6 +91,11 @@ def audit_sft(data_dir: str = "data/hotpot-agent-v041", output: str = "reports/s
     report = audit_sft_directory(data_dir)
     write_report(report, output)
     typer.echo(f"SFT 审计完成：文档隔离={report['passed_document_isolation']}，报告={output}")
+@app.command(name="audit-rl-signal")
+def audit_rl_signal_command(db: str = typer.Option(..., help="RL rollout SQLite 路径"), output: str = "reports/v080-signal-audit.json"):
+    """只读检查 reward、advantage 和轨迹完整性。"""
+    report = audit_rl_signal(db); write_report(report, output)
+    typer.echo(f"RL 信号审计：通过={report['passed']}，报告={output}")
 @app.command(name="audit-final-test")
 def audit_final_test_command(source_dir: str = "data/hotpot-agent-v041", final_dir: str = "data/hotpot-agent-v072", output: str = "reports/final-test-audit.json"):
     """审计最终测试集的 task、supporting-document 与 manifest 隔离。"""
