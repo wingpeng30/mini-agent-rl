@@ -292,4 +292,15 @@ def train_grpo(model_path: str = r"D:\qwen_08b", adapter_path: str = "checkpoint
     result=asyncio.run(trainer.train(tasks, group_size, output_dir, expected))
     write_report(result, report_path_out); store.close()
     typer.echo(f"GRPO 训练完成：groups={len(result['groups'])}，已变更LoRA参数={len(result['changed_lora_parameters'])}，adapter={output_dir}，数据库={db_path}，报告={report_path_out}")
+@app.command(name="run-grpo-ablation")
+def run_grpo_ablation(model_path: str = r"D:\qwen_08b", adapter_path: str = "checkpoints/qwen35-08b-sft-v052", data: str = "data/hotpot-agent-v041/train.jsonl", task_limit: int = 5, group_size: int = 4, output_dir: str = "checkpoints/v080-ablation", seed: int = 42):
+    """登记 A/B/C 受控实验配置；拒绝封存 final-test 数据。"""
+    if "final-test" in data.lower() or "v072" in data.lower():
+        raise typer.BadParameter("v0.8.0 禁止使用封存 final-test 数据")
+    root = Path(output_dir); root.mkdir(parents=True, exist_ok=True)
+    arms = {"A": {"exact_match": 1.0, "repeated_search": -0.5}, "B": {"exact_match": 1.0, "repeated_search": -0.75}, "C": {"exact_match": 1.5, "repeated_search": -0.5}}
+    manifest = {"version": "v0.8.0", "model_path": model_path, "adapter_path": adapter_path, "data": data, "task_limit": task_limit, "group_size": group_size, "seed": seed, "arms": arms, "status": "CONFIGURED"}
+    (root / "ablation-manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    typer.echo(f"v0.8.0 三臂实验配置已写入：{root / 'ablation-manifest.json'}；请先通过 audit-rl-signal 后再启动训练")
+
 if __name__ == "__main__": app()
