@@ -74,15 +74,18 @@ class MinimalGRPOTrainer:
             by_rollout = {}
             for sample in frozen: by_rollout.setdefault(sample[0].id, []).append(sample)
             rollout_losses = []
+            # 逐 rollout 反传后立即释放计算图：保持 rollout 等权，避免 8GB 显存同时保存整组图。
+            rollout_count = len(by_rollout)
             for samples_for_rollout in by_rollout.values():
                 token_losses=[]; token_kls=[]; token_clips=[]
                 for rollout, transition, old, reference in samples_for_rollout:
                     current = self.client.score_action_tensor(transition.messages, transition.response.action_token_ids or [], True)
                     loss, kl, clipped = clipped_grpo_loss(current, old, reference, rollout.advantage or 0.0, self.config.clip_epsilon, self.config.kl_beta)
                     if not torch.isfinite(loss): raise RuntimeError("GRPO loss 出现 NaN/Inf")
-                    token_losses.append(loss); token_kls.append(kl); token_clips.append(clipped)
-                rollout_losses.append(torch.stack(token_losses).mean()); losses.append(float(rollout_losses[-1].detach())); kls.append(float(torch.stack(token_kls).mean())); clips.append(float(torch.stack(token_clips).mean()))
-            torch.stack(rollout_losses).mean().backward()
+                    # 每条 rollout 的 transition 平均后再按 rollout 数平均，等价于原目标。
+                    (loss / (rollout_count * len(samples_for_rollout))).backward()
+                    token_losses.append(loss.detach()); token_kls.append(kl); token_clips.append(clipped)
+                rollout_losses.append(torch.stack(token_losses).mean()); losses.append(float(rollout_losses[-1])); kls.append(float(torch.stack(token_kls).mean())); clips.append(float(torch.stack(token_clips).mean()))
             grad_norm = float(torch.nn.utils.clip_grad_norm_(params, self.config.max_grad_norm))
             if not math.isfinite(grad_norm): raise RuntimeError("梯度范数出现 NaN/Inf")
             optimizer.step(); epoch_metrics.append({"loss": sum(losses)/len(losses), "kl": sum(kls)/len(kls), "clip_fraction": sum(clips)/len(clips), "grad_norm": grad_norm})
