@@ -80,7 +80,7 @@ async def evaluate_tasks(runner: AgentRunner, tasks: list[Task], group_size: int
     )
     search_transitions = [transition for transition in transitions if transition.response.tool_call]
     local_client = runner.model
-    return {
+    report = {
         "task_count": len(tasks), "group_size": group_size, "rollout_count": len(valid),
         "execution_success_rate": sum(item.status == RolloutStatus.SUCCEEDED for item in valid) / n,
         "exact_match_rate": exact, "strict_exact_match_rate": sum(row["strict_exact_match"] for row in metric_rows) / (len(metric_rows) or 1),
@@ -98,6 +98,11 @@ async def evaluate_tasks(runner: AgentRunner, tasks: list[Task], group_size: int
         "model_load_seconds": getattr(local_client, "load_seconds", None),
         "peak_gpu_memory_gb": local_client.gpu_memory_peak_gb() if hasattr(local_client, "gpu_memory_peak_gb") else None,
     }
+    if hasattr(local_client, "gpu_memory_stats"):
+        report["gpu_memory"] = local_client.gpu_memory_stats()
+    if hasattr(local_client, "context_usage_summary"):
+        report["context_usage"] = local_client.context_usage_summary()
+    return report
 
 
 def _diagnose_rollout(rollout, transitions: list[Any], task: Task) -> dict[str, Any]:

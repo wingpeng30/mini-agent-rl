@@ -109,6 +109,15 @@ mini-agent-rl evaluate --backend deepseek --task examples/benchmark.jsonl
 
 当前版本包含最小 LoRA-GRPO 冒烟训练：训练前必须通过同实例 logprob 稳定性验证；工具 observation 只作为上下文，不参与 policy loss。v0.8 的 reward-ablation 与停止策略实验均保留为本地审计产物，尚未形成可发布的泛化改进，故最新发布标签仍为 `v0.7.3`。
 
+本地 8GB 显存的上下文诊断可使用：
+
+```powershell
+mini-agent-rl context-length-sweep --lengths 384,768,1024,2048
+mini-agent-rl probe-context-backward --max-input-tokens 768
+```
+
+结构化预算会保护 system/user，按文档边界压缩 observation，并分别记录采样和 logprob 重算的截断率。当前 768-token 只通过 5×4 冒烟；10×4 的截断率与 reserved 显存超过门槛，因此仍属于未发布实验。
+
 ## 文档
 
 - [架构](docs/architecture.md)
@@ -125,3 +134,4 @@ mini-agent-rl evaluate --backend deepseek --task examples/benchmark.jsonl
 - [v0.7.2 最终评测分析](docs/final-evaluation-v072.md)
 - [v0.7.3 诊断与对照](docs/v073-diagnostics.md)
 - [v0.8.1 停止策略诊断（未发布实验）](docs/v081-stop-policy-diagnosis.md)
+- [v0.8.2 上下文预算与 8GB 显存实验](docs/v082-context-budget.md)

@@ -8,6 +8,14 @@
 
 每个提交到 GitHub 的可用阶段都必须：更新 `pyproject.toml` 版本、补充本文件，并创建对应的 Git tag `vX.Y.Z`。
 
+## [Unreleased] - v0.8.2 上下文预算与 8GB 显存实验
+
+- 用结构化上下文预算替代末尾 token 截断，完整保护 system 动作协议与 user 问题，并按文档边界压缩 tool observation。
+- 修正历史 search 动作未以 JSON 文本进入下一轮上下文的问题；采样和 old/current/reference logprob 共用同一预算函数与 prompt hash。
+- GRPO loss 改为 rollout 内 action token 聚合后再对 rollout 等权；新增 reward/group/advantage 审计、allocated/reserved 显存和上下文阶段统计。
+- 新增 `context-length-sweep` 与 `probe-context-backward`，在 RTX 4060 8GB 上完成 384/768/1024/2048 推理诊断及 384/768/1024 backward 探测。
+- 768-token 5×4 冒烟通过；10×4 正式实验因截断率 `10.39%`、reserved 峰值 `7.703 GB` 超过门槛而停止。未运行 100 条开发集评测、未读取 final-test、未创建标签。
+
 ## [Unreleased] - v0.8.1 停止策略诊断实验
 
 - 新增 `EvidenceStopReward`：仅当严格正确答案且离线检索结果已覆盖全部 supporting document 时给予停止奖励；gold supporting titles 只在 reward 侧使用。

@@ -9,11 +9,14 @@ import hashlib
 from pathlib import Path
 import time
 import threading
+import subprocess
+import os
 from typing import Any, Literal
 
 from pydantic import BaseModel, Field, model_validator
 
 from ..domain import Message, ModelResponse, ToolCall, ToolDefinition
+from .context import budget_messages
 
 
 class LocalModelConfig(BaseModel):
@@ -113,6 +116,7 @@ class TransformersModelClient:
         self._load_seconds: float | None = None
         self._generation_lock = asyncio.Lock()
         self._sync_lock = threading.Lock()
+        self._context_records: list[dict[str, Any]] = []
 
     def _load(self) -> None:
         try:
@@ -157,28 +161,35 @@ class TransformersModelClient:
         self._model.eval()
         self._load_seconds = time.perf_counter() - started
 
-    def _inputs(self, messages: list[Message]):
-        """由同一 chat template 编码 prompt，避免采集与训练 scorer 的 token 边界漂移。"""
+    def _render_chat(self, messages: list[Message]):
+        """集中调用 chat template，保证预算估算与最终编码完全一致。"""
         chat = [{"role": m.role, "content": m.content} for m in messages]
         template_kwargs = {"chat_template_kwargs": {"enable_thinking": True}} if self.config.enable_thinking else {}
-        encoded = self._processor.apply_chat_template(chat, add_generation_prompt=True, tokenize=True,
-                                                       return_dict=True, return_tensors="pt", **template_kwargs)
-        # 直接在渲染完成后保留末尾 token，避免把 truncation 作为未知参数传给 Qwen processor；
-        # 末尾包含 generation prompt，且训练/推理两条路径使用同一截断规则。
-        original_length = int(encoded["input_ids"].shape[1])
-        truncated = original_length > self.config.max_input_tokens
-        if truncated:
-            encoded["input_ids"] = encoded["input_ids"][:, -self.config.max_input_tokens:]
-            if "attention_mask" in encoded:
-                encoded["attention_mask"] = encoded["attention_mask"][:, -self.config.max_input_tokens:]
+        return self._processor.apply_chat_template(chat, add_generation_prompt=True, tokenize=True,
+                                                   return_dict=True, return_tensors="pt", **template_kwargs)
+
+    def _content_length(self, text: str) -> int:
+        tokenizer = getattr(self._processor, "tokenizer", self._processor)
+        return len(tokenizer.encode(text, add_special_tokens=False))
+
+    def _inputs(self, messages: list[Message], phase: str = "unknown"):
+        """由同一 chat template 编码 prompt，避免采集与训练 scorer 的 token 边界漂移。"""
+        def render_length(items: list[Message]) -> int:
+            return int(self._render_chat(items)["input_ids"].shape[1])
+        budgeted = budget_messages(messages, self.config.max_input_tokens, render_length, self._content_length)
+        encoded = self._render_chat(budgeted.messages)
         encoded = encoded.to(self._model.device)
         # 元数据挂在 BatchEncoding 对象上，不能放进字典，否则 generate 会把它
         # 当成模型 forward 参数并报“未使用的 model_kwargs”。
-        encoded._original_prompt_tokens = original_length
-        encoded._prompt_truncated = truncated
+        encoded._context_usage = dict(budgeted.usage)
+        encoded._context_usage["phase"] = phase
+        encoded._context_usage["prompt_sha256"] = hashlib.sha256(
+            bytes(str(encoded["input_ids"][0].tolist()), "utf-8")
+        ).hexdigest()
+        self._context_records.append(dict(encoded._context_usage))
         return encoded
 
-    def _score_sync(self, messages: list[Message], action_token_ids: list[int], with_grad: bool = False):
+    def _score_sync(self, messages: list[Message], action_token_ids: list[int], with_grad: bool = False, phase: str | None = None):
         """以原始策略 teacher-forcing 计算 action logprob。
 
         prompt 与 tool observation 只用于条件化，gather 的位置严格只覆盖 assistant action，
@@ -187,7 +198,7 @@ class TransformersModelClient:
         import torch
         if self._model is None:
             self._load()
-        inputs = self._inputs(messages)
+        inputs = self._inputs(messages, phase or ("current_logprob" if with_grad else "old_logprob"))
         prompt_length = inputs["input_ids"].shape[1]
         action = torch.tensor([action_token_ids], dtype=torch.long, device=self._model.device)
         full_ids = torch.cat([inputs["input_ids"], action], dim=1)
@@ -203,12 +214,12 @@ class TransformersModelClient:
     async def score_action(self, messages: list[Message], action_token_ids: list[int]) -> list[float]:
         """诊断/审计用无梯度 scorer；返回值不用于反向传播。"""
         async with self._generation_lock:
-            values = await asyncio.to_thread(self._score_sync, messages, action_token_ids, False)
+            values = await asyncio.to_thread(self._score_sync, messages, action_token_ids, False, "diagnostic_logprob")
         return values.detach().cpu().tolist()
 
     def score_action_tensor(self, messages: list[Message], action_token_ids: list[int], with_grad: bool = False):
         """训练器同步调用的 scorer；with_grad=True 时保留到 LoRA 参数的计算图。"""
-        return self._score_sync(messages, action_token_ids, with_grad)
+        return self._score_sync(messages, action_token_ids, with_grad, "current_logprob" if with_grad else "old_logprob")
 
     def reference_logprobs(self, messages: list[Message], action_token_ids: list[int], reference_state: dict[str, Any] | None = None):
         """计算冻结 reference。
@@ -226,7 +237,7 @@ class TransformersModelClient:
                     for name, parameter in self._model.named_parameters():
                         if name in reference_state:
                             parameter.copy_(reference_state[name])
-                return self._score_sync(messages, action_token_ids, False)
+                return self._score_sync(messages, action_token_ids, False, "reference_logprob")
             finally:
                 with torch.no_grad():
                     for name, parameter in self._model.named_parameters():
@@ -235,7 +246,7 @@ class TransformersModelClient:
         if not hasattr(self._model, "disable_adapter"):
             raise RuntimeError("GRPO reference 需要已加载 PEFT LoRA adapter")
         with self._model.disable_adapter():
-            return self._score_sync(messages, action_token_ids, False)
+            return self._score_sync(messages, action_token_ids, False, "reference_logprob")
 
     def prepare_for_training(self):
         """只开启 LoRA 训练，基础模型/视觉塔始终冻结。"""
@@ -305,7 +316,7 @@ class TransformersModelClient:
             torch.backends.cudnn.benchmark = False
             torch.backends.cudnn.deterministic = True
             torch.use_deterministic_algorithms(True, warn_only=True)
-        inputs = self._inputs(messages)
+        inputs = self._inputs(messages, "rollout_sampling")
         do_sample = temperature > 0
         generation = {"max_new_tokens": self.config.max_new_tokens, "do_sample": do_sample}
         if do_sample:
@@ -317,12 +328,14 @@ class TransformersModelClient:
         raw = self._processor.decode(action_ids, skip_special_tokens=True)
         # generate 的 score 可能已被 temperature 或 logits processor 改写；RL 的
         # old logprob 必须来自原始策略，因此对 prompt+action 做一次 teacher-forced 前向。
-        logprobs = self._score_sync(messages, action_ids.tolist(), False).detach().cpu().tolist() if self.config.recompute_old_logprobs else []
+        logprobs = self._score_sync(messages, action_ids.tolist(), False, "sampling_old_logprob").detach().cpu().tolist() if self.config.recompute_old_logprobs else []
         try:
             content, tool_call = parse_agent_action(raw)
             parse_error = None
         except ActionParseError as exc:
             content, tool_call, parse_error = "", None, str(exc)
+        usage = dict(getattr(inputs, "_context_usage", {}))
+        usage.update({"prompt_tokens": prompt_length, "completion_tokens": len(action_ids)})
         return ModelResponse(
             content=content,
             tool_calls=[tool_call] if tool_call else [],
@@ -331,9 +344,7 @@ class TransformersModelClient:
             old_logprobs=logprobs,
             action_mask=[1] * len(action_ids),
             parse_error=parse_error,
-            usage={"prompt_tokens": prompt_length, "completion_tokens": len(action_ids),
-                   "original_prompt_tokens": int(getattr(inputs, "_original_prompt_tokens", prompt_length)),
-                   "prompt_truncated": bool(getattr(inputs, "_prompt_truncated", False))},
+            usage=usage,
             raw_text=raw,
         )
 
@@ -355,3 +366,47 @@ class TransformersModelClient:
             return round(torch.cuda.max_memory_allocated() / 1024**3, 3)
         except Exception:
             return None
+
+    def gpu_memory_stats(self) -> dict[str, float | None]:
+        """同时记录 allocated、reserved 与设备进程显存，避免单一指标误判。"""
+        result = {"peak_allocated_gb": None, "peak_reserved_gb": None, "device_process_gb": None}
+        try:
+            import torch
+            if not torch.cuda.is_available(): return result
+            result["peak_allocated_gb"] = round(torch.cuda.max_memory_allocated() / 1024**3, 3)
+            result["peak_reserved_gb"] = round(torch.cuda.max_memory_reserved() / 1024**3, 3)
+            query = subprocess.run(
+                ["nvidia-smi", "--query-compute-apps=pid,used_memory", "--format=csv,noheader,nounits"],
+                capture_output=True, text=True, timeout=5, check=False,
+            )
+            for line in query.stdout.splitlines():
+                fields = [item.strip() for item in line.split(",")]
+                if len(fields) == 2 and fields[0] == str(os.getpid()):
+                    result["device_process_gb"] = round(float(fields[1]) / 1024, 3)
+                    break
+        except Exception:
+            pass
+        return result
+
+    def reset_memory_stats(self) -> None:
+        try:
+            import torch
+            if torch.cuda.is_available(): torch.cuda.reset_peak_memory_stats()
+        except Exception:
+            pass
+
+    def reset_context_records(self) -> None:
+        self._context_records.clear()
+
+    def context_usage_summary(self) -> dict[str, Any]:
+        """按调用阶段汇总结构化预算结果。"""
+        phases: dict[str, dict[str, Any]] = {}
+        for record in self._context_records:
+            phase = str(record.get("phase", "unknown"))
+            row = phases.setdefault(phase, {"calls": 0, "truncated": 0, "dropped_observation_tokens": 0})
+            row["calls"] += 1
+            row["truncated"] += int(bool(record.get("prompt_truncated")))
+            row["dropped_observation_tokens"] += int(record.get("dropped_observation_tokens", 0) or 0)
+        for row in phases.values():
+            row["truncation_rate"] = row["truncated"] / row["calls"] if row["calls"] else 0.0
+        return {"phases": phases, "records": list(self._context_records)}

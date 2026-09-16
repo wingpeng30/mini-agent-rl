@@ -2,7 +2,7 @@
 import pytest
 
 from mini_agent_rl.model.local import LocalModelConfig
-from mini_agent_rl.training.grpo import clipped_grpo_loss
+from mini_agent_rl.training.grpo import GRPOConfig, aggregate_rollout_token_values, clipped_grpo_loss
 from mini_agent_rl.training.logprob import compare_logprobs, stable_same_instance
 
 
@@ -29,3 +29,18 @@ def test_clipped_grpo_loss_is_finite_and_backpropagates():
     loss.backward()
     assert torch.isfinite(loss) and torch.isfinite(kl) and torch.isfinite(clipped)
     assert current.grad is not None
+
+
+def test_rollout_aggregation_weights_all_action_tokens_equally():
+    torch = pytest.importorskip("torch")
+    short = torch.tensor(1.0, requires_grad=True)
+    long = torch.tensor(3.0, requires_grad=True)
+    combined = aggregate_rollout_token_values([(short, 1), (long, 3)])
+    assert float(combined.detach()) == pytest.approx(2.5)
+    combined.backward()
+    assert float(short.grad) == pytest.approx(0.25)
+    assert float(long.grad) == pytest.approx(0.75)
+
+
+def test_grpo_memory_gate_defaults_to_safe_8gb_budget():
+    assert GRPOConfig().max_reserved_memory_gb == pytest.approx(7.4)

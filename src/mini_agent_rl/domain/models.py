@@ -43,7 +43,8 @@ class ModelResponse(BaseModel):
     old_logprobs: list[float] | None = None
     action_mask: list[int] | None = None
     parse_error: str | None = None
-    usage: dict[str, int | float] = Field(default_factory=dict)
+    # 上下文预算包含数值、布尔和阶段标签，统一保留为可 JSON 序列化字典。
+    usage: dict[str, Any] = Field(default_factory=dict)
     raw_text: str | None = None
 
     @property

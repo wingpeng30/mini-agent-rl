@@ -72,7 +72,11 @@ class AgentRunner:
                     if not observation.get("ok"):
                         transition.terminated = True; transition.termination_reason = "tool_error"; self.store.save_transition(transition)
                         rollout.status, rollout.eligible_for_rl, rollout.termination_reason = RolloutStatus.FAILED, False, "tool_error"; break
-                    messages += [Message(role="assistant", content=response.content, tool_calls=[response.tool_call]),
+                    # tool call 也属于策略动作，必须以真实 JSON 文本进入下一轮上下文。
+                    action_content = response.raw_text or json.dumps(
+                        {"action": "search", "query": response.tool_call.arguments.get("query", "")}, ensure_ascii=False
+                    )
+                    messages += [Message(role="assistant", content=action_content, tool_calls=[response.tool_call]),
                                  Message(role="tool", content=json.dumps(observation, ensure_ascii=False), tool_call_id=response.tool_call.id)]
                     continue
                 rollout.final_answer = response.content

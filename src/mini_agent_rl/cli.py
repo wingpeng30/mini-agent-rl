@@ -1,6 +1,6 @@
 """中文 CLI：默认使用 FakeModel，确保无 GPU/网络也能演示。"""
 from pathlib import Path
-import asyncio, json, time
+import asyncio, json, time, math
 import typer
 from .domain import Task
 from .model import FakeModelClient, OpenAICompatibleClient, LocalModelConfig, TransformersModelClient, local_environment_report
@@ -294,6 +294,106 @@ def train_grpo(model_path: str = r"D:\qwen_08b", adapter_path: str = "checkpoint
     result=asyncio.run(trainer.train(tasks, group_size, output_dir, expected))
     write_report(result, report_path_out); store.close()
     typer.echo(f"GRPO 训练完成：groups={len(result['groups'])}，已变更LoRA参数={len(result['changed_lora_parameters'])}，adapter={output_dir}，数据库={db_path}，报告={report_path_out}")
+
+@app.command(name="context-length-sweep")
+def context_length_sweep(
+    model_path: str = r"D:\qwen_08b",
+    adapter_path: str = "checkpoints/qwen35-08b-sft-v052",
+    data: str = "data/hotpot-agent-v041/validation.jsonl",
+    task_limit: int = 10,
+    lengths: str = "384,768,1024,2048",
+    output: str = "reports/v082-context-length-sweep.json",
+    db_dir: str = "runs-v082-context-length-sweep",
+    memory_limit_gb: float = 7.4,
+):
+    """同一冻结策略顺序执行上下文长度推理诊断；触发显存门槛后停止更长档位。"""
+    if "final-test" in data.lower() or "v072" in data.lower():
+        raise typer.BadParameter("上下文调参实验禁止读取封存 final-test")
+    budgets = [int(item.strip()) for item in lengths.split(",") if item.strip()]
+    if budgets != sorted(set(budgets)) or any(value < 128 for value in budgets):
+        raise typer.BadParameter("lengths 必须是递增且不重复的 token 整数")
+    tasks, corpus = hotpot_sft_to_tasks_and_corpus(data, task_limit)
+    root = Path(db_dir); root.mkdir(parents=True, exist_ok=True)
+    client = TransformersModelClient(LocalModelConfig(model_id=model_path, adapter_path=adapter_path,
+                                                       deterministic=True, max_input_tokens=budgets[0]))
+    client._load(); results = []
+    for budget in budgets:
+        db_path = root / f"context-{budget}.db"
+        if db_path.exists():
+            raise typer.BadParameter(f"实验数据库已存在，拒绝混入历史轨迹：{db_path}")
+        client.config.max_input_tokens = budget
+        client.reset_context_records(); client.reset_memory_stats()
+        store = SQLiteStore(db_path); registry = ToolRegistry(); registry.register(SearchTool(corpus))
+        runner = AgentRunner(client, registry, default_reward(), store, max_steps=3, max_concurrency=1,
+                             temperature=0.0, anti_repeat_prompt=True, base_seed=42)
+        started = time.perf_counter()
+        report = asyncio.run(evaluate_tasks(runner, tasks, 1))
+        report.update({"context_budget": budget, "elapsed_seconds": time.perf_counter() - started,
+                       "db": str(db_path), "data": data, "task_limit": task_limit})
+        memory = report.get("gpu_memory", {})
+        observed = max(float(memory.get(key) or 0.0) for key in ("peak_allocated_gb", "peak_reserved_gb", "device_process_gb"))
+        finite = all(math.isfinite(float(report.get(key, 0.0))) for key in ("mean_reward", "token_f1", "exact_match_rate"))
+        report["gate"] = {"observed_memory_gb": observed, "memory_limit_gb": memory_limit_gb,
+                          "finite": finite, "no_infrastructure_failure": report["failed_rollout_count"] == 0,
+                          "passed": finite and report["failed_rollout_count"] == 0 and observed <= memory_limit_gb}
+        results.append(report); store.close()
+        write_report({"version": "v0.8.2", "status": "RUNNING", "results": results}, output)
+        typer.echo(f"context={budget} EM={report['strict_exact_match_rate']:.1%} F1={report['token_f1']:.3f} "
+                   f"repeat={report['repeated_search_rate']:.1%} memory={observed:.3f}GB gate={report['gate']['passed']}")
+        if not report["gate"]["passed"]:
+            break
+    final = {"version": "v0.8.2", "experiment_id": "mini-agent-rl-v082-context-budget",
+             "status": "COMPLETED" if len(results) == len(budgets) else "STOPPED_BY_GATE",
+             "model_path": model_path, "adapter_path": adapter_path, "data": data,
+             "requested_lengths": budgets, "results": results}
+    write_report(final, output)
+    typer.echo(f"上下文推理诊断完成：状态={final['status']}，报告={output}")
+
+@app.command(name="probe-context-backward")
+def probe_context_backward(
+    model_path: str = r"D:\qwen_08b",
+    adapter_path: str = "checkpoints/qwen35-08b-sft-v052",
+    data: str = "data/hotpot-agent-v041/validation.jsonl",
+    max_input_tokens: int = 384,
+    output: str = "reports/v082-backward-probe.json",
+    db: str = "runs-v082-backward-probe.db",
+    memory_limit_gb: float = 7.4,
+):
+    """执行一次 4-bit teacher-forced backward；不创建 optimizer，也不更新权重。"""
+    if "final-test" in data.lower() or "v072" in data.lower():
+        raise typer.BadParameter("显存探测禁止读取封存 final-test")
+    if Path(db).exists():
+        raise typer.BadParameter(f"探测数据库已存在，拒绝覆盖：{db}")
+    tasks, corpus = hotpot_sft_to_tasks_and_corpus(data, 1)
+    store = SQLiteStore(db); registry = ToolRegistry(); registry.register(SearchTool(corpus))
+    client = TransformersModelClient(LocalModelConfig(model_id=model_path, adapter_path=adapter_path,
+                                                       deterministic=True, max_input_tokens=max_input_tokens,
+                                                       load_in_4bit=True))
+    runner = AgentRunner(client, registry, default_reward(), store, max_steps=3, max_concurrency=1,
+                         temperature=0.0, anti_repeat_prompt=True, base_seed=42)
+    group = asyncio.run(runner.run_group(tasks[0], 1))
+    rollout = store.get_rollout(group.rollout_ids[0])
+    transitions = [item for item in store.get_transitions(rollout.id) if item.response.action_token_ids]
+    if not transitions:
+        raise RuntimeError("没有可用于 backward 探测的 assistant action token")
+    transition = max(transitions, key=lambda item: int(item.response.usage.get("original_prompt_tokens", 0)))
+    params = [parameter for _, parameter in client.prepare_for_training()]
+    client.reset_context_records(); client.reset_memory_stats()
+    started = time.perf_counter()
+    values = client.score_action_tensor(transition.messages, transition.response.action_token_ids or [], True)
+    loss = -values.mean(); loss.backward()
+    grad_finite = all(parameter.grad is None or bool(__import__("torch").isfinite(parameter.grad).all()) for parameter in params)
+    memory = client.gpu_memory_stats()
+    observed = max(float(memory.get(key) or 0.0) for key in ("peak_allocated_gb", "peak_reserved_gb", "device_process_gb"))
+    report = {"version": "v0.8.2", "context_budget": max_input_tokens, "load_in_4bit": True,
+              "updated_weights": False, "action_tokens": len(transition.response.action_token_ids or []),
+              "loss": float(loss.detach()), "loss_finite": bool(__import__("torch").isfinite(loss)),
+              "gradients_finite": grad_finite, "elapsed_seconds": time.perf_counter() - started,
+              "gpu_memory": memory, "context_usage": client.context_usage_summary(),
+              "gate": {"memory_limit_gb": memory_limit_gb, "observed_memory_gb": observed}}
+    report["gate"]["passed"] = report["loss_finite"] and grad_finite and observed <= memory_limit_gb
+    write_report(report, output); store.close()
+    typer.echo(f"backward 探测：context={max_input_tokens} memory={observed:.3f}GB gate={report['gate']['passed']}，报告={output}")
 @app.command(name="run-grpo-ablation")
 def run_grpo_ablation(model_path: str = r"D:\qwen_08b", adapter_path: str = "checkpoints/qwen35-08b-sft-v052", data: str = "data/hotpot-agent-v041/train.jsonl", task_limit: int = 5, group_size: int = 4, output_dir: str = "checkpoints/v080-ablation", seed: int = 42):
     """登记 A/B/C 受控实验配置；拒绝封存 final-test 数据。"""

@@ -16,6 +16,7 @@ class GRPOConfig:
     kl_beta: float = .02
     policy_epochs: int = 2
     max_grad_norm: float = 1.0
+    max_reserved_memory_gb: float = 7.4
 
 @dataclass
 class RewardConfig:
@@ -37,6 +38,26 @@ def clipped_grpo_loss(current, old, reference, advantage: float, clip_epsilon: f
     # 非负的近似 KL；reference 不参与梯度，只有当前 LoRA 策略得到更新。
     kl = torch.exp(current - reference) - (current - reference) - 1
     return -objective.mean() + kl_beta * kl.mean(), kl.mean().detach(), ((ratio - 1).abs() > clip_epsilon).float().mean().detach()
+
+
+def aggregate_rollout_token_values(values):
+    """把同一 rollout 的各 transition 按 action token 数聚合，避免短动作权重过大。"""
+    import torch
+    if not values:
+        raise ValueError("rollout 至少需要一个 assistant action")
+    total_tokens = sum(int(token_count) for _, token_count in values)
+    if total_tokens <= 0:
+        raise ValueError("assistant action token 数必须大于 0")
+    return sum(value * int(token_count) for value, token_count in values) / total_tokens
+
+
+def _pearson(left: list[float], right: list[float]) -> float | None:
+    """小样本诊断相关性；零方差时返回 None，避免制造虚假数值。"""
+    if len(left) != len(right) or len(left) < 2: return None
+    mean_left, mean_right = sum(left) / len(left), sum(right) / len(right)
+    numerator = sum((x - mean_left) * (y - mean_right) for x, y in zip(left, right))
+    denominator = math.sqrt(sum((x - mean_left) ** 2 for x in left) * sum((y - mean_right) ** 2 for y in right))
+    return numerator / denominator if denominator else None
 
 
 class MinimalGRPOTrainer:
@@ -63,10 +84,15 @@ class MinimalGRPOTrainer:
         frozen = []
         for rollout, transition in samples:
             ids = transition.response.action_token_ids or []
+            expected_prompt_hash = transition.response.usage.get("prompt_sha256")
             old = self.client.score_action_tensor(transition.messages, ids, False).detach()
+            old_prompt_hash = self.client._context_records[-1].get("prompt_sha256")
             reference = self.client.reference_logprobs(transition.messages, ids, reference_state).detach()
+            reference_prompt_hash = self.client._context_records[-1].get("prompt_sha256")
             if old.numel() != len(ids) or reference.numel() != len(ids) or not torch.isfinite(old).all() or not torch.isfinite(reference).all():
                 raise RuntimeError("old/reference logprob 长度不一致或出现非有限值")
+            if expected_prompt_hash and (old_prompt_hash != expected_prompt_hash or reference_prompt_hash != expected_prompt_hash):
+                raise RuntimeError("采样与 old/reference logprob 使用了不同的上下文 token")
             frozen.append((rollout, transition, old, reference))
         epoch_metrics = []
         for _ in range(self.config.policy_epochs):
@@ -80,24 +106,37 @@ class MinimalGRPOTrainer:
                 token_losses=[]; token_kls=[]; token_clips=[]
                 for rollout, transition, old, reference in samples_for_rollout:
                     current = self.client.score_action_tensor(transition.messages, transition.response.action_token_ids or [], True)
+                    expected_prompt_hash = transition.response.usage.get("prompt_sha256")
+                    if expected_prompt_hash and self.client._context_records[-1].get("prompt_sha256") != expected_prompt_hash:
+                        raise RuntimeError("采样与 current logprob 使用了不同的上下文 token")
                     loss, kl, clipped = clipped_grpo_loss(current, old, reference, rollout.advantage or 0.0, self.config.clip_epsilon, self.config.kl_beta)
                     if not torch.isfinite(loss): raise RuntimeError("GRPO loss 出现 NaN/Inf")
-                    # 每条 rollout 的 transition 平均后再按 rollout 数平均，等价于原目标。
-                    (loss / (rollout_count * len(samples_for_rollout))).backward()
-                    token_losses.append(loss.detach()); token_kls.append(kl); token_clips.append(clipped)
-                rollout_losses.append(torch.stack(token_losses).mean()); losses.append(float(rollout_losses[-1])); kls.append(float(torch.stack(token_kls).mean())); clips.append(float(torch.stack(token_clips).mean()))
+                    token_count = int(current.numel())
+                    token_losses.append((loss, token_count)); token_kls.append((kl, token_count)); token_clips.append((clipped, token_count))
+                rollout_loss = aggregate_rollout_token_values(token_losses)
+                (rollout_loss / rollout_count).backward()
+                rollout_losses.append(rollout_loss.detach()); losses.append(float(rollout_losses[-1]))
+                kls.append(float(aggregate_rollout_token_values(token_kls)))
+                clips.append(float(aggregate_rollout_token_values(token_clips)))
             grad_norm = float(torch.nn.utils.clip_grad_norm_(params, self.config.max_grad_norm))
             if not math.isfinite(grad_norm): raise RuntimeError("梯度范数出现 NaN/Inf")
             optimizer.step(); epoch_metrics.append({"loss": sum(losses)/len(losses), "kl": sum(kls)/len(kls), "clip_fraction": sum(clips)/len(clips), "grad_norm": grad_norm})
         self.client._model.eval()
+        action_lengths = [len(transition.response.action_token_ids or []) for _, transition, _, _ in frozen]
+        advantages = [float(rollout.advantage or 0.0) for rollout, _, _, _ in frozen]
+        rewards = [float(rollout.reward) for rollout, _, _, _ in frozen]
         return {"group_id": group.id, "skipped": None, "samples": len(frozen), "reward_mean": group.mean_reward,
-                "reward_std": group.std_reward, "metrics": epoch_metrics, "peak_gpu_memory_gb": self.client.gpu_memory_peak_gb()}
+                "reward_std": group.std_reward, "metrics": epoch_metrics, "peak_gpu_memory_gb": self.client.gpu_memory_peak_gb(),
+                "gpu_memory": self.client.gpu_memory_stats(), "mean_action_tokens": sum(action_lengths) / len(action_lengths),
+                "action_length_advantage_correlation": _pearson([float(x) for x in action_lengths], advantages),
+                "action_length_reward_correlation": _pearson([float(x) for x in action_lengths], rewards)}
 
     async def train(self, tasks: list[Task], group_size: int, output_dir: str, expected_fingerprint: dict[str, Any]) -> dict[str, Any]:
         """采样与更新必须共享一个已加载实例，避免 BF16 跨加载比例漂移。"""
         import torch
         if self.client._model is None:
             self.client._load()
+        self.client.reset_context_records()
         actual = self.client.policy_fingerprint()
         # 权重哈希/config 哈希是训练边界；运行期显存等易变字段不参与匹配。
         keys = ("base_config_sha256", "adapter_config_sha256", "adapter_weight_sha256", "tokenizer_sha256")
@@ -121,8 +160,37 @@ class MinimalGRPOTrainer:
         if not changed: raise RuntimeError("GRPO 安全检查失败：没有任何 LoRA 参数发生变化")
         output=Path(output_dir); output.mkdir(parents=True, exist_ok=True)
         self.client._model.save_pretrained(output)
-        result={"version":"v0.7.0", "elapsed_seconds": time.perf_counter()-started, "policy_fingerprint": actual,
+        reward_coverage: dict[str, int] = {}
+        trained_rollouts = [self.store.get_rollout(row[0]) for row in self.store.conn.execute("SELECT id FROM rollouts")]
+        for rollout in (item for item in trained_rollouts if item):
+            for name, value in rollout.reward_components.items():
+                if value != 0: reward_coverage[name] = reward_coverage.get(name, 0) + 1
+        result={"version":"v0.8.2", "elapsed_seconds": time.perf_counter()-started, "policy_fingerprint": actual,
                 "trainable_parameter_names": list(before), "changed_lora_parameters": changed, "reference_mode": "initial_adapter", "groups": records}
+        result["context_usage"] = self.client.context_usage_summary()
+        result["reward_component_nonzero_counts"] = reward_coverage
+        phases = result["context_usage"]["phases"]
+        sampling_rate = float(phases.get("rollout_sampling", {}).get("truncation_rate", 0.0))
+        effective_groups = sum(not row.get("skipped") for row in records)
+        infrastructure_failures = sum(item is not None and not item.eligible_for_rl for item in trained_rollouts)
+        reserved_values = [float(row.get("gpu_memory", {}).get("peak_reserved_gb") or 0.0) for row in records if not row.get("skipped")]
+        peak_reserved = max(reserved_values, default=0.0)
+        result["gates"] = {
+            "sampling_truncation_rate": sampling_rate,
+            "sampling_truncation_passed": sampling_rate <= 0.05,
+            "effective_groups": effective_groups,
+            "required_effective_groups": math.ceil(len(records) / 2),
+            "reward_variance_passed": effective_groups >= math.ceil(len(records) / 2),
+            "infrastructure_failures": infrastructure_failures,
+            "infrastructure_passed": infrastructure_failures == 0,
+            "peak_reserved_memory_gb": peak_reserved,
+            "reserved_memory_limit_gb": self.config.max_reserved_memory_gb,
+            "memory_passed": peak_reserved <= self.config.max_reserved_memory_gb,
+        }
+        result["gates"]["passed"] = all((result["gates"]["sampling_truncation_passed"],
+                                           result["gates"]["reward_variance_passed"],
+                                           result["gates"]["infrastructure_passed"],
+                                           result["gates"]["memory_passed"]))
         (output / "grpo_metrics.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
         return result
 
