@@ -8,6 +8,13 @@
 
 每个提交到 GitHub 的可用阶段都必须：更新 `pyproject.toml` 版本、补充本文件，并创建对应的 Git tag `vX.Y.Z`。
 
+## [Unreleased] - v0.8.1 停止策略诊断实验
+
+- 新增 `EvidenceStopReward`：仅当严格正确答案且离线检索结果已覆盖全部 supporting document 时给予停止奖励；gold supporting titles 只在 reward 侧使用。
+- 新增“证据已齐仍继续搜索”的即时轨迹标签与 `-0.2` 奖励分项；该错误会保存到 SQLite，可用于后续 GRPO attribution 审计。
+- 4-bit、384-token 的 5×4 冒烟和 10×4 正式训练均完成：40/40 rollout 成功、6/10 group 有非零方差、192 个 LoRA 参数更新、峰值 `3.661 GB`，checkpoint 可重新加载。
+- 固定 100 条开发集结果为 EM `13%`、token F1 `0.143`、answer completion `20%`、重复搜索 `71%`、非法动作 `6%`。未优于 v0.8 arm A（EM `14%`、F1 `0.168`、重复 `70%`），故不创建 `v0.8.0`/`v0.8.1` tag，也不进行最终集评测。
+
 ## [0.7.3] - 诊断修正与 SFT/GRPO 开发集对照
 
 - 保留历史严格 exact match，新增规范化 exact match、token F1、指标分母和逐 rollout 失败分类。

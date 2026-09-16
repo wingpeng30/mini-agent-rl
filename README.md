@@ -107,7 +107,7 @@ mini-agent-rl evaluate --backend deepseek --task examples/benchmark.jsonl
 
 ## 当前范围
 
-当前版本包含最小 LoRA-GRPO 冒烟训练：训练前必须通过同实例 logprob 稳定性验证；工具 observation 只作为上下文，不参与 policy loss。
+当前版本包含最小 LoRA-GRPO 冒烟训练：训练前必须通过同实例 logprob 稳定性验证；工具 observation 只作为上下文，不参与 policy loss。v0.8 的 reward-ablation 与停止策略实验均保留为本地审计产物，尚未形成可发布的泛化改进，故最新发布标签仍为 `v0.7.3`。
 
 ## 文档
 
@@ -124,3 +124,4 @@ mini-agent-rl evaluate --backend deepseek --task examples/benchmark.jsonl
 - [最终测试与 checkpoint 选择协议](docs/final-evaluation-protocol.md)
 - [v0.7.2 最终评测分析](docs/final-evaluation-v072.md)
 - [v0.7.3 诊断与对照](docs/v073-diagnostics.md)
+- [v0.8.1 停止策略诊断（未发布实验）](docs/v081-stop-policy-diagnosis.md)

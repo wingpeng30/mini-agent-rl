@@ -59,6 +59,8 @@ class Transition(BaseModel):
     response: ModelResponse
     observation: dict[str, Any] | None = None
     reward: float = 0.0
+    # 即时行为标签用于区分“策略在本步做错了什么”，不能只依赖最终终止原因。
+    reward_tags: list[str] = Field(default_factory=list)
     terminated: bool = False
     termination_reason: str | None = None
 

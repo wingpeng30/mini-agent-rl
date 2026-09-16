@@ -2,10 +2,11 @@ import json
 
 import pytest
 
-from mini_agent_rl.domain import ModelResponse, Task, ToolCall
+from mini_agent_rl.domain import ModelResponse, Task, ToolCall, Transition
 from mini_agent_rl.reward import (CompositeReward, EvidenceReward, ExactMatchReward, InvalidActionPenalty,
                                   MaxStepsPenalty, RepeatedSearchPenalty, SearchCostPenalty, SupportCoverageReward,
                                   UngroundedAnswerPenalty)
+from mini_agent_rl.reward.functions import EvidenceStopReward, OverSearchAfterEvidencePenalty
 from mini_agent_rl.runtime import AgentRunner
 from mini_agent_rl.storage import SQLiteStore
 from mini_agent_rl.tools import SearchTool, ToolRegistry
@@ -63,3 +64,17 @@ async def test_group_advantage_and_export_include_group(tmp_path):
     output = tmp_path / "rl.jsonl"; runner.store.export_jsonl(str(output))
     payload = json.loads(output.read_text(encoding="utf-8").splitlines()[0])
     assert payload["group"]["id"] == group.id and "advantage" in payload["rollout"]
+
+
+def test_evidence_stop_requires_correct_answer_and_complete_support():
+    task = Task(id="t", question="q", answer="answer", metadata={"support_titles": ["Doc"]})
+    search = Transition(rollout_id="r", step=0, messages=[], response=ModelResponse(), observation={"result": [{"title": "Doc"}]})
+    assert EvidenceStopReward().evaluate(task, [search], "answer")["evidence_stop"] == 0.3
+    assert EvidenceStopReward().evaluate(task, [search], "wrong")["evidence_stop"] == 0.0
+
+
+def test_over_search_after_evidence_is_counted_in_total_reward():
+    task = Task(id="t", question="q", answer="answer")
+    transition = Transition(rollout_id="r", step=0, messages=[], response=ModelResponse(), reward=-0.2,
+                            reward_tags=["over_search_after_evidence"])
+    assert OverSearchAfterEvidencePenalty().evaluate(task, [transition], None)["over_search_after_evidence"] == -0.2

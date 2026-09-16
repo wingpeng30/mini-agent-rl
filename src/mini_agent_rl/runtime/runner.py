@@ -10,6 +10,7 @@ from ..model import ModelClient
 from ..reward import RewardFunction
 from ..storage import SQLiteStore
 from ..tools import ToolRegistry
+from ..reward.functions import _support_is_complete
 
 
 def _query_key(query: str) -> str:
@@ -60,7 +61,12 @@ class AgentRunner:
                     # 将已搜索列表放入 tool observation，而非在中途插入 system message；
                     # Qwen chat template 要求 system 只能位于消息开头。
                     observation["searched_queries"] = sorted(item[1] for item in seen)
-                    transition = Transition(rollout_id=rollout.id, step=step, messages=messages.copy(), response=response, observation=observation)
+                    # 支持证据已完整出现时继续搜索并非基础设施故障；记录为可学习的即时负行为。
+                    # 判断发生在执行前，确保本步的 action 才是被归因的对象。
+                    over_search = response.tool_call.name == "search" and _support_is_complete(task, transitions)
+                    transition = Transition(rollout_id=rollout.id, step=step, messages=messages.copy(), response=response, observation=observation,
+                                            reward=-0.2 if over_search else 0.0,
+                                            reward_tags=["over_search_after_evidence"] if over_search else [])
                     transitions.append(transition); self.store.save_transition(transition)
                     self.store.append_event(Event(rollout_id=rollout.id, type="tool_call", payload={"name": response.tool_call.name, "arguments": response.tool_call.arguments}))
                     if not observation.get("ok"):

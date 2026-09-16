@@ -109,6 +109,13 @@ v0.5.0 新增 Qwen3.5 LoRA-SFT 训练能力：基于模型 chat template 计算 
 - 三个 v0.7.1 adapter 已在相同的 30 条开发任务上完成对照：seed 42/43/44 的平均 reward 分别为 `0.5620/0.6007/0.6143`，均无基础设施失败。依据预注册规则冻结 seed 44；最终集结果将在唯一一次评测完成后另行记录。
 - 唯一一次 300 条最终评测已完成：300 个 rollout 均成功持久化，exact match `27.3%`、answer completion `67.0%`、mean reward `0.2847`、repeated action `26.0%`、invalid action `6.7%`。结果明显低于 30 条开发集，表明此前开发结果偏乐观；详见 [v0.7.2 最终评测分析](final-evaluation-v072.md)。
 
+### v0.8.1 停止策略诊断实验（未发布）
+
+- 基于 v0.8 A/B/C 的失败诊断，新增仅在“严格正确答案 + supporting documents 完整覆盖”时触发的 `EvidenceStopReward`，以及“证据已齐仍搜索”的即时 `-0.2` 轨迹标签。support titles 从未进入模型 prompt 或 SearchTool。
+- 4-bit QLoRA 下完成 5×4 冒烟、checkpoint 重载和 10×4 正式运行：40/40 rollout 成功、6 个有效 group、192 个 LoRA 参数更新、峰值显存 `3.661 GB`，无 OOM/NaN/Inf。
+- 固定 100 条开发集的实际结果为 EM `13%`、F1 `0.143`、回答完成 `20%`、重复搜索 `71%`、非法动作 `6%`。相对 v0.8 arm A（`14% / 0.168 / 20% / 70% / 8%`）未形成整体改善。
+- 结论：证据停止奖励在此规模下过于稀疏，不能作为 v0.8 发布依据；停止继续调参，不重跑 final-test，也不创建 `v0.8.0` 标签。详见 [v0.8.1 停止策略诊断](v081-stop-policy-diagnosis.md)。
+
 
 本次任务在不下载模型的前提下完成 Qwen2.5-0.5B 接入骨架：增加懒加载本地客户端、环境预检、动作 JSON 协议、本地模型配置、可选依赖、token 数据记录与 SFT 数据导出边界。模型权重、缓存和 checkpoint 不进入 Git。
 

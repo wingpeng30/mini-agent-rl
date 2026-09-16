@@ -8,6 +8,15 @@ class RewardFunction(Protocol):
     def evaluate(self, task: Task, transitions: list[Transition], final_answer: str | None) -> dict[str, float]: ...
 
 def norm(text: str | None) -> str: return re.sub(r"\s+", " ", (text or "").strip().lower())
+
+def _support_is_complete(task: Task, transitions: list[Transition]) -> bool:
+    """仅在奖励侧比较 gold supporting titles，绝不把它们泄漏给模型或检索工具。"""
+    wanted = {norm(x) for x in task.metadata.get("support_titles", [])}
+    found = {
+        norm(doc.get("title")) for transition in transitions
+        for doc in ((transition.observation or {}).get("result") or []) if isinstance(doc, dict)
+    }
+    return bool(wanted) and wanted <= found
 class ExactMatchReward:
     def __init__(self, weight: float = 1.0): self.weight = weight
     def evaluate(self, task, transitions, final_answer): return {"exact_match": self.weight if norm(task.answer) == norm(final_answer) else 0.0}
@@ -37,6 +46,18 @@ class UngroundedAnswerPenalty:
     def evaluate(self, task, transitions, final_answer):
         searched = any(t.response.tool_call and t.response.tool_call.name == "search" for t in transitions)
         return {"ungrounded_answer": -0.1 if not searched and norm(final_answer) != norm(task.answer) else 0.0}
+class OverSearchAfterEvidencePenalty:
+    """把“证据已齐仍搜索”作为即时策略错误，既保留轨迹也纳入终局总奖励。"""
+    def __init__(self, penalty: float = -0.2): self.penalty = penalty
+    def evaluate(self, task, transitions, final_answer):
+        count = sum("over_search_after_evidence" in transition.reward_tags for transition in transitions)
+        return {"over_search_after_evidence": self.penalty * count}
+class EvidenceStopReward:
+    """仅在答案正确且已检索到支持文档时奖励停止，避免奖励凭空抢答。"""
+    def __init__(self, weight: float = 0.3): self.weight = weight
+    def evaluate(self, task, transitions, final_answer):
+        correct = norm(final_answer) == norm(task.answer)
+        return {"evidence_stop": self.weight if correct and _support_is_complete(task, transitions) else 0.0}
 class CompositeReward:
     def __init__(self, functions: list[RewardFunction]): self.functions = functions
     def evaluate(self, task, transitions, final_answer):
