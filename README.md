@@ -1,8 +1,19 @@
 # Mini Agent RL
 
+当前候选版本为 v0.8.7。它新增可审计的 `compact-v2` 证据表达与精确输入重放；768-token 的训练门槛尚未通过，因此不会把该版本表述为已验证的 GRPO 改善。参见 `docs/v087-input-replay.md`。
+
+收口实验进一步加入 `compact-v3` 的低排名优先裁剪。完整 120-case 结果显示 768/1024 仍有预算失败，2048 纯推理通过；下一步使用已冻结的单卡 24GB 配置验证 2048-token GRPO 冒烟。
+
 一个可离线运行、并为本地小模型训练保留强化学习数据边界的最小工具调用 Agent 框架。FakeModel 路径仍不需要 GPU；本地模型适配器采用懒加载，不会在安装基础依赖或执行测试时下载权重。
 
-当前版本：**v0.7.3**。完整变更记录见 [CHANGELOG.md](CHANGELOG.md)。
+当前开发版本：**v0.8.7（未发布）**。本版补充 compact-v3 的证据保留和精确输入重放，并记录受控训练、评测和停止门槛；版本说明见 [CHANGELOG.md](CHANGELOG.md)。
+
+v115 的受控 SFT 试验已完成一次50步训练，但内部评测未达到证据充分回答和证据不足搜索门槛；因此未打开独立100题，未启动 GRPO。完整方法、限制与结果见 [v115 实验记录](docs/v115-sft-experiment.md)。
+
+```powershell
+mini-agent-rl experiment preflight --config configs/v083-local-8gb.toml
+mini-agent-rl experiment inspect runs/v083-local-8gb-smoke
+```
 
 ## 快速运行
 
@@ -135,3 +146,6 @@ mini-agent-rl probe-context-backward --max-input-tokens 768
 - [v0.7.3 诊断与对照](docs/v073-diagnostics.md)
 - [v0.8.1 停止策略诊断（未发布实验）](docs/v081-stop-policy-diagnosis.md)
 - [v0.8.2 上下文预算与 8GB 显存实验](docs/v082-context-budget.md)
+- [v0.8.4 固定检索环境与可信 GRPO 对照](docs/v084-fixed-retrieval.md)
+- [v0.8.5 困难停止决策诊断](docs/v085-stop-decisions.md)
+- [v0.8.6 证据表达压缩与真实输入审计](docs/v086-observation-encoding.md)

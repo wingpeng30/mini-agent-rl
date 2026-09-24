@@ -1,0 +1,14 @@
+[experiment]
+name = "v083-single-gpu-24gb-parity"
+run_dir = "../runs/v083-single-gpu-24gb-parity"
+working_dir = ".."
+timeout_seconds = 1800
+
+[command]
+# 云端第一步是和本地完全同配置的 parity run；通过后才复制此文件并单独把长度调到 1024/2048。
+argv = ["mini-agent-rl", "train-grpo", "--load-in-4bit", "--max-input-tokens", "768", "--task-limit", "5", "--group-size", "4", "--output-dir", "checkpoints/qwen35-08b-grpo-v083-cloud-parity"]
+
+[inputs]
+data = "../data/hotpot-agent-v041/train.jsonl"
+model = "/models/qwen_08b"
+adapter = "../checkpoints/qwen35-08b-sft-v052"

@@ -6,7 +6,7 @@ from mini_agent_rl.domain import ModelResponse, Task, ToolCall, Transition
 from mini_agent_rl.reward import (CompositeReward, EvidenceReward, ExactMatchReward, InvalidActionPenalty,
                                   MaxStepsPenalty, RepeatedSearchPenalty, SearchCostPenalty, SupportCoverageReward,
                                   UngroundedAnswerPenalty)
-from mini_agent_rl.reward.functions import EvidenceStopReward, OverSearchAfterEvidencePenalty
+from mini_agent_rl.reward.functions import EvidenceStopReward, OverSearchAfterEvidencePenalty, IncompleteEvidenceAnswerPenalty, EmptyEvidenceAnswerPenalty
 from mini_agent_rl.runtime import AgentRunner
 from mini_agent_rl.storage import SQLiteStore
 from mini_agent_rl.tools import SearchTool, ToolRegistry
@@ -46,6 +46,21 @@ async def test_repeated_search_is_saved_as_negative_policy_trajectory(tmp_path):
 
 
 @pytest.mark.asyncio
+async def test_tool_latency_is_audit_only_not_next_prompt_context(tmp_path):
+    """工具耗时会波动，不能影响同 seed 的策略输入；原 observation 仍须保留。"""
+    class Client:
+        async def generate(self, messages, tools, *, temperature=0.0, seed=None):
+            if not any(message.role == "tool" for message in messages):
+                return ModelResponse(tool_calls=[ToolCall(name="search", arguments={"query": "Doc"})])
+            assert "latency_ms" not in next(message.content for message in messages if message.role == "tool")
+            return ModelResponse(content="answer")
+    runner = make_runner(tmp_path, Client())
+    group = await runner.run_group(Task(id="t", question="q", answer="answer"), 1)
+    transition = runner.store.get_transitions(group.rollout_ids[0])[0]
+    assert "latency_ms" in (transition.observation or {})
+
+
+@pytest.mark.asyncio
 async def test_invalid_action_preserves_tokens_and_logprobs(tmp_path):
     runner = make_runner(tmp_path, InvalidClient())
     group = await runner.run_group(Task(id="t", question="q", answer="answer"), 1)
@@ -78,3 +93,12 @@ def test_over_search_after_evidence_is_counted_in_total_reward():
     transition = Transition(rollout_id="r", step=0, messages=[], response=ModelResponse(), reward=-0.2,
                             reward_tags=["over_search_after_evidence"])
     assert OverSearchAfterEvidencePenalty().evaluate(task, [transition], None)["over_search_after_evidence"] == -0.2
+
+
+def test_strategy_penalties_only_use_post_rollout_evidence():
+    task = Task(id="t", question="q", answer="answer", metadata={"support_titles": ["A", "B"]})
+    partial = Transition(rollout_id="r", step=0, messages=[], response=ModelResponse(tool_calls=[ToolCall(name="search", arguments={"query": "a"})]), observation={"result": [{"title": "A"}]})
+    empty = Transition(rollout_id="r", step=0, messages=[], response=ModelResponse(tool_calls=[ToolCall(name="search", arguments={"query": "x"})]), observation={"result": []})
+    assert IncompleteEvidenceAnswerPenalty().evaluate(task, [partial], "answer")["incomplete_evidence_answer"] == -0.15
+    assert EmptyEvidenceAnswerPenalty().evaluate(task, [empty], "answer")["empty_evidence_answer"] == -0.1
+    assert EmptyEvidenceAnswerPenalty().evaluate(task, [empty], None)["empty_evidence_answer"] == 0.0

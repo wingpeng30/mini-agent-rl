@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import json
 import statistics
+from pathlib import Path
 
 from ..domain import Event, Message, Rollout, RolloutGroup, RolloutStatus, Task, Transition, now
 from ..model import ModelClient
@@ -11,6 +13,7 @@ from ..reward import RewardFunction
 from ..storage import SQLiteStore
 from ..tools import ToolRegistry
 from ..reward.functions import _support_is_complete
+from ..prompts import PROMPT_VERSION, system_prompt
 
 
 def _query_key(query: str) -> str:
@@ -21,19 +24,51 @@ def _query_key(query: str) -> str:
 class AgentRunner:
     def __init__(self, model: ModelClient, tools: ToolRegistry, reward: RewardFunction, store: SQLiteStore,
                  max_steps: int = 5, max_concurrency: int = 4, temperature: float = 0.0,
-                 anti_repeat_prompt: bool = True, base_seed: int = 0):
+                 anti_repeat_prompt: bool = True, base_seed: int = 0,
+                 environment_fingerprint: dict[str, object] | None = None,
+                 enable_thinking: bool = False, prompt_version: str = PROMPT_VERSION,
+                 prompt_variant: str = "direct-v090"):
         self.model, self.tools, self.reward, self.store = model, tools, reward, store
         self.max_steps, self.max_concurrency = max_steps, max_concurrency
         self.temperature, self.anti_repeat_prompt = temperature, anti_repeat_prompt
         self.base_seed = base_seed
+        self.environment_fingerprint = environment_fingerprint or {}
+        self.enable_thinking, self.prompt_version, self.prompt_variant = enable_thinking, prompt_version, prompt_variant
+        system_prompt(enable_thinking, prompt_variant)
+        over_search = next((item for item in getattr(reward, "functions", [])
+                            if type(item).__name__ == "OverSearchAfterEvidencePenalty"), None)
+        self.over_search_penalty = float(getattr(over_search, "penalty", -0.2))
+
+    def _reward_config(self) -> dict[str, object]:
+        """把可组合 reward 的公开权重落库，历史没有该字段的轨迹由审计标为不可验证。"""
+        functions = getattr(self.reward, "functions", [self.reward])
+        result = {type(item).__name__: {key: value for key, value in vars(item).items() if isinstance(value, (int, float, str, bool))}
+                  for item in functions}
+        implementation = Path(__file__).resolve().parents[1] / "reward" / "functions.py"
+        result["_meta"] = {"reward_version": getattr(self.reward, "version", "v096"),
+                           "implementation_sha256": hashlib.sha256(implementation.read_bytes()).hexdigest()}
+        return result
 
     def _messages(self, task: Task) -> list[Message]:
-        prompt = ('你是检索 Agent。每次只输出一个 JSON 对象：需要检索时输出 '
-                  '{"action":"search","query":"关键词"}；可以作答时输出 '
-                  '{"action":"answer","answer":"答案"}。不要输出 JSON 之外的文字。')
+        prompt = system_prompt(getattr(self, "enable_thinking", False), getattr(self, "prompt_variant", "direct-v090"))
         if self.anti_repeat_prompt:
-            prompt += ' 不得重复已执行的 query；已有足够证据时立即回答。'
+            prompt += ' Do not repeat an executed query.'
         return [Message(role="system", content=prompt), Message(role="user", content=task.question)]
+
+    def protocol_fingerprint(self) -> dict[str, object]:
+        """Bind reports to the rendered system protocol, not only its label."""
+        variant = getattr(self, "prompt_variant", "direct-v090")
+        prompt = system_prompt(self.enable_thinking, variant)
+        if self.anti_repeat_prompt:
+            prompt += ' Do not repeat an executed query.'
+        return {
+            "prompt_version": self.prompt_version,
+            "prompt_variant": variant,
+            "system_prompt_sha256": hashlib.sha256(prompt.encode("utf-8")).hexdigest(),
+            "enable_thinking": self.enable_thinking,
+            "anti_repeat_prompt": self.anti_repeat_prompt,
+            "max_steps": self.max_steps,
+        }
 
     async def run_rollout(self, task: Task, group_id: str, seed: int = 0) -> Rollout:
         rollout = Rollout(group_id=group_id, task_id=task.id, seed=seed, status=RolloutStatus.RUNNING)
@@ -65,7 +100,7 @@ class AgentRunner:
                     # 判断发生在执行前，确保本步的 action 才是被归因的对象。
                     over_search = response.tool_call.name == "search" and _support_is_complete(task, transitions)
                     transition = Transition(rollout_id=rollout.id, step=step, messages=messages.copy(), response=response, observation=observation,
-                                            reward=-0.2 if over_search else 0.0,
+                                            reward=self.over_search_penalty if over_search else 0.0,
                                             reward_tags=["over_search_after_evidence"] if over_search else [])
                     transitions.append(transition); self.store.save_transition(transition)
                     self.store.append_event(Event(rollout_id=rollout.id, type="tool_call", payload={"name": response.tool_call.name, "arguments": response.tool_call.arguments}))
@@ -73,11 +108,15 @@ class AgentRunner:
                         transition.terminated = True; transition.termination_reason = "tool_error"; self.store.save_transition(transition)
                         rollout.status, rollout.eligible_for_rl, rollout.termination_reason = RolloutStatus.FAILED, False, "tool_error"; break
                     # tool call 也属于策略动作，必须以真实 JSON 文本进入下一轮上下文。
-                    action_content = response.raw_text or json.dumps(
+                    # 历史仅回填可执行 JSON，不让思考文字逐轮消耗上下文预算。
+                    action_content = json.dumps(
                         {"action": "search", "query": response.tool_call.arguments.get("query", "")}, ensure_ascii=False
                     )
+                    # latency_ms 是本机执行噪声，不是任务证据；保留在 Transition.observation 供审计，
+                    # 但不让它改变下一轮模型输入长度或同 seed 的离散轨迹。
+                    model_observation = {key: value for key, value in observation.items() if key != "latency_ms"}
                     messages += [Message(role="assistant", content=action_content, tool_calls=[response.tool_call]),
-                                 Message(role="tool", content=json.dumps(observation, ensure_ascii=False), tool_call_id=response.tool_call.id)]
+                                 Message(role="tool", content=json.dumps(model_observation, ensure_ascii=False), tool_call_id=response.tool_call.id)]
                     continue
                 rollout.final_answer = response.content
                 transition = Transition(rollout_id=rollout.id, step=step, messages=messages.copy(), response=response, terminated=True, termination_reason="answer")
@@ -91,6 +130,9 @@ class AgentRunner:
             if rollout.status == RolloutStatus.RUNNING:
                 parts = self.reward.evaluate(task, transitions, rollout.final_answer)
                 rollout.reward_components, rollout.reward, rollout.status = parts, sum(parts.values()), RolloutStatus.SUCCEEDED
+                diagnostics = getattr(self.reward, "diagnostics", None)
+                rollout.reward_diagnostics = diagnostics(task, transitions, rollout.final_answer) if callable(diagnostics) else {}
+                rollout.reward_config = self._reward_config()
                 self.store.append_event(Event(rollout_id=rollout.id, type="reward", payload={"total": rollout.reward, "components": parts}))
         except asyncio.CancelledError:
             rollout.status, rollout.termination_reason, rollout.eligible_for_rl = RolloutStatus.CANCELLED, "cancelled", False
@@ -121,4 +163,5 @@ class AgentRunner:
         # 模型在第一次 generate 后才懒加载；因此在组结束时读取指纹才能如实记录环境。
         fingerprint = getattr(self.model, "policy_fingerprint", None)
         group.policy_fingerprint = fingerprint() if callable(fingerprint) else {}
+        group.environment_fingerprint = dict(self.environment_fingerprint)
         self.store.save_group(group); return group

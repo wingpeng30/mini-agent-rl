@@ -1,0 +1,29 @@
+# v0.8.5 的预注册协议。该文件不是自动训练入口；每个 seed 使用独立 run/db/checkpoint。
+[experiment]
+id = "mini-agent-rl-v085-stop-decisions"
+base_adapter = "checkpoints/qwen35-08b-sft-v052"
+train_data = "data/hotpot-agent-v041/train.jsonl"
+diagnostic_data = "data/hotpot-agent-v041/validation.jsonl"
+retriever = "bm25-v2"
+corpus_limit = 100
+context_tokens = 768
+train_task_limit = 20
+diagnostic_task_limit = 30
+group_size = 4
+temperature = 0.7
+max_steps = 3
+load_in_4bit = true
+seeds = [42, 43, 44]
+
+[gates]
+reserved_gib_max = 7.4
+sampling_truncation_max = 0.05
+smoke_tasks = 5
+formal_tasks = 10
+smoke_nonzero_groups_min = 3
+formal_nonzero_groups_min = 5
+
+[boundaries]
+sealed_final_test = "data/hotpot-agent-v072/final-test.jsonl"
+history_probe_is_training_data = false
+allow_reward_change = false

@@ -1,0 +1,13 @@
+[experiment]
+name = "v084-grpo-local-8gb"
+run_dir = "../runs/v084-grpo-local-8gb"
+working_dir = ".."
+timeout_seconds = 1800
+
+[command]
+argv = ["mini-agent-rl", "train-grpo", "--model-path", "D:/qwen_08b", "--adapter-path", "checkpoints/qwen35-08b-sft-v052", "--data", "data/hotpot-agent-v041/train.jsonl", "--task-limit", "5", "--corpus-limit", "100", "--retriever-version", "bm25-v2", "--group-size", "4", "--seed", "42", "--load-in-4bit", "--max-input-tokens", "768", "--output-dir", "checkpoints/qwen35-08b-grpo-v084-smoke"]
+
+[inputs]
+data = "../data/hotpot-agent-v041/train.jsonl"
+model = "D:/qwen_08b"
+adapter = "../checkpoints/qwen35-08b-sft-v052"

@@ -1,0 +1,11 @@
+[experiment]
+name = "v087-probe-1024-replay"
+run_dir = "../runs/v087-probe-1024-replay"
+working_dir = ".."
+timeout_seconds = 1800
+[command]
+argv = ["mini-agent-rl", "stop-probe", "--frozen-cases", "reports/v085-stop-768/cases.jsonl", "--observation-encoding", "compact-v3", "--max-input-tokens", "1024", "--output", "reports/v087-replay-stop-1024"]
+[inputs]
+data = "../data/hotpot-agent-v041/validation.jsonl"
+model = "D:/qwen_08b"
+adapter = "../checkpoints/qwen35-08b-sft-v052"

@@ -1,0 +1,18 @@
+{
+  "version": "v109",
+  "source_agent": "v101-answer50-seed42",
+  "model": "deepseek-flash",
+  "resolved_model_family": "DeepSeek-V4.1-Flash",
+  "thinking": true,
+  "max_output_tokens": 8192,
+  "temperature": 0,
+  "evidence": "exact-replayed-agent-visible-documents",
+  "candidate_views": 1,
+  "max_candidates": 4,
+  "candidate_retry_limit": 1,
+  "selector": "shortest-supported-v2",
+  "alias_boundary_guard": true,
+  "fallback": "preserve-original-answer",
+  "enabled_by_default": false,
+  "final_test_access": false
+}

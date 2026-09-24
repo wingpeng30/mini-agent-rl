@@ -8,6 +8,41 @@
 
 每个提交到 GitHub 的可用阶段都必须：更新 `pyproject.toml` 版本、补充本文件，并创建对应的 Git tag `vX.Y.Z`。
 
+## [Unreleased] - v0.8.7 受控 evidence-SFT 验收
+
+- 从冻结 v101 复制 adapter，执行5步 smoke 与50步正式 SFT；v101 源权重哈希保持不变。
+- 在冻结内部50题/100状态上比较 v101、v112 与 v115。v115 端到端净增3题且 F1 上升，但充分证据回答率和不足证据搜索率未达门槛，因此停止，不开启独立100题或 GRPO。详见 `docs/v115-sft-experiment.md`。
+
+## [Unreleased] - v0.8.6 证据表达压缩与真实输入审计
+
+- 新增 `observation_encoding=legacy|compact-v1`：紧凑 JSON、重复文档稳定引用、完整句子级正文裁剪和逐文档审计。
+- 新增 tokenizer-only `audit-stop-probe`，保存可见 messages、最终 token IDs/attention mask、原始/可见证据覆盖与压缩分类。
+- 训练与策略指纹记录 observation encoding；采样与三类 logprob 继续复用同一保存的 prompt token IDs。
+- 新增长期下载约束：同一下载/安装任务预计超过 1GB 时必须先取得用户确认。
+
+## [Unreleased] - v0.8.5 困难停止决策诊断与有条件多 seed GRPO
+
+- 新增固定四条件停止决策探针与 train/validation 前缀交叉审计；人工检索历史不计入模型重复动作、policy token 或训练奖励。
+- 保存原始检索 observation、离线 support 覆盖、预算后输入统计和逐题动作；可比较 768/1024 token 的动作差异。
+- 修复 Windows 下 Git binary diff 使用默认 GBK 解码导致实验 manifest 崩溃的问题，改用 UTF-8 显式解码并增加回归测试。
+- 已完成 10 题 × 4 条件预探针：45% prompt 截断触发 gate，未启动多 seed 训练；详情见 `docs/v085-stop-decisions.md`。
+
+## [Unreleased] - v0.8.4 固定检索环境与可信 GRPO 对照
+
+- 解耦 `task_limit` 与固定 corpus，新增环境指纹、`verify-environment` 和 `--corpus-limit`。
+- 保留 `keyword-v1`，新增确定性 BM25 风格 `bm25-v2`，过滤英文单字符并提高标题匹配权重。
+- 新增 `evaluate-retriever` 与 v0.8.4 实验配置；只有环境一致性、检索 A/B、5×4、10×4 和开发集门槛全部通过后才创建标签。
+- 实际运行：v2 检索 A/B、5×4 smoke、10×4 formal 和 100 条开发集矩阵均完成；formal 相对同环境 SFT 的 EM/F1 为 `33%/0.441 → 38%/0.492`，但重复搜索两者均为 0%，因此按预注册规则暂不创建 v0.8.4 标签。
+- 编译检查及 19 项定向测试通过；完整 pytest 的 15 个错误均来自 Windows 临时目录 ACL（`WinError 5`），因此版本保持未发布候选。
+
+## [Unreleased] - v0.8.3 可信、可迁移 RL Harness
+
+- 修订 v0.8.2 的解释边界：reserved 显存不等于活动张量，不能用小样本推理结果否定高显存设备价值。
+- 保存预算后 prompt token/attention mask，训练三类 logprob 精确重放；GRPO 改为流式 rollout 等权反传并修正 KL 方向。
+- 新增 reward provenance、只读审计的不可验证状态及 TOML 实验 harness；提供 8GB 与 24GB 单卡迁移模板。
+- 修正非语义 `latency_ms` 进入模型上下文、造成临界 token 预算不稳定的问题；完整耗时仍保留在审计 transition。
+- 本机 384-token 1×4 因 20% 采样截断被 gate 停止；修正后 768-token 5×4 通过（0% 截断、4/5 有效 group、reserved 峰值 3.504 GiB、checkpoint 可重载）。768-token 10×4 在第 2 个 group 因 20% 截断停止，未运行开发集评测、未创建标签。
+
 ## [Unreleased] - v0.8.2 上下文预算与 8GB 显存实验
 
 - 用结构化上下文预算替代末尾 token 截断，完整保护 system 动作协议与 user 问题，并按文档边界压缩 tool observation。
@@ -145,3 +180,9 @@
 - 新增 RL 学习信号只读审计命令 `audit-rl-signal`。
 - 增加受控 reward 配置和 rollout-equal GRPO loss 接口。
 - 补充 v0.8.0 审计与受控实验文档。
+# v0.8.7 候选
+
+- 修复 legacy 兼容、证据引用审计与采样 logprob 的精确 token 重放；新增 `compact-v2`。
+- 冻结 120-case 的预算审计显示：768 仍有 30 个预算失败，训练保持停止；详见 `docs/v087-input-replay.md`。
+- 新增 compact-v3 低排名优先裁剪、共享探针 gate 与完整分母；三档 120-case 对照确认仅 2048 纯推理通过。
+- 新增 24GB 单卡 2048-token 冒烟配置；尚未在 Linux GPU 上执行。

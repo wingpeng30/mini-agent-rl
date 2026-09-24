@@ -15,12 +15,26 @@ pytest-temp/
 pytest-temp*/
 .pytest-tmp/
 reports/
+runs-*/
 runs-v073/
 data/sft-v040/
 data/hotpot-agent-v041/
 data/hotpot-agent-v072/
+data/hotpot-full-train-v114/
+data/hotpot-source-v110/
+data/hotpot-v110-independent/
+data/evidence-sft-v112/
+data/evidence-sft-v114/
+data/evidence-sft-v114-clean/
+data/evidence-sft-v114-review/
+data/evidence-sft-v115/
+data/hybrid-v110/
+data/thinking-sft-v090*/
+data/answer-repair-v105/
+data/answer-verifier-v107/
 data/rl-v060/
 checkpoints/
+backups/v115-final/
 models/
 *.safetensors
 

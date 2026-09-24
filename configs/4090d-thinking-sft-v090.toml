@@ -1,0 +1,17 @@
+[thinking_sft]
+source_data = "data/hotpot-agent-v041/train.jsonl"
+teacher_model = "deepseek-flash"
+teacher_budget_cny = 30.0
+retriever_version = "bm25-v2"
+start_adapter = "checkpoints/qwen35-08b-sft-v052"
+output_dir = "checkpoints/qwen35-08b-thinking-sft-v090"
+max_sequence_tokens = 2560
+max_generation_tokens = 512
+bf16 = true
+gradient_checkpointing = false
+micro_batch_size = 1
+gradient_accumulation_steps = 8
+learning_rate = 2e-5
+epochs = 2
+seed = 42
+gpu_memory_limit_gib = 21.0

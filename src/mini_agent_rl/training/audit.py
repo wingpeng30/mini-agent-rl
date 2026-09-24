@@ -9,22 +9,55 @@ from typing import Any
 from .hotpot import _file_sha256, _jsonl
 import math
 import statistics
+from ..domain import Task, Transition
+from ..reward.functions import (CompositeReward, ExactMatchReward, EvidenceReward, SupportCoverageReward,
+                                SearchCostPenalty, RepeatedSearchPenalty, InvalidActionPenalty, MaxStepsPenalty,
+                                UngroundedAnswerPenalty, OverSearchAfterEvidencePenalty, EvidenceStopReward)
+from ..reward.functions import IncompleteEvidenceAnswerPenalty, EmptyEvidenceAnswerPenalty, AnswerTokenF1Reward
+
+
+def _reward_from_provenance(provenance: dict[str, Any]) -> CompositeReward | None:
+    """仅重建已落库的公开 reward 参数；未知版本宁可返回 None 也不猜测。"""
+    known = {
+        "ExactMatchReward": lambda values: ExactMatchReward(values.get("weight", 1.0)),
+        "EvidenceReward": lambda values: EvidenceReward(), "SupportCoverageReward": lambda values: SupportCoverageReward(),
+        "SearchCostPenalty": lambda values: SearchCostPenalty(),
+        "RepeatedSearchPenalty": lambda values: RepeatedSearchPenalty(values.get("penalty", -0.5)),
+        "InvalidActionPenalty": lambda values: InvalidActionPenalty(), "MaxStepsPenalty": lambda values: MaxStepsPenalty(),
+        "UngroundedAnswerPenalty": lambda values: UngroundedAnswerPenalty(),
+        "OverSearchAfterEvidencePenalty": lambda values: OverSearchAfterEvidencePenalty(values.get("penalty", -0.2)),
+        "EvidenceStopReward": lambda values: EvidenceStopReward(values.get("weight", 0.3)),
+        "IncompleteEvidenceAnswerPenalty": lambda values: IncompleteEvidenceAnswerPenalty(values.get("penalty", -0.15)),
+        "EmptyEvidenceAnswerPenalty": lambda values: EmptyEvidenceAnswerPenalty(values.get("penalty", -0.10)),
+        "AnswerTokenF1Reward": lambda values: AnswerTokenF1Reward(values.get("weight", 0.20)),
+    }
+    meta = provenance.get("_meta", {})
+    payload = {name: values for name, values in provenance.items() if name != "_meta"}
+    version = meta.get("reward_version", "v096") if isinstance(meta, dict) else "v096"
+    if version not in {"v096", "v098-answer-v1"} or not payload or any(name not in known or not isinstance(values, dict) for name, values in payload.items()):
+        return None
+    return CompositeReward([known[name](values) for name, values in payload.items()], version=version)
 
 def audit_rl_signal(db_path: str | Path) -> dict[str, Any]:
     """只读审计 SQLite 中的 RL 轨迹，避免把损坏信号送入训练。"""
     import sqlite3
-    conn = sqlite3.connect(str(db_path)); conn.row_factory = sqlite3.Row
+    path = Path(db_path).resolve()
+    if not path.exists():
+        raise FileNotFoundError(f"审计数据库不存在：{path}")
+    # mode=ro 防止拼错路径时创建空数据库，也保证审计不会改写实验产物。
+    conn = sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True); conn.row_factory = sqlite3.Row
     rows = [json.loads(row[0]) for row in conn.execute("SELECT data FROM rollouts").fetchall()]
     groups = [json.loads(row[0]) for row in conn.execute("SELECT data FROM rollout_groups").fetchall()]
     transitions = [json.loads(row[0]) for row in conn.execute("SELECT data FROM transitions").fetchall()]
+    tasks = {json.loads(row[0]).get("id"): json.loads(row[0]) for row in conn.execute("SELECT data FROM tasks").fetchall()}
     report = {"db": str(db_path), "rollouts": len(rows), "groups": len(groups),
               "checks": {"finite": True, "length_consistent": True, "mask_observation_clean": True,
-                         "reward_recompute_consistent": True, "group_statistics_consistent": True,
+                         "reward_component_sum_consistent": True, "reward_recompute_consistent": True, "group_statistics_consistent": True,
                          "advantage_mean_zero": True, "immediate_reward_consistent": True,
                          "infrastructure_failures": 0},
               "counts": {"zero_variance_groups": 0, "nonzero_variance_groups": 0, "eligible": 0},
               "reward_component_nonzero_counts": {}, "termination_counts": {},
-              "correlations": {}}
+              "correlations": {}, "unverifiable": {"missing_prompt_tokens": 0, "missing_reward_provenance": 0}}
     by_group: dict[str, list[dict[str, Any]]] = {}
     for item in rows:
         status = item.get("status")
@@ -33,7 +66,14 @@ def audit_rl_signal(db_path: str | Path) -> dict[str, Any]:
         adv = item.get("advantage")
         if adv is not None and not math.isfinite(float(adv)): report["checks"]["finite"] = False
         if abs(sum(float(value) for value in item.get("reward_components", {}).values()) - float(item.get("reward", 0.0))) > 1e-8:
-            report["checks"]["reward_recompute_consistent"] = False
+            report["checks"]["reward_component_sum_consistent"] = False
+        reward = _reward_from_provenance(item.get("reward_config", {}))
+        task = tasks.get(item.get("task_id"))
+        if reward is None or task is None:
+            report["unverifiable"]["missing_reward_provenance"] += 1
+        else:
+            # transition_by_rollout 尚未构建，延后到下方完成独立计算。
+            item["_audit_reward"] = reward
         for name, value in item.get("reward_components", {}).items():
             if float(value) != 0.0:
                 report["reward_component_nonzero_counts"][name] = report["reward_component_nonzero_counts"].get(name, 0) + 1
@@ -45,8 +85,13 @@ def audit_rl_signal(db_path: str | Path) -> dict[str, Any]:
         transition_by_rollout.setdefault(transition.get("rollout_id", ""), []).append(transition)
         response = transition.get("response", {})
         ids, logs, mask = response.get("action_token_ids"), response.get("old_logprobs"), response.get("action_mask")
-        if ids is not None and not (logs is not None and mask is not None and len(ids) == len(logs) == len(mask)):
+        prompt_ids = response.get("prompt_token_ids")
+        if not prompt_ids:
+            report["unverifiable"]["missing_prompt_tokens"] += 1
+        if ids is None or logs is None or mask is None or not (len(ids) == len(logs) == len(mask)):
             report["checks"]["length_consistent"] = False
+        if any(not math.isfinite(float(value)) for value in (logs or [])):
+            report["checks"]["finite"] = False
         if mask is not None and any(value not in (0, 1) for value in mask):
             report["checks"]["mask_observation_clean"] = False
         if transition.get("observation") is not None and mask is not None and len(mask) != len(ids or []):
@@ -57,6 +102,13 @@ def audit_rl_signal(db_path: str | Path) -> dict[str, Any]:
         over_component = float(item.get("reward_components", {}).get("over_search_after_evidence", 0.0))
         if abs(over_component - (-0.2 * over_count)) > 1e-8:
             report["checks"]["immediate_reward_consistent"] = False
+        reward = item.get("_audit_reward")
+        task_data = tasks.get(item.get("task_id"))
+        if reward is not None and task_data is not None:
+            recomputed = reward.evaluate(Task.model_validate(task_data), [Transition.model_validate(value) for value in own], item.get("final_answer"))
+            expected = {key: float(value) for key, value in item.get("reward_components", {}).items()}
+            if recomputed != expected or abs(sum(recomputed.values()) - float(item.get("reward", 0.0))) > 1e-8:
+                report["checks"]["reward_recompute_consistent"] = False
     for group in groups:
         std = float(group.get("std_reward", 0.0) or 0.0)
         report["counts"]["zero_variance_groups" if abs(std) < 1e-8 else "nonzero_variance_groups"] += 1
@@ -81,6 +133,10 @@ def audit_rl_signal(db_path: str | Path) -> dict[str, Any]:
         denominator = math.sqrt(sum((x-ml)**2 for x in left) * sum((y-mr)**2 for y in right))
         return sum((x-ml)*(y-mr) for x,y in zip(left,right)) / denominator if denominator else None
     report["correlations"] = {"advantage_action_length": corr(advantages, lengths), "advantage_search_count": corr(advantages, searches), "advantage_reward": corr(advantages, rewards)}
+    # 没有可复现的 reward 配置时只报告 unknown，不能把分项求和误称为独立重算。
+    report["checks"]["reward_recompute_consistent"] = (report["unverifiable"]["missing_reward_provenance"] == 0
+                                                          and report["checks"]["reward_recompute_consistent"]
+                                                          and report["checks"]["reward_component_sum_consistent"])
     checks_ok = all(value is True for key, value in report["checks"].items() if key != "infrastructure_failures") and report["checks"]["infrastructure_failures"] == 0
     required_nonzero = math.ceil(len(groups) / 2) if groups else 1
     report["gates"] = {"required_nonzero_variance_groups": required_nonzero,

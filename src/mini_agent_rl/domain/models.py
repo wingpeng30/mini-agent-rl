@@ -39,6 +39,8 @@ class ModelResponse(BaseModel):
     content: str = ""
     tool_calls: list[ToolCall] = Field(default_factory=list)
     prompt_token_ids: list[int] | None = None
+    # 预算后的真实输入。训练时重放这组 token，而不是重新渲染消息后碰运气得到相同输入。
+    prompt_attention_mask: list[int] | None = None
     action_token_ids: list[int] | None = None
     old_logprobs: list[float] | None = None
     action_mask: list[int] | None = None
@@ -46,6 +48,11 @@ class ModelResponse(BaseModel):
     # 上下文预算包含数值、布尔和阶段标签，统一保留为可 JSON 序列化字典。
     usage: dict[str, Any] = Field(default_factory=dict)
     raw_text: str | None = None
+    # 思考与最终动作分开审计；完整 action_token_ids 仍覆盖二者，供策略重放使用。
+    reasoning_text: str | None = None
+    reasoning_tokens: int = 0
+    json_action_tokens: int = 0
+    action_protocol: str = "json-v1"
 
     @property
     def tool_call(self) -> ToolCall | None:
@@ -80,6 +87,10 @@ class Rollout(BaseModel):
     status: RolloutStatus = RolloutStatus.QUEUED
     reward: float = 0.0
     reward_components: dict[str, float] = Field(default_factory=dict)
+    # Observability values are kept separate so they cannot affect reward sum or advantage.
+    reward_diagnostics: dict[str, float] = Field(default_factory=dict)
+    # 记录产生该 reward 的配置，供未来独立审计；不含 gold answer 或私密内容。
+    reward_config: dict[str, Any] = Field(default_factory=dict)
     final_answer: str | None = None
     error: str | None = None
     termination_reason: Literal["answer", "invalid_action", "repeated_action", "max_steps", "cancelled", "model_error", "tool_error"] | None = None
@@ -100,3 +111,5 @@ class RolloutGroup(BaseModel):
     zero_variance: bool = False
     # 指纹绑定采集时实际使用的策略，训练前可拒绝“数据与权重不属于同一策略”的误用。
     policy_fingerprint: dict[str, Any] = Field(default_factory=dict)
+    # 环境指纹绑定任务顺序、固定 corpus 和检索器版本，防止训练与回放使用不同环境。
+    environment_fingerprint: dict[str, Any] = Field(default_factory=dict)

@@ -7,3 +7,5 @@ from .audit import audit_sft_directory, audit_final_test, audit_rl_signal
 from .sft import encode_assistant_only, AssistantOnlyCollator, train_sft
 from .logprob import compare_logprobs, stable_same_instance
 from .grpo import GRPOConfig, RewardConfig, MinimalGRPOTrainer, clipped_grpo_loss, rollout_equal_grpo_loss
+from .harness import ExperimentConfig, preflight, run as run_experiment, inspect as inspect_experiment
+from .gates import evaluate_probe_gate, resolve_memory_limit_gb

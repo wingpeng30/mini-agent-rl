@@ -1,0 +1,13 @@
+[experiment]
+name = "v084-retriever-ab"
+run_dir = "../runs/v084-retriever-ab"
+working_dir = ".."
+timeout_seconds = 1800
+
+[command]
+argv = ["mini-agent-rl", "evaluate-retriever", "--model-path", "D:/qwen_08b", "--adapter-path", "checkpoints/qwen35-08b-sft-v052", "--data", "data/hotpot-agent-v041/validation.jsonl", "--limit", "30", "--corpus-limit", "100", "--output", "reports/v084-retriever-ab.json", "--db-dir", "runs-v084-retriever-ab"]
+
+[inputs]
+data = "../data/hotpot-agent-v041/validation.jsonl"
+model = "D:/qwen_08b"
+adapter = "../checkpoints/qwen35-08b-sft-v052"

@@ -3,7 +3,8 @@ from mini_agent_rl.training.sft import AssistantOnlyCollator, encode_assistant_o
 
 class FakeProcessor:
     """测试用稳定模板：每条消息写入 role token 与 content token。"""
-    def apply_chat_template(self, messages, tokenize, add_generation_prompt):
+    def apply_chat_template(self, messages, tokenize, add_generation_prompt, enable_thinking):
+        self.enable_thinking = enable_thinking
         values = []
         for message in messages:
             values.extend([1 if message["role"] == "assistant" else 2, *[ord(char) for char in message["content"]]])
@@ -22,10 +23,23 @@ def test_assistant_only_labels_exclude_tool_tokens():
         {"role": "assistant", "content": "A"}, {"role": "tool", "content": "OBS"},
         {"role": "assistant", "content": "B"},
     ]
-    encoded = encode_assistant_only(FakeProcessor(), messages)
+    processor = FakeProcessor()
+    encoded = encode_assistant_only(processor, messages)
+    assert processor.enable_thinking is False
     assert 65 in encoded["labels"] and 66 in encoded["labels"]
     assert ord("O") not in encoded["labels"]
     assert encoded["labels"].count(-100) > 0
+
+
+def test_assistant_only_labels_can_target_current_state_only():
+    messages = [
+        {"role": "system", "content": "s"}, {"role": "user", "content": "q"},
+        {"role": "assistant", "content": "OLD"}, {"role": "tool", "content": "OBS"},
+        {"role": "assistant", "content": "NEW"},
+    ]
+    encoded = encode_assistant_only(FakeProcessor(), messages, target_assistant_index=4)
+    assert ord("N") in encoded["labels"]
+    assert ord("O") not in encoded["labels"]
 
 
 def test_collator_pads_and_preserves_ignore_labels():

@@ -1,0 +1,8 @@
+{
+  "version": "v108",
+  "source_agent": "v101-answer50-seed42",
+  "candidate_generation": {"temperature": 0.0, "max_new_tokens": 128, "max_alternatives": 4, "verbatim_visible_spans": true},
+  "selector": {"enabled_by_default": false, "dtype": "bfloat16", "max_input_tokens": 2048, "seed": 42, "learning_rate": 0.00001, "batch_size": 1, "gradient_accumulation_steps": 8, "max_steps": 100, "max_epochs": 2, "memory_limit_gib": 21},
+  "gates": {"train_independent_states": 120, "validation_independent_states": 30, "validation_wrong_candidate_coverage": 0.5, "correct_preserve_rate": 0.95, "wrong_repair_rate": 0.2},
+  "final_test_access": false
+}

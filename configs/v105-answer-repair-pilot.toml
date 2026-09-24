@@ -1,0 +1,20 @@
+version = "v105-answer-repair-v1"
+source_adapter = "checkpoints/v101-answer50-seed42"
+training_source = "data/hotpot-agent-v041/train.jsonl"
+target = "final_assistant_answer_only"
+system_prompt = "direct-v090"
+max_steps = 50
+learning_rate = 5e-6
+batch_size = 1
+gradient_accumulation_steps = 8
+max_length = 2048
+gradient_checkpointing = false
+save_steps = 25
+eval_steps = 25
+seed = 42
+
+[gate]
+dev20_max_em_drop_points = 10
+dev20_max_invalid_increase_points = 5
+require_finite_training = true
+require_reload = true

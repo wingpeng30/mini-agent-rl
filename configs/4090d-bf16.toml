@@ -1,0 +1,15 @@
+[experiment]
+name = "4090d-bf16-unlocked"
+run_dir = "../runs/4090d-bf16-unlocked"
+working_dir = ".."
+# No 30-minute ceiling. Set 0 explicitly for an unlimited run.
+timeout_seconds = 21600
+
+[command]
+# BF16 is the unquantized default. Validate this precision before training.
+argv = ["mini-agent-rl", "train-grpo", "--model-path", "/models/qwen_08b", "--adapter-path", "checkpoints/qwen35-08b-sft-v052", "--task-limit", "20", "--corpus-limit", "100", "--retriever-version", "bm25-v2", "--group-size", "4", "--seed", "42", "--max-input-tokens", "2048", "--observation-encoding", "compact-v3", "--no-gradient-checkpointing", "--generation-timeout", "600", "--memory-limit-gb", "21", "--stability-report", "reports/4090d-bf16-stability.json", "--db", "runs/4090d-bf16-unlocked/rollouts.db", "--report", "runs/4090d-bf16-unlocked/train.json", "--output-dir", "runs/4090d-bf16-unlocked/checkpoint"]
+
+[inputs]
+data = "../data/hotpot-agent-v041/train.jsonl"
+model = "/models/qwen_08b"
+adapter = "../checkpoints/qwen35-08b-sft-v052"

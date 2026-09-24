@@ -1,0 +1,28 @@
+version = "v102-oversearch-zero"
+base_adapter = "checkpoints/qwen35-08b-thinking-sft-v090/checkpoint-200"
+reward_version = "v102-oversearch-zero"
+over_search_after_evidence_penalty = 0.0
+task_limit = 30
+corpus_limit = 100
+group_size = 4
+temperature = 1.0
+seeds = [42, 43, 44]
+max_input_tokens = 2048
+max_new_tokens = 128
+max_steps = 3
+retriever_version = "bm25-v2"
+observation_encoding = "compact-v3"
+learning_rate = 5e-6
+clip_epsilon = 0.2
+kl_beta = 0.02
+policy_epochs = 2
+max_grad_norm = 1.0
+memory_limit_gb = 21
+minimum_effective_groups = 15
+
+[gate]
+minimum_distinct_affected_tasks = 3
+minimum_changed_centered_advantage_groups = 6
+minimum_nonzero_variance_groups_per_seed = 15
+require_no_ranking_inversions = true
+

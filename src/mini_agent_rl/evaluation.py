@@ -5,34 +5,14 @@ from __future__ import annotations
 import json
 import hashlib
 import re
-import string
+from dataclasses import dataclass
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
 
 from .domain import RolloutStatus, Task
 from .runtime import AgentRunner
-
-
-def normalize_answer(text: str | None) -> str:
-    """用于诊断的 SQuAD 风格英文答案归一化，不改变历史 reward。"""
-    value = (text or "").lower()
-    value = re.sub(r"\b(a|an|the)\b", " ", value)
-    value = value.translate(str.maketrans("", "", string.punctuation))
-    return " ".join(value.split())
-
-
-def token_f1(prediction: str | None, reference: str | None) -> float:
-    """计算 token 多重集合 F1；空答案只有在同时为空时得 1。"""
-    pred = normalize_answer(prediction).split()
-    gold = normalize_answer(reference).split()
-    if not pred or not gold:
-        return float(not pred and not gold)
-    overlap = sum((Counter(pred) & Counter(gold)).values())
-    if not overlap:
-        return 0.0
-    precision, recall = overlap / len(pred), overlap / len(gold)
-    return 2 * precision * recall / (precision + recall)
+from .answer_scoring import normalize_answer, token_f1
 
 
 def answer_metrics(prediction: str | None, reference: str | None) -> dict[str, float]:
@@ -54,6 +34,32 @@ def file_sha256(path: str | Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+@dataclass(frozen=True)
+class ExperimentEnvironment:
+    """把任务切片与检索语料绑定，避免 task_limit 偷换环境。"""
+
+    tasks: list[Task]
+    corpus: list[dict[str, Any]]
+    task_ids: list[str]
+    task_order_sha256: str
+    corpus_sha256: str
+    corpus_document_count: int
+    source_data_sha256: str
+    corpus_limit: int
+
+    def fingerprint(self, retriever_version: str, observation_encoding: str = "legacy") -> dict[str, Any]:
+        return {
+            "source_data_sha256": self.source_data_sha256,
+            "task_ids": self.task_ids,
+            "task_order_sha256": self.task_order_sha256,
+            "corpus_sha256": self.corpus_sha256,
+            "corpus_document_count": self.corpus_document_count,
+            "corpus_limit": self.corpus_limit,
+            "retriever_version": retriever_version,
+            "observation_encoding": observation_encoding,
+        }
 
 
 async def evaluate_tasks(runner: AgentRunner, tasks: list[Task], group_size: int) -> dict[str, Any]:
@@ -79,6 +85,16 @@ async def evaluate_tasks(runner: AgentRunner, tasks: list[Task], group_size: int
         for item in valid
     )
     search_transitions = [transition for transition in transitions if transition.response.tool_call]
+    responses = [transition.response for transition in transitions]
+    output_truncated = sum(bool(response.usage.get("output_truncated")) for response in responses)
+    empty_direct = 0
+    for rollout in valid:
+        saw_empty_result = False
+        for transition in runner.store.get_transitions(rollout.id):
+            if transition.response.tool_call and not (transition.observation or {}).get("result"):
+                saw_empty_result = True
+            elif saw_empty_result and transition.response.content and not transition.response.tool_call:
+                empty_direct += 1
     local_client = runner.model
     report = {
         "task_count": len(tasks), "group_size": group_size, "rollout_count": len(valid),
@@ -94,6 +110,12 @@ async def evaluate_tasks(runner: AgentRunner, tasks: list[Task], group_size: int
         "invalid_action_rate": invalid / n,
         "repeated_search_rate": repeated / n,
         "average_steps": len(transitions) / n,
+        "output_budget_exhaustion_rate": output_truncated / (len(responses) or 1),
+        "mean_reasoning_tokens": sum(response.reasoning_tokens for response in responses) / (len(responses) or 1),
+        "mean_json_action_tokens": sum(response.json_action_tokens for response in responses) / (len(responses) or 1),
+        "generated_message_end_rate": sum(bool(response.usage.get("generated_message_end")) for response in responses) / (len(responses) or 1),
+        "generated_eos_rate": sum(bool(response.usage.get("generated_eos")) for response in responses) / (len(responses) or 1),
+        "empty_result_direct_answer_count": empty_direct,
         "metric_denominators": {"rollouts": n, "answer_metrics": len(metric_rows), "search_actions": len(search_transitions)},
         "model_load_seconds": getattr(local_client, "load_seconds", None),
         "peak_gpu_memory_gb": local_client.gpu_memory_peak_gb() if hasattr(local_client, "gpu_memory_peak_gb") else None,
@@ -164,30 +186,45 @@ def load_tasks(path: str | Path) -> list[Task]:
     return [Task.model_validate_json(line) for line in Path(path).read_text(encoding="utf-8").splitlines() if line.strip()]
 
 
-def hotpot_sft_to_tasks_and_corpus(path: str | Path, limit: int | None = None) -> tuple[list[Task], list[dict[str, Any]]]:
+def load_hotpot_environment(path: str | Path, *, task_limit: int | None = None, corpus_limit: int | None = None, task_ids: list[str] | None = None) -> ExperimentEnvironment:
+    """独立构建任务和 corpus；corpus_limit 不随 task_limit 隐式变化。"""
+    records = [json.loads(line) for line in Path(path).read_text(encoding="utf-8").splitlines() if line.strip()]
+    selected = records if task_ids is None else [record for record in records if record["metadata"]["task_id"] in set(task_ids)]
+    tasks_records = selected[:task_limit] if task_limit is not None else selected
+    corpus_records = selected[:corpus_limit] if corpus_limit is not None else selected
+    if not tasks_records:
+        raise ValueError("评测数据为空")
+    if corpus_limit is not None and task_limit is not None and corpus_limit < task_limit:
+        raise ValueError("corpus_limit 必须大于等于 task_limit，避免任务不在固定语料范围内")
+    tasks: list[Task] = []
+    corpus: dict[str, dict[str, Any]] = {}
+    for record in tasks_records:
+        messages, metadata = record["messages"], record["metadata"]
+        question = next(message["content"] for message in messages if message["role"] == "user")
+        tasks.append(Task(id=metadata["task_id"], question=question, answer=metadata["gold_answer"], metadata={"source": metadata["source"], "support_titles": metadata.get("support_titles", [])}))
+    for record in corpus_records:
+        for message in record["messages"]:
+            if message["role"] != "tool":
+                continue
+            observation = json.loads(message["content"])
+            for document in observation.get("result", []):
+                corpus[document["id"]] = {key: document[key] for key in ("id", "title", "text")}
+    corpus_list = [corpus[key] for key in sorted(corpus)]
+    corpus_bytes = json.dumps(corpus_list, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    task_ids_value = [task.id for task in tasks]
+    task_bytes = json.dumps(task_ids_value, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    return ExperimentEnvironment(tasks, corpus_list, task_ids_value, hashlib.sha256(task_bytes).hexdigest(), hashlib.sha256(corpus_bytes).hexdigest(), len(corpus_list), file_sha256(path), corpus_limit if corpus_limit is not None else len(corpus_records))
+
+
+def hotpot_sft_to_tasks_and_corpus(path: str | Path, limit: int | None = None, corpus_limit: int | None = None) -> tuple[list[Task], list[dict[str, Any]]]:
     """从本项目生成的 Hotpot SFT 测试集恢复评测任务与离线检索环境。
 
     gold answer 仅放入 ``Task.answer`` 供 reward 计算；模型消息和 SearchTool 语料中
     都不会出现该字段。tool observation 中的 supporting documents 是环境状态，
     会被按文档 ID 去重后提供给 SearchTool。
     """
-    records = [json.loads(line) for line in Path(path).read_text(encoding="utf-8").splitlines() if line.strip()]
-    tasks: list[Task] = []
-    corpus: dict[str, dict[str, Any]] = {}
-    for record in records[:limit]:
-        messages = record["messages"]
-        metadata = record["metadata"]
-        question = next(message["content"] for message in messages if message["role"] == "user")
-        tasks.append(Task(id=metadata["task_id"], question=question, answer=metadata["gold_answer"], metadata={"source": metadata["source"], "support_titles": metadata.get("support_titles", [])}))
-        for message in messages:
-            if message["role"] != "tool":
-                continue
-            observation = json.loads(message["content"])
-            for document in observation.get("result", []):
-                corpus[document["id"]] = {key: document[key] for key in ("id", "title", "text")}
-    if not tasks:
-        raise ValueError("评测数据为空")
-    return tasks, list(corpus.values())
+    environment = load_hotpot_environment(path, task_limit=limit, corpus_limit=corpus_limit or limit)
+    return environment.tasks, environment.corpus
 
 
 def write_report(report: dict[str, Any], path: str | Path) -> None:

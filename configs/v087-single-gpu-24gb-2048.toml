@@ -1,0 +1,14 @@
+[experiment]
+name = "v087-single-gpu-24gb-2048-smoke"
+run_dir = "../runs/v087-single-gpu-24gb-2048-smoke"
+working_dir = ".."
+timeout_seconds = 1800
+
+[command]
+# 首次云端运行固定为 5×4；通过所有门槛后，另建配置从原始 SFT 启动 10×4。
+argv = ["mini-agent-rl", "train-grpo", "--model-path", "/models/qwen_08b", "--adapter-path", "checkpoints/qwen35-08b-sft-v052", "--data", "data/hotpot-agent-v041/train.jsonl", "--task-limit", "5", "--corpus-limit", "100", "--retriever-version", "bm25-v2", "--group-size", "4", "--seed", "42", "--max-steps", "3", "--max-input-tokens", "2048", "--observation-encoding", "compact-v3", "--load-in-4bit", "--db", "runs/v087-single-gpu-24gb-2048-smoke/rollouts.db", "--report", "runs/v087-single-gpu-24gb-2048-smoke/train-report.json", "--output-dir", "runs/v087-single-gpu-24gb-2048-smoke/checkpoint"]
+
+[inputs]
+data = "../data/hotpot-agent-v041/train.jsonl"
+model = "/models/qwen_08b"
+adapter = "../checkpoints/qwen35-08b-sft-v052"

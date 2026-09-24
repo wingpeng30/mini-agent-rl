@@ -3,6 +3,7 @@ from __future__ import annotations
 import re
 from typing import Protocol
 from ..domain import Task, Transition
+from ..answer_scoring import normalize_answer, reward_token_f1
 
 class RewardFunction(Protocol):
     def evaluate(self, task: Task, transitions: list[Transition], final_answer: str | None) -> dict[str, float]: ...
@@ -23,6 +24,15 @@ class ExactMatchReward:
 class EvidenceReward:
     def evaluate(self, task, transitions, final_answer):
         answer = norm(final_answer); return {"evidence_supported": 0.2 if any(answer and answer in norm(str(t.observation)) for t in transitions) else 0.0}
+
+
+class AnswerTokenF1Reward:
+    """Bounded partial-answer reward for a legal terminal answer only."""
+    def __init__(self, weight: float = 0.20): self.weight = weight
+    def evaluate(self, task, transitions, final_answer):
+        answered = any(t.termination_reason == "answer" for t in transitions)
+        score = reward_token_f1(final_answer, task.answer) if answered and norm(final_answer) else 0.0
+        return {"answer_token_f1": self.weight * score}
 class SupportCoverageReward:
     """支持文档标题只用于环境后的奖励，绝不进入模型上下文。"""
     def evaluate(self, task, transitions, final_answer):
@@ -58,9 +68,37 @@ class EvidenceStopReward:
     def evaluate(self, task, transitions, final_answer):
         correct = norm(final_answer) == norm(task.answer)
         return {"evidence_stop": self.weight if correct and _support_is_complete(task, transitions) else 0.0}
+
+class IncompleteEvidenceAnswerPenalty:
+    """惩罚已检索但证据尚不完整时的最终抢答。
+
+    supporting titles only appear in the post-rollout reward calculation.  They
+    are never appended to the policy context, tool result, or retrieval query.
+    """
+    def __init__(self, penalty: float = -0.15): self.penalty = penalty
+    def evaluate(self, task, transitions, final_answer):
+        searched = any(t.response.tool_call and t.response.tool_call.name == "search" for t in transitions)
+        answered = bool(final_answer and norm(final_answer))
+        return {"incomplete_evidence_answer": self.penalty if searched and answered and not _support_is_complete(task, transitions) else 0.0}
+
+class EmptyEvidenceAnswerPenalty:
+    """Discourage answering after every executed search returned no document."""
+    def __init__(self, penalty: float = -0.10): self.penalty = penalty
+    def evaluate(self, task, transitions, final_answer):
+        searched = [t for t in transitions if t.response.tool_call and t.response.tool_call.name == "search"]
+        all_empty = bool(searched) and all(not ((t.observation or {}).get("result") or []) for t in searched)
+        answered = bool(final_answer and norm(final_answer))
+        return {"empty_evidence_answer": self.penalty if answered and all_empty else 0.0}
 class CompositeReward:
-    def __init__(self, functions: list[RewardFunction]): self.functions = functions
+    def __init__(self, functions: list[RewardFunction], version: str = "v096"):
+        self.functions, self.version = functions, version
     def evaluate(self, task, transitions, final_answer):
         parts = {}
         for fn in self.functions: parts.update(fn.evaluate(task, transitions, final_answer))
         return parts
+
+    def diagnostics(self, task, transitions, final_answer) -> dict[str, float]:
+        """Non-reward observability; values never enter advantage calculation."""
+        answer = norm(final_answer)
+        hit = any(answer and answer in norm(str(t.observation)) for t in transitions)
+        return {"answer_string_hit": float(hit)}
