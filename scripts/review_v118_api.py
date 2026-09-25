@@ -10,6 +10,7 @@ from urllib.parse import urlparse
 import httpx
 
 from mini_agent_rl.training.thinking_sft import _env
+from scripts.merge_v118_semantic_reviews import candidate_visible
 
 ROOT = Path(__file__).resolve().parents[1]
 ENV = ROOT.parent / ".env"
@@ -55,10 +56,7 @@ def validate(packet, result, section):
         if not isinstance(citations, list) or any(not isinstance(q, str) for q in citations):
             raise ValueError("invalid_citations")
         candidate = packet["anonymous_outputs"][alias]
-        if section == "states":
-            visible = [str(m.get("content", "")) for m in candidate.get("pre_action_visible_messages", [])]
-        else:
-            visible = [str(m.get("content", "")) for m in candidate.get("answer_time_visible_messages", [])]
+        visible = candidate_visible(packet, section, packet["audit_id"], alias)
         if any(not quote or not any(quote in text for text in visible) for quote in citations):
             raise ValueError("citation_not_in_action_time_evidence")
         if decision["evidence_verdict"] == "supported" and not citations:

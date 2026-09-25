@@ -20,7 +20,23 @@ def candidate_visible(packet, section, audit_id, alias):
         messages = candidate.get("pre_action_visible_messages", [])
     else:
         messages = candidate.get("answer_time_visible_messages", [])
-    return [str(message.get("content", "")) for message in messages]
+    visible = []
+    for message in messages:
+        content = str(message.get("content", ""))
+        if message.get("role") != "tool":
+            visible.append(content)
+            continue
+        try:
+            payload = json.loads(content)
+        except (TypeError, ValueError):
+            visible.append(content)
+            continue
+        # Quotes are taken from the document text the model saw. Matching the
+        # serialized JSON falsely rejects quotes containing escaped characters.
+        for document in payload.get("result", []) if isinstance(payload, dict) else []:
+            if isinstance(document, dict):
+                visible.extend(str(document.get(key, "")) for key in ("title", "text"))
+    return visible
 
 def contains_quote(quote, texts):
     return bool(quote) and any(quote in text for text in texts)
