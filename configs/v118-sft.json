@@ -1,0 +1,62 @@
+{
+  "version": "v118-sft-experiment-v1",
+  "source_adapter": "v101-answer50-seed42",
+  "source_adapter_sha256": "3b759be69a0c082fd5274eb99b696bf6a60662b991c2234aac59d0646ff08768",
+  "reference_adapter": "v112-evidence-sft-seed42",
+  "reference_adapter_sha256": "31b625a9e3934012f9ba9b2f2054006ab968caeabb5238c5934988edccf423fd",
+  "train_data": "data/evidence-sft-v117/frozen/train.jsonl",
+  "internal_data": "data/evidence-sft-v117/frozen/internal.jsonl",
+  "internal_corpus": "data/evidence-sft-v117/frozen/internal-corpus.json",
+  "internal_environment_manifest": "data/evidence-sft-v117/frozen/internal-environment-manifest.json",
+  "steps": {"smoke": 5, "formal": 50},
+  "shared": {
+    "dtype": "bfloat16",
+    "learning_rate": 0.000005,
+    "batch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "seed": 42,
+    "thinking": false,
+    "gradient_checkpointing": false,
+    "max_input_tokens": 2048,
+    "max_target_tokens": 128,
+    "max_total_tokens": 2176,
+    "warmup_ratio": 0.05
+  },
+  "evaluation": {
+    "max_steps": 3,
+    "max_concurrency": 1,
+    "temperature": 0,
+    "seed": 42,
+    "anti_repeat_prompt": false,
+    "prompt_variant": "direct-v090",
+    "retriever": "bm25-v2 top3"
+  },
+  "internal_gates": {
+    "protocol_rate_min": 0.98,
+    "supported_answer_correct_min": 0.90,
+    "insufficient_evidence_search_min": 0.90,
+    "correct_preservation_min": 0.95,
+    "net_exact_match_gain_min": 3,
+    "f1_delta_min": 0.0
+  },
+  "independent100_gates": {
+    "net_exact_match_gain_min": 3,
+    "f1_delta_min": 0.0,
+    "correct_preservation_min": 0.95,
+    "protocol_rate_min": 0.98,
+    "bootstrap_seed": 42,
+    "bootstrap_samples": 10000,
+    "ci_level": 0.95,
+    "ci_lower_bound_must_exceed": 0.0
+  },
+  "hard_constraints": {
+    "final_test_accessed": false,
+    "grpo_started": false,
+    "v111_78_percent_is_local_model_score": false,
+    "training_data_states": 345,
+    "training_questions": 186,
+    "internal_questions": 50,
+    "internal_states": 100,
+    "internal_documents": 1986
+  }
+}
