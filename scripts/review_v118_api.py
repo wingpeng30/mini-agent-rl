@@ -100,8 +100,14 @@ def run(args):
     saved = json.loads(output.read_text(encoding="utf-8")) if output.exists() else {
         "version": "v118-independent-blind-review-v1", "reviewer": "deepseek_api", "independent": True,
         "packet_manifest_sha256": expected_hash, "packet_file_sha256": source_hash, "states": [], "changed_tasks": []}
-    if saved.get("packet_manifest_sha256") != expected_hash or saved.get("packet_file_sha256") != source_hash:
+    if saved.get("packet_manifest_sha256") != expected_hash:
+        raise ValueError("saved_review_manifest_changed")
+    file_hashes = saved.setdefault("packet_file_sha256_by_section", {})
+    if section_key == "states":
+        file_hashes.setdefault("states", saved.get("packet_file_sha256", source_hash))
+    if section_key in file_hashes and file_hashes[section_key] != source_hash:
         raise ValueError("saved_review_packet_changed")
+    file_hashes[section_key] = source_hash
     completed = {row["audit_id"]: row for row in saved[section_key]}
     if len(completed) != len(saved[section_key]): raise ValueError("duplicate_saved_audit_case")
     endpoint, model = base+"/chat/completions", configuration["MODEL"]

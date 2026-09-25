@@ -45,11 +45,14 @@ def run(args):
            'net_gain_at_least_3':metrics['net_gain']>=3,
            'f1_non_decrease':metrics['candidate_f1']>=metrics['baseline_f1']}
     semantic=read(args.semantic_gate) if args.semantic_gate else None
+    review_coverage_ok=bool(semantic and
+        semantic.get('each_reviewer_state_coverage')=={'luna_agent':100,'deepseek_api':100} and
+        semantic.get('each_reviewer_changed_task_coverage')=={'luna_agent':26,'deepseek_api':26})
     semantic_ok=bool(semantic and semantic.get('version')=='v118-semantic-gate-v1'
         and semantic.get('semantic_gate_passed') is True and semantic.get('reviewers')==2
         and semantic.get('independent_reviews') is True and semantic.get('unresolved_disputes')==0
         and semantic.get('confirmed_semantic_regressions')==0
-        and semantic.get('each_reviewer_state_coverage')=={'luna_agent':100,'deepseek_api':100})
+        and review_coverage_ok)
     result={'version':'v118','internal_only':True,'independent100_opened':False,'final_test_accessed':False,
             'v101_vs_v118':metrics,'v112_reference':one(v101t,v112t),
             'state_metrics':state,'numeric_gates':gates,
