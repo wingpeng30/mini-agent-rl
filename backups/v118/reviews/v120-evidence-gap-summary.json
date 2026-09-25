@@ -1,0 +1,43 @@
+{
+  "version": "v120-evidence-gap-prompt-replay-v2",
+  "scope": "frozen previously exposed internal development set, 50 questions",
+  "local_raw_report_available": false,
+  "remote_report": "/root/autodl-tmp/v120-evidence-gap/report-v2.json",
+  "independent100_opened": false,
+  "final_test_accessed": false,
+  "training_performed": false,
+  "baseline": {
+    "model": "v118",
+    "correct": 14,
+    "normalized_em": 0.28,
+    "token_f1": 0.34,
+    "searches": 66
+  },
+  "evidence_gap_prompt": {
+    "correct": 26,
+    "normalized_em": 0.52,
+    "token_f1": 0.5666666667,
+    "gains": 13,
+    "losses": 1,
+    "net_gain": 12,
+    "correct_preservation": 0.9285714286,
+    "completed_answers": 49,
+    "protocol_rate": 0.98,
+    "search_limit_compliance": 0.96,
+    "executed_searches": 94,
+    "two_search_questions": 44,
+    "one_search_questions": 6,
+    "blocked_extra_search_attempts": 2,
+    "exact_answer_string_in_any_top3": 41,
+    "top3_string_hit_and_correct": 26,
+    "top3_string_hit_but_wrong": 15,
+    "no_top3_string_hit_but_correct": 0,
+    "no_top3_string_hit_and_wrong": 9
+  },
+  "interpretation": [
+    "The result is a prompt-policy diagnostic on exposed development data, not an independent accuracy estimate or SFT result.",
+    "The net gain is promising, but 92.9% preservation is below the 95% target and the 44/50 two-search rate suggests poor selectivity.",
+    "An exact answer string in retrieved text is not proof that the requested relation is supported; semantic review remains necessary.",
+    "Two over-limit or repeated search attempts were intercepted; one case still failed to produce an answer."
+  ]
+}
