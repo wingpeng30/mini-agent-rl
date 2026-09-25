@@ -1,0 +1,29 @@
+{
+  "version": "v116-pretraining-freeze-v1",
+  "training_started": false,
+  "source_adapter": "v101-answer50-seed42",
+  "source_adapter_sha256": "3b759be69a0c082fd5274eb99b696bf6a60662b991c2234aac59d0646ff08768",
+  "smoke": {"fresh_copy_from_source": true, "max_steps": 5},
+  "formal": {"fresh_copy_from_source": true, "max_steps": 50, "checkpoint_selection": "last"},
+  "shared": {
+    "dtype": "bfloat16",
+    "learning_rate": 0.000005,
+    "batch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "seed": 42,
+    "thinking": false,
+    "gradient_checkpointing": false,
+    "max_input_tokens": 2048,
+    "max_target_tokens": 128,
+    "max_total_tokens": 2176
+  },
+  "required_before_training": [
+    "v116_local_data_gate_passed",
+    "frozen_export_hashes_verified",
+    "remote_gpu_disk_environment_verified",
+    "remote_v101_v112_adapter_hashes_verified",
+    "local_remote_per_record_token_ids_and_target_masks_equal"
+  ],
+  "independent100_accessed": false,
+  "final_test_accessed": false
+}

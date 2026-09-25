@@ -1,0 +1,46 @@
+{
+  "version": "v122-new-internal-gate-v1",
+  "checks": {
+    "contiguous_complete_double_reviewed_prefix": true,
+    "50_complete_pairs": false,
+    "four_risks_five_states_each": false,
+    "historical_question_isolation": true,
+    "top3_replay_exact": false,
+    "unique_final_states": false
+  },
+  "local_internal_ready": false,
+  "training_allowed": false,
+  "candidate_questions": 200,
+  "candidate_states": 326,
+  "api_reviewed": 326,
+  "luna_reviewed": 240,
+  "luna_batches": [
+    "internal-batch-01.jsonl",
+    "internal-batch-02.jsonl",
+    "internal-batch-03.jsonl",
+    "internal-batch-04.jsonl",
+    "internal-batch-05.jsonl",
+    "internal-batch-06.jsonl",
+    "internal-batch-07.jsonl",
+    "internal-batch-08.jsonl",
+    "internal-batch-09.jsonl",
+    "internal-batch-10.jsonl",
+    "internal-batch-11.jsonl",
+    "internal-batch-12.jsonl"
+  ],
+  "approved_pairs": 45,
+  "selected_pairs": 0,
+  "selected_risks": {},
+  "gaps": {
+    "pairs": 5,
+    "risks": {
+      "relation": 5,
+      "time": 5,
+      "scope": 5,
+      "measurement": 5
+    },
+    "unreviewed": 86
+  },
+  "independent100_accessed": false,
+  "final_test_accessed": false
+}

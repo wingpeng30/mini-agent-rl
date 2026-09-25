@@ -1,0 +1,24 @@
+{
+  "version": "v122-p3-decision-v1",
+  "decision": "stop_before_sft",
+  "reason": "frozen_internal_candidate_pool_cannot_reach_semantic_scope_coverage",
+  "required_scope_states": 5,
+  "max_possible_scope_states": 4,
+  "complete_dual_approved_pairs": 45,
+  "required_complete_pairs": 50,
+  "api_internal_reviews": 326,
+  "luna_internal_reviews": 240,
+  "api_train_supplement_reviews": 212,
+  "luna_train_supplement_reviews": 0,
+  "remote_gpu_verified": "NVIDIA GeForce RTX 4090 D; CUDA and BF16 true",
+  "remote_training_started": false,
+  "new_internal_frozen": false,
+  "independent100_accessed": false,
+  "final_test_accessed": false,
+  "v111_78_percent": "training-side v101 plus external-API mixed workflow, not local model accuracy",
+  "evidence": {
+    "scope_certificate_sha256": "bfb8f50f8af6f47bda4138f6cad4b84dd9962636337e3ba8f5dd07c943c7a591",
+    "internal_gate_sha256": "2532076efad26e8a9193e5633b7596e51a0aa607ff7e37a1b1ea0c5a94e52a63",
+    "train_gate_sha256": "650b96b10c755b2bdfcbf444d8e09585b77b057f5f559c8367cbd603c32e8e90"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "version": "v122-scope-feasibility-certificate-v1",
+  "candidate_packet_sha256": "c52530b04b559a4d7ab3cd932c1ddd5dd1d1fa89b6a4c101b4d73ece53a06ac8",
+  "api_reviewed": 326,
+  "api_approved_complete_pairs": 86,
+  "current_double_approved_scope_states": 4,
+  "potential_unreviewed_scope_states": 0,
+  "maximum_scope_states_under_frozen_pool": 4,
+  "required_scope_states": 5,
+  "scope_gate_mathematically_impossible": true,
+  "training_permitted": false,
+  "independent100_accessed": false,
+  "final_test_accessed": false
+}

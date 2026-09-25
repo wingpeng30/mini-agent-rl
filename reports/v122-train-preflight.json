@@ -1,0 +1,34 @@
+{
+  "version": "v122-targeted-train-gate-v1",
+  "checks": {
+    "contiguous_complete_double_reviewed_prefix": false,
+    "25_new_complete_pairs": false,
+    "at_least_20_new_relation_risk_states": false,
+    "395_states_211_questions_100_pairs": false,
+    "answer_45_to_55_percent": true,
+    "question_isolation": true,
+    "unique_states": true,
+    "v117_training_gate_preserved": true
+  },
+  "local_train_ready": false,
+  "training_allowed": false,
+  "candidate_questions": 120,
+  "candidate_states": 212,
+  "api_reviewed": 212,
+  "luna_reviewed": 0,
+  "luna_batches": [],
+  "approved_pairs": 0,
+  "selected_pairs": 0,
+  "combined_states": 345,
+  "combined_actions": {
+    "search": 189,
+    "answer": 156
+  },
+  "new_risk_states": {},
+  "gaps": {
+    "pairs": 25,
+    "relation_states": 20
+  },
+  "independent100_accessed": false,
+  "final_test_accessed": false
+}
