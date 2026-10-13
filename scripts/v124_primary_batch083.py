@@ -1,0 +1,45 @@
+"""Primary examination of v122 training-supplement candidate states 41–50."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (41, "Which record producer wrote \"Love Story\"", "repair_candidate", ["query_preselects_taylor_song_without_link", "song_title_ambiguous"],
+  "The initial Fearless article says Taylor Swift co-produced and wrote songs on that album, but it does not yet link the queried Love Story to Fearless. Searching the album title preselects Swift's song among works sharing that title; retrieval subsequently provides the specific song and its authorship.",
+  "Specify Taylor Swift's 2008 song in the question or first search the song title with a disambiguating clue, then replay.",
+  [("before_action", "Fearless (Taylor Swift album)", "Swift also made her debut as a record producer"), ("retrieved_after_search", "Love Story (Taylor Swift song)", "song was written by Swift")]),
+ (42, "Which record producer wrote \"Love Story\"", "repair_candidate", ["paired_song_title_ambiguous", "paired_query_preselects_album"],
+  "Taylor Swift is both a co-producer on Fearless and the documented writer of its Love Story single. The bare song title in the question and album-first query leave the identity of the intended Love Story ungrounded before search.",
+  "Use an explicitly Swift/Fearless-qualified song question after replay.",
+  [("before_action", "Fearless (Taylor Swift album)", "debut as a record producer"), ("before_action", "Love Story (Taylor Swift song)", "written by Swift")]),
+ (43, "Who released the song White Walls", "quarantine_pending_repair", ["album_label_confused_with_song_artist", "query_follows_hollis_debut_not_release"],
+  "The White Walls article names Macklemore & Ryan Lewis as the song's duo. The retrieved Heist album article says the album was self-released by the duo through Macklemore LLC, but does not establish that Macklemore LLC released the White Walls single. The query follows Hollis's album debut rather than the requested release entity.",
+  "Isolate the original pair. A new question asking which duo performed White Walls can use the direct song citation; a label question needs a single-specific release source.",
+  [("before_action", "White Walls", "song by an American hip hop duo Macklemore & Ryan Lewis"), ("retrieved_after_search", "The Heist (album)", "album was independently self-produced, self-recorded and self-released by the duo")]),
+ (44, "Who released the song White Walls", "quarantine_pending_repair", ["paired_album_label_used_as_single_releaser"],
+  "Macklemore LLC appears as the releasing company for The Heist album. The provided song source describes White Walls as a Macklemore & Ryan Lewis single but does not say Macklemore LLC released that single. The album's distributor cannot be silently transferred to the single.",
+  "Exclude this frozen answer; independently verify any single-label claim or rewrite to ask the performing duo.",
+  [("before_action", "White Walls", "song by an American hip hop duo Macklemore & Ryan Lewis"), ("before_action", "The Heist (album)", "released on October 9, 2012, by Macklemore LLC")]),
+ (45, "The person where local tradition says Cross Lake", "retain_candidate", ["query_uses_visible_hiawatha_name", "question_grammar"],
+  "The initial Cross Lake article cautiously attributes Hiawatha's boyhood home to local tradition and notes a competing Onondaga Lake tradition. The query quotes that alternative sentence but still names Hiawatha, retrieving his co-founder biography. The historical home claim remains qualified, not asserted as certain.", None,
+  [("before_action", "Cross Lake", "reputed in local tradition to be the boyhood home of Hiawatha"), ("retrieved_after_search", "Hiawatha", "co-founder of the Iroquois Confederacy")]),
+ (46, "The person where local tradition says Cross Lake", "repair_candidate", ["question_grammar", "tradition_requires_qualification"],
+  "The Hiawatha link and Iroquois Confederacy co-founding are supported, with Cross Lake explicitly framed as local tradition. The question's malformed wording should be corrected without removing that qualification.",
+  "Rewrite as 'According to local tradition, whose boyhood home was Cross Lake, and what confederacy did he co-found?' or a single-target equivalent, then replay.",
+  [("before_action", "Cross Lake", "reputed in local tradition to be the boyhood home of Hiawatha"), ("before_action", "Hiawatha", "co-founder of the Iroquois Confederacy")]),
+ (47, "In what year was the drama film in which Dorothy Duffy", "retain_candidate", ["query_uses_visible_actor_role"],
+  "Dorothy Duffy's initially visible biography names The Magdalene Sisters for her Rose/Patricia performance. Searching that sentence retrieves the film article, which dates it to 2002.", None,
+  [("before_action", "Dorothy Duffy", "Rose / Patricia in \"The Magdalene Sisters\""), ("retrieved_after_search", "The Magdalene Sisters", "2002 Irish-British drama film")]),
+ (48, "In what year was the drama film in which Dorothy Duffy", "retain_candidate", [],
+  "Duffy's role points to The Magdalene Sisters, and the film source identifies it as a 2002 drama. The year answer is supported by the two-document chain.", None,
+  [("before_action", "Dorothy Duffy", "Rose / Patricia in \"The Magdalene Sisters\""), ("before_action", "The Magdalene Sisters", "2002 Irish-British drama film")]),
+ (49, "The 1993 single \"Liquid Insects\"", "repair_candidate", ["question_typo_fro", "query_uses_visible_sampled_film"],
+  "The initial Liquid Insects article says the single samples Predator. Searching that sample sentence retrieves the 1987 Predator film article with director John McTiernan. The query is grounded; the question misspells 'from' as 'fro' and needs a separately replayed corrected form.",
+  "Correct the wording to 'sample from the sci-fi film Predator' while preserving the sampled-film relation, then replay.",
+  [("before_action", "Liquid Insects", "features a sample from the movie Predator"), ("retrieved_after_search", "Predator (film)", "directed by John McTiernan")]),
+ (50, "The 1993 single \"Liquid Insects\"", "repair_candidate", ["paired_question_typo"],
+  "Predator is explicitly the sampled movie and its article gives director John McTiernan. The answer is supported, but the frozen question has a visible typo and requires corrected re-tokenization and review.",
+  "Keep the answer only with a corrected, replayed question/action pair.",
+  [("before_action", "Liquid Insects", "sample from the movie Predator"), ("before_action", "Predator (film)", "directed by John McTiernan")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-083.jsonl", cohort="v122_train_candidates")

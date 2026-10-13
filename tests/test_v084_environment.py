@@ -37,3 +37,27 @@ def test_search_tool_does_not_consume_task_answer_metadata():
     corpus = [{"id": "1", "title": "A", "text": "evidence"}]
     tool = SearchTool(corpus, "bm25-v2")
     assert "answer" not in tool.corpus[0]
+
+
+def test_bm25_v3_paragraph_returns_distinct_pages_and_stable_paragraph_ties():
+    corpus = [
+        {"id": "p2", "title": "Alpha Page", "text": "bridge entity shared evidence", "paragraph_index": 2},
+        {"id": "p0", "title": "Alpha Page", "text": "bridge entity shared evidence", "paragraph_index": 0},
+        {"id": "q0", "title": "Beta Page", "text": "bridge entity shared evidence", "paragraph_index": 0},
+        {"id": "r0", "title": "Gamma Page", "text": "bridge entity shared evidence", "paragraph_index": 0},
+    ]
+    tool = SearchTool(corpus, "bm25-v3-paragraph")
+    first = tool._search("bridge entity")
+    second = tool._search("bridge entity")
+    assert first == second
+    assert len(first) == 3
+    assert len({row["title"] for row in first}) == 3
+    assert first[0]["id"] == "p0"
+
+
+def test_bm25_v2_keeps_duplicate_document_behavior():
+    corpus = [
+        {"id": "p2", "title": "Alpha Page", "text": "bridge entity shared evidence"},
+        {"id": "p0", "title": "Alpha Page", "text": "bridge entity shared evidence"},
+    ]
+    assert len(SearchTool(corpus, "bm25-v2")._search("bridge entity")) == 2

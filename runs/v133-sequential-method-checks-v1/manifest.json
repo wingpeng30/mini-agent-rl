@@ -1,0 +1,26 @@
+{
+  "stage_status_files": {
+    "AR": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-ar-constrained-evidence-v1/final-status.json",
+    "AS": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-as-frozen-recovery-inventory-v1/status.json",
+    "AT": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-at-supported-action-learning-v1/final-status.json",
+    "AU": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-au-frozen-reranking-v3/final-status.json"
+  },
+  "sha256": {
+    "AR": "42d6b4ef148598b6c5342802bf2462456b1dc05b52797f9f61ca4d3362eaea0e",
+    "AS": "32c6b0d39b8fca7ec368cc6550aea3e53139a8445f44186cbd5f4100cd4aa1a5",
+    "AT": "4a42cd9629e1cc4d80c995989f04d1ff7beac46872bdfebede4fb7f17cd1c902",
+    "AU": "cd7f90dbc7c3932046b0f290bb3f23a2dfaaa3069e07912d63dc0b0c83d434e6"
+  },
+  "accepted_components": [],
+  "research_parent": "AM42A",
+  "published_model": "Goal Z",
+  "counts": {
+    "generation": 968,
+    "search": 512,
+    "update": 256
+  },
+  "reranker_offline_queries": 130,
+  "reranker_offline_window_pairs": 2475,
+  "new_confirmation": 0,
+  "AV": "not triggered"
+}

@@ -15,9 +15,16 @@ local-model = ["transformers>=5.0,<6", "torch>=2.4", "accelerate>=1.0", "pillow>
 quant = ["bitsandbytes>=0.44"]
 train = ["transformers>=5.0,<6", "torch>=2.4", "accelerate>=1.0", "datasets>=3.0", "peft>=0.13", "trl>=0.12"]
 data = ["datasets>=3.0"]
+web = ["fastapi==0.136.1", "uvicorn==0.47.0"]
+retrieval = ["numpy>=1.26,<3", "transformers>=5.0,<6", "torch>=2.4"]
 
 [project.scripts]
 mini-agent-rl = "mini_agent_rl.cli:app"
+mini-agent-web = "mini_agent_rl.web.server:main"
+mini-agent-search = "mini_agent_rl.retrieval.cli:main"
+
+[tool.setuptools.package-data]
+"mini_agent_rl.web" = ["static/*"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

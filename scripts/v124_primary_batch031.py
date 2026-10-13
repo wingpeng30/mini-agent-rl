@@ -1,0 +1,47 @@
+"""Primary case examination of original training rows 301–310."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (301, "Vale of Tears is a novel", "repair_candidate", ["duplicate_training_action"],
+  "Same novel excerpt, partial copied query and Peter T. King 1944 birth result as row 300. No new evidence need or target is present.",
+  "Keep frozen input and deduplicate the question/action path after paired answer review.",
+  [("before_action", "Vale of Tears (novel)", "third novel by Peter T. King"), ("retrieved_after_search", "Peter T. King", "born April 5, 1944")]),
+ (302, "Vale of Tears is a novel", "repair_candidate", ["duplicate_training_action"],
+  "Third copy of the same Peter T. King search, despite two unrelated novel distractors. The retrieved birth year remains identical.",
+  "Preserve original and select at most one supported representative after paired replay.",
+  [("before_action", "Vale of Tears (novel)", "third novel by Peter T. King"), ("retrieved_after_search", "Peter T. King", "born April 5, 1944")]),
+ (303, "After Hours talk show", "retain_candidate", ["query_known_candidate_verifies_show", "duplicate_training_action_group"],
+  "Benza's birth date and gossip-columnist role are known before search. The name query retrieves A. J. After Hours and identifies him as its host, completing the show-host link. The question abbreviates the program title, but the cited program is identifiable.", None,
+  [("before_action", "A. J. Benza", "born June 2, 1962"), ("retrieved_after_search", "A. J. After Hours", "talk show, hosted by gossip columnist A. J. Benza")]),
+ (304, "After Hours talk show", "repair_candidate", ["duplicate_training_action"],
+  "Same Benza name query and A. J. After Hours hosting result as row 303 with different distractors. It adds no independent supervision.",
+  "Retain original row and deduplicate after paired answer check.",
+  [("before_action", "A. J. Benza", "born June 2, 1962"), ("retrieved_after_search", "A. J. After Hours", "hosted by gossip columnist A. J. Benza")]),
+ (305, "What was the original name of the college", "repair_candidate", ["present_tense_professorship_mismatch", "duplicate_training_action_group"],
+  "Ridl's excerpt says he was a professor at Hope College, not that he is one now. The search retrieves Hope College's opening as the Pioneer School. The target name is supported, but the question's present-tense employment premise is not.",
+  "Proposed question: What was the original name of Hope College, where Jack Ridl was a professor of English? Apply to all same-question states, replay and independently review.",
+  [("before_action", "Jack Ridl", "was a professor of English at Hope College"), ("retrieved_after_search", "Hope College", "opened in 1851 as the Pioneer School")]),
+ (306, "What was the original name of the college", "repair_candidate", ["present_tense_professorship_mismatch", "duplicate_training_action"],
+  "Same Jack Ridl sentence query and Pioneer School result as row 305. The source's past-tense professorship still conflicts with the question's 'is'.",
+  "Use the question-level past-tense repair and deduplicate after paired replay.",
+  [("before_action", "Jack Ridl", "was a professor of English at Hope College"), ("retrieved_after_search", "Hope College", "opened in 1851 as the Pioneer School")]),
+ (307, "What was the original name of the college", "repair_candidate", ["present_tense_professorship_mismatch", "duplicate_training_action"],
+  "Third copy of the same Ridl/Hope query and original-name evidence. Repetition does not validate the present-tense premise.",
+  "Keep frozen row but repair the whole question group and remove redundant labels in a later export.",
+  [("before_action", "Jack Ridl", "was a professor of English at Hope College"), ("retrieved_after_search", "Hope College", "opened in 1851 as the Pioneer School")]),
+ (308, "What was the original name of the college", "repair_candidate", ["present_tense_professorship_mismatch"],
+  "The answer Pioneer School is explicitly supported by Hope College's article, but the question says Ridl 'is' a professor while the visible biography says he 'was'. The answer label must be bound to corrected question wording.",
+  "Apply the same past-tense question repair to this answer state, then independently review its exact revised input.",
+  [("before_action", "Jack Ridl", "was a professor of English at Hope College"), ("before_action", "Hope College", "opened in 1851 as the Pioneer School")]),
+ (309, "What was the original name of the college", "repair_candidate", ["present_tense_professorship_mismatch", "duplicate_training_action"],
+  "Fourth copy of the same Ridl biography search and Hope College result; different unrelated professors do not change the missing school-origin relation.",
+  "Preserve original, repair tense across all paired states, then deduplicate the repeated query.",
+  [("before_action", "Jack Ridl", "was a professor of English at Hope College"), ("retrieved_after_search", "Hope College", "opened in 1851 as the Pioneer School")]),
+ (310, "The InterContinental Bucharest", "repair_candidate", ["ambiguous_plural_brand_scope", "group_operator_vs_brand_confusion"],
+  "The Bucharest article says the hotel was operated by InterContinental Hotels Group; retrieval lists many IHG brands. The question's 'related to what other Hotel brands?' does not specify whether it asks for the operator, all sister brands, or a particular brand subset, and no single answer is determined by this wording.",
+  "Inspect paired answer and official source question before proposing a narrow operator or named-brand question. Do not infer an arbitrary brand list from retrieval ranking.",
+  [("before_action", "InterContinental Bucharest", "operated by InterContinental Hotels Group"), ("retrieved_after_search", "InterContinental Hotels Group", "Its brands include Candlewood Suites, Crowne Plaza, EVEN Hotels, Holiday Inn")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-031.jsonl")

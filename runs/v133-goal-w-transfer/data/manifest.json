@@ -1,0 +1,225 @@
+{
+  "candidate_prefilter": {
+    "candidate_rows_materialized": 1726,
+    "category_counts": {
+      "confirm": {
+        "affiliation": 8,
+        "entity_type": 49,
+        "occupation": 42,
+        "origin": 29
+      },
+      "dev": {
+        "affiliation": 8,
+        "entity_type": 48,
+        "occupation": 46,
+        "origin": 26
+      },
+      "train": {
+        "affiliation": 28,
+        "entity_type": 198,
+        "occupation": 209,
+        "origin": 77
+      }
+    },
+    "category_quota_diagnostics_not_audit": {
+      "deficits": {
+        "confirm": {
+          "affiliation": 0,
+          "entity_type": 0,
+          "occupation": 0,
+          "origin": 0
+        },
+        "dev": {
+          "affiliation": 0,
+          "entity_type": 0,
+          "occupation": 0,
+          "origin": 0
+        },
+        "train": {
+          "affiliation": 0,
+          "entity_type": 0,
+          "occupation": 0,
+          "origin": 0
+        }
+      },
+      "requirements": {
+        "confirm": 8,
+        "dev": 8,
+        "train": 16
+      }
+    },
+    "not_final_or_audited": true,
+    "postselection_rejection_reason_counts": {
+      "cross_split_title_or_entity_overlap": 82,
+      "duplicate_or_unmaterialized_candidate": 1,
+      "empty_or_boolean_official_answer": 355,
+      "historical_or_within_split_entity_overlap": 47,
+      "historical_or_within_split_title_overlap": 140
+    },
+    "preselection_rejection_reason_counts": {
+      "empty_or_boolean_official_answer": 924
+    },
+    "selected_counts": {
+      "confirm": 128,
+      "dev": 128,
+      "train": 512
+    },
+    "selection": "single source pass; question-only common/comparison lexical locator; deterministic per-category SHA256 ordering and round-robin across four lexical classes; then source ID/question/title/entity exclusion and >=2 official supporting titles",
+    "selection_diagnostics": {
+      "selection_counts": {
+        "confirm:affiliation": 8,
+        "confirm:cross_split_title_or_entity_reject": 139,
+        "confirm:entity_type": 49,
+        "confirm:occupation": 42,
+        "confirm:origin": 29,
+        "confirm:overlap_or_support_reject": 143,
+        "dev:affiliation": 8,
+        "dev:cross_split_title_or_entity_reject": 108,
+        "dev:entity_type": 48,
+        "dev:occupation": 46,
+        "dev:origin": 26,
+        "dev:overlap_or_support_reject": 125,
+        "train:affiliation": 28,
+        "train:cross_split_title_or_entity_reject": 56,
+        "train:entity_type": 198,
+        "train:occupation": 209,
+        "train:origin": 77,
+        "train:overlap_or_support_reject": 160
+      },
+      "split_entity_keys": {
+        "confirm": 361,
+        "dev": 374,
+        "train": 1522
+      },
+      "split_support_titles": {
+        "confirm": 256,
+        "dev": 256,
+        "train": 1024
+      }
+    },
+    "unreviewed_candidates_seen": 2650
+  },
+  "checks": {
+    "candidate_question_id_title_split_overlap": 0,
+    "confirm_questions_or_labels_used_in_training_or_dev": false,
+    "corpus_title_overlap": 0
+  },
+  "corpora": {
+    "details": {
+      "documents": {
+        "confirm": {
+          "documents": 2048,
+          "natural_distractors": 1792,
+          "support_documents": 256,
+          "title_set_sha256": "e56a0a296a6e65855b6fdbc3a66ad4a3a5ddd00fabcb4f3961042627414b18fa"
+        },
+        "dev": {
+          "documents": 2048,
+          "natural_distractors": 1792,
+          "support_documents": 256,
+          "title_set_sha256": "fe9a60a1021d7015308afb94a7118519edbe0629508144a7573b1deaa8f4c795"
+        },
+        "train": {
+          "documents": 2048,
+          "natural_distractors": 1024,
+          "support_documents": 1024,
+          "title_set_sha256": "8f6593c17de47378499635e8799d46f51cf7453f5a2266eebef52efe7d1bf825"
+        }
+      },
+      "source_rows_scanned_for_distractors": 768
+    },
+    "documents_per_split": 2048,
+    "selection": "candidate official support paragraphs plus natural Hotpot context paragraphs from the source prefix needed to fill each split; document ranking is deterministic SHA256 within split; historical titles excluded; title sets disjoint"
+  },
+  "gpu_used": false,
+  "historical_exclusions": {
+    "exclusion_key_counts": {
+      "ids": 15087,
+      "questions": 11887,
+      "titles": 3014
+    },
+    "goal_g_exposure_input_sha256": {
+      "configs/v118-sft.json": "b58095d6c886d717ba311b95e547fe1bc841225e8bb9baf971558322e7abb8d7",
+      "data/evidence-sft-v117/candidate-freeze.json": "7b06024a9bbefc586ba37fc3645f4da53c6f3943addd35a848c7df249a34e726",
+      "data/evidence-sft-v117/candidate-private.jsonl": "2a3bfa15039f6e725c9692d1dbcfc7a7c3c0ac9c16ac65f1076d3e2d8aad2c7d",
+      "data/evidence-sft-v117/frozen/train.jsonl": "26ced5bafb5210fefe9b007915598c8d58d2ebec156e938a48d86e1f1577ad8b",
+      "data/evidence-sft-v122-internal-candidates/candidate-freeze.json": "d71620a8f654d8b540e0da8ffa9d79450d02d7b961912b4056b1e59a2fb69db1",
+      "data/evidence-sft-v122-internal-candidates/candidate-private.jsonl": "e5caa44fb622d2d6fb3ccc00d46fdc522c62255a3b4ce6f8c9421575de64a865",
+      "data/evidence-sft-v122-internal-candidates/history-private.json": "2408bf9e815aa7821ccf3af12827379deb1a2e35ec89a54c1d3ccb0c6efc2eed",
+      "data/evidence-sft-v122-train-candidates/candidate-freeze.json": "a06a0ac146876eb615de1fd19715722a4311d7b2d534f0bb597ea601592eed6d",
+      "data/evidence-sft-v122-train-candidates/candidate-private.jsonl": "d497f05d293fb3f46c48767767416ca61d5cca0637cd657b1860c1c6ee692fa4",
+      "data/evidence-sft-v122-train-candidates/history-private.json": "685c3fb444f491e7eb7a63d8bb886123e7b1eb3acd6b0a13b9f45b1504a86033",
+      "data/evidence-sft-v123/internal/screened-source-private.jsonl": "062da989c935d99f009f85e0e074693cd1428430a33cb784a4c5606dc14ec11b",
+      "data/evidence-sft-v124-forensic/goal-v128/g4-new-pool/screened-source-private.jsonl": "94a5c479e63798ad370f168bebc197d33e0d4e1fb876c8962fdaba07273e3eb2",
+      "data/evidence-sft-v133-goal-c-private/frozen/dev-candidate.jsonl": "23cde9d8f25376d469c91128742ca647fc4d84afe04b2009e38e571198780e58",
+      "data/evidence-sft-v133-goal-c-private/frozen/dev-source-index-private.jsonl": "d181223146723fc9387d488c9d35426883d716fee51c5cfae0db8d34f75f66d3",
+      "data/evidence-sft-v133-goal-c-private/frozen/train-candidate.jsonl": "b4d38e1e99886e3a254a6e881a28b7a36194f7f185b686a64dc7dbdf449ee9df",
+      "data/evidence-sft-v133-goal-c-private/frozen/train-review-index-private.jsonl": "05ead6c0d52289f8d63c6a0204a4c90ff890d30ff900de9f736b44f5fc383bca",
+      "data/evidence-sft-v133-goal-c-private/screen-ledger-private.jsonl": "161f93118f95283f27dd5423c2cb3827c342c0257bd95b3ab2d8eb8f96c1c87e",
+      "data/evidence-sft-v133-goal-c-private/source-map-private.jsonl": "f68f5aa9598dfe0b18dbb42535357292c360021481dd15a564012fd9b96ce547"
+    },
+    "goal_g_ids": 15087,
+    "goal_g_questions": 11778,
+    "goal_g_titles": 830,
+    "reconstructed_goal_v": {
+      "rows": 300,
+      "scanned": 648,
+      "supporting_documents": 600,
+      "task_id_sha256": "c8f575d8d55cb32937d1b649213f81c20dbaaa007e87d291ef8c9d8c11e89432"
+    },
+    "reconstruction_method": "official distractor/train parquet in source order; replay v072 selection rules excluding v041 train/validation/test IDs and supporting titles; verify count, scan count, title count, and task-id digest against v072 manifest; never open final-test.jsonl",
+    "v041_ids": 800,
+    "v041_questions": 800,
+    "v041_split_sha256": {
+      "data\\hotpot-agent-v041\\test.jsonl": "47797633b2ed6b6ca97ab9484557913841cb4236ce8c3e89700cf53c1a20f8df",
+      "data\\hotpot-agent-v041\\train.jsonl": "7af11132e44fbcbf97cd0dad259294f722a8520e78d610f0b7887cb4d7c7c042",
+      "data\\hotpot-agent-v041\\validation.jsonl": "9b703d6aeea332ed4a55d0c017f1e5d8ff88a96590ab1872ff4d3bafb6b9ca0a"
+    },
+    "v041_titles": 1600
+  },
+  "model_or_api_used": false,
+  "outputs": {
+    "candidate-confirm.jsonl": {
+      "bytes": 39056,
+      "sha256": "3268687a2e63284ce09d2cf97bd30be6212ce096b7f6959726499ee97fa48adf"
+    },
+    "candidate-dev.jsonl": {
+      "bytes": 39241,
+      "sha256": "21e5fe98b26b22b470b09a2924bf546cf00295b15ded53b849f03181c5ea2686"
+    },
+    "candidate-rejection-ledger.jsonl": {
+      "bytes": 162033,
+      "sha256": "024dd2790f9a6a66360d34c0486d77875d06ce6508964baa62f8531c1267ba91"
+    },
+    "candidate-train.jsonl": {
+      "bytes": 156416,
+      "sha256": "3a957128fe7cf3805876f33ec4d8a96426aa5dab9973725fbb8c1a36efa95f07"
+    },
+    "corpus-confirm.json": {
+      "bytes": 1352877,
+      "sha256": "7b82aa434baef7eed83f7d7a1151aa28b7f0f77c9c155fccb0ac0dc165813286"
+    },
+    "corpus-dev.json": {
+      "bytes": 1346948,
+      "sha256": "58fba49c58df49297c58e94585ea2e196436118e681d538afcfe8ccc401a7f56"
+    },
+    "corpus-train.json": {
+      "bytes": 1174474,
+      "sha256": "270bf4afd51482debcf5b9507e9d57db95330af25ed545bc0576028902bcc50e"
+    }
+  },
+  "sealed_jsonl_read": false,
+  "source": {
+    "config": "distractor",
+    "dataset": "hotpotqa/hotpot_qa",
+    "files": {
+      "train-00000-of-00002.parquet": "76d3bb3048a7cc73c1958107c0c5872a00d7e7d00c105b81e92f6769e7822e68",
+      "train-00001-of-00002.parquet": "713661628434fbb19fff7392e2e321e4ed107e3c7c7784d0690946e5f722763f"
+    },
+    "provenance_sha256": "206230fdfc21f1209f955244300c8b16c72650ca23adfb74d0d3e9addf8c4494",
+    "rows": 90447,
+    "split": "train"
+  },
+  "status": "bounded_unreviewed_candidate_pools_prepared",
+  "version": "goal-w-data-candidates-v1"
+}

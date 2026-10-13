@@ -1,0 +1,46 @@
+"""Primary examination of v122 internal candidate states 261–270."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (261, "What Puliter Prize winner", "repair_candidate", ["query_omits_visible_friend_and_targets_education", "question_typo_puliter"],
+  "Royal Nebeker's initial biography names Gary Snyder as a friend. The query instead copies Nebeker's education/sabbatical details and misspells Pulitzer in the question; retrieval happens to bring in Snyder and his Pulitzer qualification. The answer is supported, but the search is misdirected.",
+  "Correct 'Pulitzer' and search Gary Snyder from the visible friend sentence; replay.",
+  [("before_action", "Royal Nebeker", "Nebeker was friends with Gary Snyder and Robert Redford"), ("retrieved_after_search", "Gary Snyder", "winner of a Pulitzer Prize for Poetry")]),
+ (262, "What Puliter Prize winner", "repair_candidate", ["paired_query_omits_visible_friend", "paired_question_typo"],
+  "Gary Snyder is a documented friend and Pulitzer poetry winner. The preceding search omitted his name and used unrelated education details, and the question misspells the prize.",
+  "Retain Snyder only in a corrected, replayed pair.",
+  [("before_action", "Royal Nebeker", "friends with Gary Snyder"), ("before_action", "Gary Snyder", "winner of a Pulitzer Prize for Poetry")]),
+ (263, "What prospect did CO  Les Ulis", "repair_candidate", ["query_copies_unrelated_famous_alumni", "question_grammar"],
+  "The initial club article already lists Anthony Martial among youth prospects. The query copies a separate sentence about Patrice Evra and Thierry Henry, not Martial, and asks an ungrammatical 'What prospect did ... developed' question. Retrieval happens to include Martial's 1995 birth date.",
+  "Search Anthony Martial from the visible prospect list and correct the question to 'Which prospect did CO Les Ulis develop who was born on 5 December 1995?'; replay.",
+  [("before_action", "CO Les Ulis", "emerging youth prospects, such as Anthony Martial"), ("retrieved_after_search", "Anthony Martial", "born 5 December 1995")]),
+ (264, "What prospect did CO  Les Ulis", "repair_candidate", ["paired_query_targets_other_alumni", "paired_question_grammar"],
+  "Anthony Martial is directly supported as a developed youth prospect, and his biography gives 5 December 1995. The frozen search nevertheless targets different alumni, and the question needs grammatical repair.",
+  "Retain Martial only after a grounded query and corrected question are replayed.",
+  [("before_action", "CO Les Ulis", "emerging youth prospects, such as Anthony Martial"), ("before_action", "Anthony Martial", "born 5 December 1995")]),
+ (265, "Sayori Ishizuka is a Japanese voice actress", "repair_candidate", ["query_targets_unlinked_other_sayori_manga", "retrieval_luckily_finds_MAR"],
+  "Sayori Ishizuka's initial article lists MÄR and To Heart 2 among her voice work. A separate initial article on Gingitsune names a different Sayori, Ochiai, as its creator. The query copies Gingitsune's Ochiai line, which is unrelated to Ishizuka's MÄR credit; retrieval happens to surface MÄR and its author Nobuyuki Anzai.",
+  "Search MÄR from Ishizuka's visible credits, then replay the author answer.",
+  [("before_action", "Sayori Ishizuka", "such as \"MÄR\" and \"To Heart 2\""), ("before_action", "Gingitsune", "written and illustrated by Sayori Ochiai"), ("retrieved_after_search", "MÄR", "written and illustrated by Nobuyuki Anzai")]),
+ (266, "Sayori Ishizuka is a Japanese voice actress", "repair_candidate", ["paired_query_targets_unlinked_other_sayori_manga"],
+  "Nobuyuki Anzai is supported as MÄR's creator, and Ishizuka's source names MÄR among her voice work. The preceding query wrongly targeted Gingitsune and Sayori Ochiai, so the pair cannot be retained unchanged.",
+  "Retain Anzai only after an MÄR-targeted query and paired replay.",
+  [("before_action", "Sayori Ishizuka", "such as \"MÄR\" and \"To Heart 2\""), ("before_action", "MÄR", "written and illustrated by Nobuyuki Anzai")]),
+ (267, "What German composer wrote Happy End", "retain_candidate", ["search_verifies_visible_composer_candidate"],
+  "The initial Kurt Weill biography identifies him as a German stage composer but does not mention Happy End. Searching his name retrieves the Happy End musical article naming him as a creator. The composer qualification and work are now linked.", None,
+  [("before_action", "Kurt Weill", "was a German composer"), ("retrieved_after_search", "Happy End (musical)", "by Kurt Weill, Elisabeth Hauptmann, and Bertolt Brecht")]),
+ (268, "What German composer wrote Happy End", "retain_candidate", [],
+  "Kurt Weill is the German composer named among Happy End's creators. The answer is supported without attributing sole authorship of the musical to him.", None,
+  [("before_action", "Kurt Weill", "was a German composer"), ("before_action", "Happy End (musical)", "by Kurt Weill, Elisabeth Hauptmann, and Bertolt Brecht")]),
+ (269, "The Habbaniya is a part of the Baggara", "quarantine_pending_repair", ["wrong_arabic_root_bedouin_vs_baggara", "retrieval_contains_correct_and_wrong_terms"],
+  "The question asks the Arabic origin of Baggara. Retrieval says Baggara derives from Arabic بقارة, 'cattle herder'; another retrieved article says badawī is the source of Bedouin, meaning desert dweller. The frozen answer selects the Bedouin root, not the Baggara root.",
+  "Exclude the frozen pair. A corrected answer should use the Baggara etymology as explicitly shown, after a separately bound search and independent review.",
+  [("before_action", "Habbaniya tribe", "Bedouin Baggara people"), ("retrieved_after_search", "Baggara", "Their name derives from the Arabic word"), ("retrieved_after_search", "Bedouin", "bedouin\" comes from the Arabic \"badawī\"")]),
+ (270, "The Habbaniya is a part of the Baggara", "quarantine_pending_repair", ["answer_is_bedouin_root_not_baggara_root"],
+  "The Baggara article gives an Arabic term meaning cattle herder; badawī is explicitly identified in the Bedouin article instead. The proposed answer follows the adjacent Bedouin descriptor and is wrong for the named Baggara people.",
+  "Keep quarantined; any corrected etymology needs a versioned answer and independent review.",
+  [("before_action", "Baggara", "literally meaning \"cattle herder\""), ("before_action", "Bedouin", "bedouin\" comes from the Arabic \"badawī\"")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-072.jsonl", cohort="v122_internal_candidates")

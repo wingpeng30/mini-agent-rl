@@ -1,0 +1,45 @@
+"""Primary examination of v122 internal candidate states 301–310."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (301, "The composer of Prelude in F-sharp minor", "retain_candidate", ["query_uses_visible_composer_link"],
+  "The prelude article already identifies Sergei Rachmaninoff as composer. Its quoted sentence uses his surname to retrieve his biography, where 1873 appears. Although a direct name query would be clearer, this query is grounded and fills the missing birth year.", None,
+  [("before_action", "Prelude in F-sharp minor (Rachmaninoff)", "composition by Sergei Rachmaninoff"), ("retrieved_after_search", "Sergei Rachmaninoff", "1873")]),
+ (302, "The composer of Prelude in F-sharp minor", "retain_candidate", [],
+  "The prelude article names Sergei Rachmaninoff and his biography gives 1873 as his birth year. The title is qualified by the prelude source and the two-document answer is supported.", None,
+  [("before_action", "Prelude in F-sharp minor (Rachmaninoff)", "composition by Sergei Rachmaninoff"), ("before_action", "Sergei Rachmaninoff", "1873")]),
+ (303, "When was the host of Reality Check born", "retain_candidate", ["query_uses_visible_host_relation"],
+  "Among several Reality Check entities, the visible Australian television article identifies Tom Ballard as host. Searching its host sentence retrieves Ballard's dated biography. The query has action-time grounding.", None,
+  [("before_action", "Reality Check (Australian TV series)", "hosted by Tom Ballard"), ("retrieved_after_search", "Tom Ballard", "born 8 July 1989")]),
+ (304, "When was the host of Reality Check born", "repair_candidate", ["question_show_title_ambiguous"],
+  "For the Australian television series, Tom Ballard is the host and 8 July 1989 is supported. The bare show title Reality Check is not unique across media, and the input contains other works of that name; qualify the program to avoid a referent shift.",
+  "Specify the Australian television panel program in the question and replay the pair.",
+  [("before_action", "Reality Check (Australian TV series)", "hosted by Tom Ballard"), ("before_action", "Tom Ballard", "born 8 July 1989")]),
+ (305, "Where was the hip hop group with a compilation", "repair_candidate", ["query_uses_song_title_instead_of_group_location"],
+  "The initial Greatest Messages article explicitly names Grandmaster Flash & the Furious Five. Searching another song's title happens to retrieve the group biography and its formation location, but a direct group-location query would target the missing fact.",
+  "Query Grandmaster Flash and the Furious Five formation location, then replay.",
+  [("before_action", "Greatest Messages", "compilation album release by Grandmaster Flash & the Furious Five"), ("retrieved_after_search", "Grandmaster Flash and the Furious Five", "formed in the South Bronx of New York City")]),
+ (306, "Where was the hip hop group with a compilation", "repair_candidate", ["paired_query_indirect_song_title"],
+  "The compilation source identifies the group and the retrieved group article clearly says it formed in the South Bronx. The answer is supported, but the paired search uses an indirect song title instead of the missing formation fact.",
+  "Retain the answer with a replayed direct group-location search.",
+  [("before_action", "Greatest Messages", "Grandmaster Flash & the Furious Five"), ("before_action", "Grandmaster Flash and the Furious Five", "formed in the South Bronx of New York City")]),
+ (307, "Which debuted earlier, Tarzan or Amy", "repair_candidate", ["bare_titles_ambiguous", "question_uses_debut_for_film_year"],
+  "The visible Amy is a 1981 film and retrieval finds the 1999 Disney Tarzan film. Both titles name other works; without film/year or studio qualifiers, the question does not uniquely specify the comparison. The query only restates Amy's synopsis and does not disambiguate Tarzan.",
+  "Specify the 1981 Disney film Amy and the 1999 Disney animated film Tarzan, and compare their release years after replay.",
+  [("before_action", "Amy (1981 film)", "Amy is a 1981 American family drama film"), ("retrieved_after_search", "Tarzan (1999 film)", "Tarzan is a 1999 American animated drama adventure film")]),
+ (308, "Which debuted earlier, Tarzan or Amy", "repair_candidate", ["paired_bare_titles_ambiguous"],
+  "Amy precedes the 1999 animated Tarzan film by the dates in the two articles. The original bare titles and 'debuted' wording do not reliably limit the comparison to these two films.",
+  "Use an explicitly film-specific revised question; preserve Amy only after the pair is replayed.",
+  [("before_action", "Amy (1981 film)", "Amy is a 1981 American family drama film"), ("before_action", "Tarzan (1999 film)", "Tarzan is a 1999 American animated drama adventure film")]),
+ (309, "What German composer born in 1900", "repair_candidate", ["question_assigns_premiere_to_composer", "question_premier_spelling"],
+  "The visible Mack the Knife article credits Kurt Weill as composer and says the song premiered at the Berlin theater in 1928. The question grammatically assigns the premiere to the composer himself; the retrieved biography confirms his German identity and 1900 birth. The query is grounded, but the question relation must be stated as his composition's premiere.",
+  "Ask which German composer born in 1900 composed a song premiered there in 1928, then replay.",
+  [("before_action", "Mack the Knife", "song composed by Kurt Weill"), ("before_action", "Mack the Knife", "It premiered in Berlin in 1928 at the Theater am Schiffbauerdamm"), ("retrieved_after_search", "Kurt Weill", "March 2, 1900")]),
+ (310, "What German composer born in 1900", "repair_candidate", ["paired_composer_premiere_relation_error"],
+  "Kurt Weill is the German composer born in 1900, and Mack the Knife premiered at the named theater in 1928. The original question misleadingly says the composer had a premiere there rather than his work.",
+  "Keep Kurt Weill with a corrected work-specific question after replay.",
+  [("before_action", "Mack the Knife", "song composed by Kurt Weill"), ("before_action", "Kurt Weill", "March 2, 1900")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-076.jsonl", cohort="v122_internal_candidates")

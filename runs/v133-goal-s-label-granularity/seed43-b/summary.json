@@ -1,0 +1,8 @@
+{
+  "base_unchanged": true,
+  "changed_lora": 192,
+  "checkpoint_sha256": "cfda687a0fd6de18ceba6cc7edb416118364d506ebe3ab0305b0542211bfad39",
+  "reload_max_abs": 0.0,
+  "status": "passed",
+  "updates": 64
+}

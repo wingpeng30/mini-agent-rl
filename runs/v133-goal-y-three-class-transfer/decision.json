@@ -1,0 +1,159 @@
+{
+  "arm_gates": {
+    "a": {
+      "dev_success": [
+        42,
+        41
+      ],
+      "qualified": false,
+      "required_each": 43
+    },
+    "b": {
+      "dev_success": [
+        41,
+        41
+      ],
+      "qualified": false,
+      "required_each": 43
+    }
+  },
+  "checkpoint_release": false,
+  "confirmation_opened": false,
+  "development": {
+    "42-a": {
+      "both_support_retrieved": 47,
+      "by_category_success": {
+        "entity_type": 13,
+        "occupation": 15,
+        "source": 14
+      },
+      "factual_or_unsupported": 4,
+      "fixed_em": 36,
+      "gained_ids": [
+        "5a820542554299676cceb1e8",
+        "5a88b8fb554299206df2b341",
+        "5ade30b955429939a52fe859"
+      ],
+      "invalid": 0,
+      "lost_ids": [
+        "5ab74fa55542993667793fba"
+      ],
+      "missing_qualifier": 1,
+      "old_em": 20,
+      "old_regression_em": 7,
+      "one_sided_error": 3,
+      "searches": 50,
+      "strict_em": 36,
+      "success": 42,
+      "undetermined": 1
+    },
+    "42-b": {
+      "both_support_retrieved": 46,
+      "by_category_success": {
+        "entity_type": 11,
+        "occupation": 15,
+        "source": 15
+      },
+      "factual_or_unsupported": 5,
+      "fixed_em": 35,
+      "gained_ids": [
+        "5a88b8fb554299206df2b341"
+      ],
+      "invalid": 0,
+      "lost_ids": [],
+      "missing_qualifier": 0,
+      "old_em": 20,
+      "old_regression_em": 7,
+      "one_sided_error": 4,
+      "searches": 50,
+      "strict_em": 35,
+      "success": 41,
+      "undetermined": 2
+    },
+    "43-a": {
+      "both_support_retrieved": 46,
+      "by_category_success": {
+        "entity_type": 12,
+        "occupation": 15,
+        "source": 14
+      },
+      "factual_or_unsupported": 4,
+      "fixed_em": 34,
+      "gained_ids": [
+        "5a820542554299676cceb1e8",
+        "5a88b8fb554299206df2b341"
+      ],
+      "invalid": 0,
+      "lost_ids": [
+        "5ab74fa55542993667793fba"
+      ],
+      "missing_qualifier": 1,
+      "old_em": 20,
+      "old_regression_em": 7,
+      "one_sided_error": 3,
+      "searches": 51,
+      "strict_em": 35,
+      "success": 41,
+      "undetermined": 2
+    },
+    "43-b": {
+      "both_support_retrieved": 45,
+      "by_category_success": {
+        "entity_type": 11,
+        "occupation": 15,
+        "source": 15
+      },
+      "factual_or_unsupported": 5,
+      "fixed_em": 35,
+      "gained_ids": [
+        "5a88b8fb554299206df2b341"
+      ],
+      "invalid": 0,
+      "lost_ids": [],
+      "missing_qualifier": 0,
+      "old_em": 20,
+      "old_regression_em": 7,
+      "one_sided_error": 4,
+      "searches": 49,
+      "strict_em": 34,
+      "success": 41,
+      "undetermined": 2
+    },
+    "incumbent": {
+      "both_support_retrieved": 47,
+      "by_category_success": {
+        "entity_type": 10,
+        "occupation": 15,
+        "source": 15
+      },
+      "factual_or_unsupported": 5,
+      "fixed_em": 34,
+      "gained_ids": [],
+      "invalid": 0,
+      "lost_ids": [],
+      "missing_qualifier": 0,
+      "old_em": 20,
+      "old_regression_em": 7,
+      "one_sided_error": 4,
+      "searches": 49,
+      "strict_em": 34,
+      "success": 40,
+      "undetermined": 3
+    }
+  },
+  "old_semantic_review": "not_required_after_development_gate_failure",
+  "original_48_pair_plan": "stopped_for_data_shortfall_12_8_5",
+  "reason": "Neither route gained at least 3/48 semantic successes in both seeds",
+  "selected": "goal-t-incumbent",
+  "small_experiment_pairs": 25,
+  "source_adapter": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-t-update-length/seed42/update32/adapter-final",
+  "source_hashes": {
+    "baseline-semantic-rows.jsonl": "10626c969a20ae1f65a3535720f297b0e22593268a094edceb10afa57d936be9",
+    "dev-freeze.json": "821df9b5050189bfb3f5d095107f2458a9be187be2797c030eb94c89197bc9cf",
+    "dev-semantic-delta-map.json": "95250d3fe5d67ac250f023856d24803c9f2b588a587c301d13cf82e8507daf8a",
+    "dev-semantic-delta-rows.jsonl": "cb495e99780aca639e0351576e10bde750d87030e4e317af71a2621c10ff04d0",
+    "dev-semantic-main-corrections.jsonl": "2f647ae9d59d1cc6bafe467d9d63874404b2d6c7fb6ed2c4b96765ef85b0b207",
+    "pairs.json": "e3a5654dac2ae983eeeace6816d96bf3f572e4fa3911359e006128ca760fb11f"
+  },
+  "status": "complete_development_gate_failed"
+}

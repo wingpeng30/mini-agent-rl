@@ -1,0 +1,7 @@
+{
+  "config_sha256": "5c22a70de85ca2ac9d64fff2e43077c44fe3a8d2dcaf581910f4fefc9cc6cd88",
+  "gpu_seconds_used": 952.772,
+  "gpu_started_unix": 1790601353.2562845,
+  "stage": "O3",
+  "status": "EXPERIMENT_COMPLETE"
+}

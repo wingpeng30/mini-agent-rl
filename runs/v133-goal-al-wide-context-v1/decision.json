@@ -1,0 +1,141 @@
+{
+  "categories": {
+    "A": {
+      "factual_error": 2,
+      "incomplete_required_qualifier": 1,
+      "no_answer_repeated_action": 1,
+      "success": 19,
+      "unsupported_by_visible_evidence": 6
+    },
+    "B": {
+      "factual_error": 3,
+      "incomplete_required_qualifier": 1,
+      "no_answer_repeated_action": 2,
+      "success": 19,
+      "unsupported_by_visible_evidence": 4
+    }
+  },
+  "complete_chain_visible": {
+    "A": 22,
+    "B": 24
+  },
+  "config": {
+    "A": {
+      "action_completion": "first-json-v1",
+      "device": "cuda",
+      "dtype": "bfloat16",
+      "load_in_4bit": false,
+      "max_input_tokens": 2048,
+      "max_model_calls_per_case": 4,
+      "max_new_tokens": 128,
+      "max_searches_per_case": 3,
+      "observation_encoding": "legacy",
+      "retriever": "bm25-v2",
+      "system_prompt": "direct-v090",
+      "thinking": false,
+      "timeout": null,
+      "top_k": 3
+    },
+    "B": {
+      "action_completion": "first-json-v1",
+      "device": "cuda",
+      "dtype": "bfloat16",
+      "load_in_4bit": false,
+      "max_input_tokens": 16384,
+      "max_model_calls_per_case": 4,
+      "max_new_tokens": 2048,
+      "max_searches_per_case": 3,
+      "observation_encoding": "legacy",
+      "retriever": "bm25-v2",
+      "system_prompt": "direct-v090",
+      "thinking": false,
+      "timeout": null,
+      "top_k": 3
+    }
+  },
+  "counts": {
+    "generations": 398,
+    "searches": 260
+  },
+  "entity_relation_mismatch": {
+    "A": 7,
+    "B": 7
+  },
+  "errors": {
+    "A": 8,
+    "B": 7
+  },
+  "fixed_denominator": 64,
+  "gates": {
+    "factual_plus_unsupported_not_higher": true,
+    "invalid_or_repeated_not_higher": false,
+    "protection_losses_at_most_one": true,
+    "supported_net_plus_two": false
+  },
+  "goal": "AL",
+  "metrics": {
+    "A": {
+      "EM": 24,
+      "F1": 0.48643353174603177,
+      "body_trimmed": 4,
+      "calls": 194,
+      "cases": 64,
+      "deleted": 0,
+      "generation_latency_denominator": 190,
+      "invalid_or_repeated": 7,
+      "length_stops": 0,
+      "max_input": 1997,
+      "max_output": 29,
+      "mean_generation_seconds": 0.6625286166016993,
+      "mean_question_seconds": 2.040734521275948,
+      "ordinary_invalid_or_repeated": 4,
+      "overbudget_search_attempts": 3,
+      "parse_invalid": 0,
+      "question_latency_denominator": 63,
+      "repeated": 4,
+      "searches": 130
+    },
+    "B": {
+      "EM": 23,
+      "F1": 0.4833085317460317,
+      "body_trimmed": 0,
+      "calls": 194,
+      "cases": 64,
+      "deleted": 0,
+      "generation_latency_denominator": 194,
+      "invalid_or_repeated": 8,
+      "length_stops": 0,
+      "max_input": 2631,
+      "max_output": 29,
+      "mean_generation_seconds": 0.68315280774205,
+      "mean_question_seconds": 2.1143717083032243,
+      "ordinary_invalid_or_repeated": 5,
+      "overbudget_search_attempts": 3,
+      "parse_invalid": 0,
+      "question_latency_denominator": 64,
+      "repeated": 5,
+      "searches": 130
+    }
+  },
+  "model_sha256": "d15d3864c1ccb810a6be7e5719d7b5d0ac87c353408ed85d973bb6393ff16b52",
+  "next_route": "Stop this wide-budget upgrade route; prepare one bounded entity-role and answer/search-decision intervention under complete visible evidence, no new execution in AL.",
+  "passed": false,
+  "protected_lost": [],
+  "released": false,
+  "review_maximum": 58,
+  "review_unique_combinations": 32,
+  "semantic_denominator": 29,
+  "semantic_scoring": "AL primary one-pass keyed review; equivalent surnames/counties accepted symmetrically; old scores preserved",
+  "status": "complete",
+  "supported_gained": [
+    "2wiki:764039340bde11eba7f7acde48001122"
+  ],
+  "supported_lost": [
+    "2wiki:1dd33f080bde11eba7f7acde48001122"
+  ],
+  "supported_success": {
+    "A": 19,
+    "B": 19
+  },
+  "unconfirmed": 35
+}

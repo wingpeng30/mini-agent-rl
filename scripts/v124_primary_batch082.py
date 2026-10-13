@@ -1,0 +1,46 @@
+"""Primary examination of v122 training-supplement candidate states 31–40."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (31, "What was the real name of the performer who released", "repair_candidate", ["query_uses_chart_rank_instead_of_artist", "accidental_retrieval"],
+  "The initial song article names Gary Glitter and the Silver Star album. The query uses only the unrelated chart-rank tail '25 on the UK Singles Chart', which happens to retrieve his biography and real name. The missing identity relation is not what the query targets.",
+  "Query Gary Glitter's real name using the visible album/artist link, then replay the pair.",
+  [("before_action", "It Takes All Night Long", "English glam rock singer Gary Glitter"), ("before_action", "It Takes All Night Long", "studio album, \"Silver Star\""), ("retrieved_after_search", "Gary Glitter", "Paul Francis Gadd")]),
+ (32, "What was the real name of the performer who released", "repair_candidate", ["paired_chart_rank_query_off_target"],
+  "The song-to-album source connects Silver Star to Gary Glitter, and his biography identifies Paul Francis Gadd as his real name. The answer has a valid two-source chain, but the paired query is just a chart position fragment.",
+  "Retain the answer only in a replayed targeted-query pair.",
+  [("before_action", "It Takes All Night Long", "studio album, \"Silver Star\""), ("before_action", "Gary Glitter", "Paul Francis Gadd")]),
+ (33, "What American author born in 1915", "repair_candidate", ["query_preselects_author_before_novel_link"],
+  "The initial Herman Wouk biography gives 1915 and his Pulitzer-winning novel, but it does not mention Don't Stop the Carnival. The query selects Wouk by name before the missing 1965 novel-author relation is established; retrieval then finds it.",
+  "First query the 1965 Don't Stop the Carnival novel and its author, then verify the 1915/Pulitzer qualifiers; replay the pair.",
+  [("before_action", "Herman Wouk", "born May 27, 1915"), ("before_action", "Herman Wouk", "won the Pulitzer Prize for Fiction"), ("retrieved_after_search", "Don't Stop the Carnival (novel)", "1965 novel by American writer Herman Wouk")]),
+ (34, "What American author born in 1915", "repair_candidate", ["paired_query_preselects_unlinked_author"],
+  "Herman Wouk's 1915 birth and Pulitzer are supported, as is his authorship of the 1965 novel after retrieval. The preceding search nonetheless chose him before the original state linked him to the novel.",
+  "Keep Wouk with a replayed novel-first query sequence.",
+  [("before_action", "Herman Wouk", "born May 27, 1915"), ("before_action", "Herman Wouk", "won the Pulitzer Prize for Fiction"), ("before_action", "Don't Stop the Carnival (novel)", "1965 novel by American writer Herman Wouk")]),
+ (35, "What high school did the player who was the second overall pick", "repair_candidate", ["query_preselects_player_before_draft_link"],
+  "The initial Emeka Okafor snippet gives Bellaire High School but not his 2004 draft pick. Querying Emeka by name selects the presumed answer entity before that link is established. The retrieved Bobcats season article later verifies he was pick two; the later fact cannot justify the initial query.",
+  "Search the 2004 draft's second pick first, then use the linked player's high-school source; replay the pair.",
+  [("before_action", "Emeka Okafor", "attended Bellaire High School"), ("retrieved_after_search", "2004–05 Charlotte Bobcats season", "second overall pick in the 2004 NBA draft, which they used to select Emeka Okafor")]),
+ (36, "What high school did the player who was the second overall pick", "repair_candidate", ["paired_query_preselects_unlinked_player"],
+  "The retrieved Bobcats article identifies Emeka Okafor as the 2004 second pick, and his biography gives Bellaire High School. The answer is supported after retrieval, but the paired search inferred Okafor before the draft relation was visible.",
+  "Retain the school only with a draft-first replayed pair.",
+  [("before_action", "2004–05 Charlotte Bobcats season", "second overall pick in the 2004 NBA draft, which they used to select Emeka Okafor"), ("before_action", "Emeka Okafor", "attended Bellaire High School")]),
+ (37, "What was the nickname of the former American professional football player", "retain_candidate", ["query_uses_visible_film_cast"],
+  "The initial Phase IV article names Brian Bosworth among the cast and Bryan Goeres as director. Searching that cast line retrieves Bosworth's biography, explicitly identifying him as a former football player called The Boz.", None,
+  [("before_action", "Phase IV (2002 film)", "starring Dean Cain and Brian Bosworth"), ("before_action", "Phase IV (2002 film)", "directed by Bryan Goeres"), ("retrieved_after_search", "Brian Bosworth", "nicknamed \"The Boz,\"")]),
+ (38, "What was the nickname of the former American professional football player", "retain_candidate", [],
+  "Brian Bosworth is in the 2002 film's cast and his biography states both his former professional-football role and The Boz nickname. The answer is supported.", None,
+  [("before_action", "Phase IV (2002 film)", "Brian Bosworth"), ("before_action", "Brian Bosworth", "nicknamed \"The Boz,\"")]),
+ (39, "What TV show was the brother of the wrestler", "repair_candidate", ["mma_fighter_mislabeled_wrestler", "query_indirect_person_search"],
+  "The initial Brian Camozzi article calls him a mixed martial artist and names brother Chris. The question calls Brian a wrestler, a different sporting role. Searching Brian retrieves Chris's biography and The Ultimate Fighter credit, but the type error remains.",
+  "Call Brian a mixed martial artist and directly query Chris Camozzi's television credit, then replay the pair.",
+  [("before_action", "Brian Camozzi", "American mixed martial artist"), ("before_action", "Brian Camozzi", "younger brother of former UFC Middleweight fighter Chris Camozzi"), ("retrieved_after_search", "Chris Camozzi", "contestant on Spike TV's 11th season of The Ultimate Fighter")]),
+ (40, "What TV show was the brother of the wrestler", "repair_candidate", ["paired_mma_wrestler_type_error"],
+  "Chris Camozzi was a contestant on The Ultimate Fighter and is Brian's brother. Brian's source describes mixed martial arts, not wrestling, so the original question's occupation is wrong despite the show answer being supported after retrieval.",
+  "Use a revised mixed-martial-artist question and replay before considering the answer.",
+  [("before_action", "Brian Camozzi", "American mixed martial artist"), ("before_action", "Brian Camozzi", "younger brother of former UFC Middleweight fighter Chris Camozzi"), ("before_action", "Chris Camozzi", "contestant on Spike TV's 11th season of The Ultimate Fighter")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-082.jsonl", cohort="v122_train_candidates")

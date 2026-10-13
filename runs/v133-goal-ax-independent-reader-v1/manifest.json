@@ -1,0 +1,32 @@
+{
+  "source_sha256": "57f239f03d44f590fed74d3f02affa2f9e3a9786b18464c45e2514e2cf5175ee",
+  "fixed_states": 34,
+  "failed_state_id": "goal-z-second-search:musique:2hop__106336_47169",
+  "first_hop_status": "unconfirmed",
+  "reason": "Joint developers based in different countries do not establish one vehicle-origin country.",
+  "citations": [
+    {
+      "document_id": "59c93ec6e43beea02f34d793",
+      "quote": "The RN-94 (6 × 6) armoured personnel carrier was originally developed by Nurol Machinery and Industry Co Inc (Nurol Makina) based in Ankara and S N Romarm SA Filiala S C Moreni of Bucharest, Romania.",
+      "triple": [
+        "RN-94",
+        "joint developers",
+        "Nurol and Romarm"
+      ],
+      "body_sha256": "5c0c7814b41d57bfec5cb7ba1c5e34f341c296675b0837dc435290d4b303e866",
+      "body_char_span": [
+        0,
+        199
+      ],
+      "input_token_span": [
+        129,
+        183
+      ],
+      "message_index": 3
+    }
+  ],
+  "actual_generation": 0,
+  "actual_search": 0,
+  "actual_updates": 0,
+  "old_AM_scores_unchanged": true
+}

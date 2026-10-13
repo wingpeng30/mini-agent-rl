@@ -1,0 +1,45 @@
+"""Primary case examination of original training rows 251–260."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (251, "NXT TakeOver: Rival", "repair_candidate", ["generic_query_without_event_link", "retrieval_hit_not_relation_support"],
+  "The bare 'private for-profit' query retrieves Full Sail University and its 1979 founding year. No retrieved excerpt in this state connects NXT TakeOver: Rival to that university, so the venue link remains unverified. A broad attribute match is not enough to validate the eventual answer.",
+  "Trace same-question states for a venue source; if one exists, test a query derived from the event name and repair only after both venue and year are visible in the actual replay.",
+  [("retrieved_after_search", "Full Sail University", "private, for-profit university in Winter Park, Florida"), ("retrieved_after_search", "Full Sail University", "founded in 1979")]),
+ (252, "What year was Mike Cavan's successor born", "repair_candidate", ["unspecified_successor_role", "duplicate_training_action_group"],
+  "The SMU coaching article explicitly names Phil Bennett as Cavan's successor, and the copied-sentence search retrieves Bennett's 1955 birth. But the question omits the SMU head-coach role, even though Cavan held multiple coaching positions; the same issue was found in paired answer row 12.",
+  "Use the existing question-level draft specifying Cavan's successor as SMU head football coach; replay all same-question states and deduplicate repeated search actions.",
+  [("before_action", "SMU Mustangs football under Mike Cavan", "was succeeded by Phil Bennett"), ("retrieved_after_search", "Phil Bennett (American football)", "born December 3, 1955")]),
+ (253, "What year was Mike Cavan's successor born", "repair_candidate", ["unspecified_successor_role", "duplicate_training_action"],
+  "This repeats row 252's question and exact query, returning the same Bennett birth evidence. A different distractor does not fix the missing role in the question or add independent supervision.",
+  "Apply the explicit SMU role repair and deduplicate after pair replay.",
+  [("before_action", "SMU Mustangs football under Mike Cavan", "was succeeded by Phil Bennett"), ("retrieved_after_search", "Phil Bennett (American football)", "born December 3, 1955")]),
+ (254, "What year was Mike Cavan's successor born", "repair_candidate", ["unspecified_successor_role", "duplicate_training_action"],
+  "Third same-query copy; the retrieved Bennett biography supports 1955 only for the identified SMU successor, while the question leaves that office unnamed.",
+  "Preserve frozen row, use the group-level SMU question repair and select no redundant label.",
+  [("before_action", "SMU Mustangs football under Mike Cavan", "was succeeded by Phil Bennett"), ("retrieved_after_search", "Phil Bennett (American football)", "born December 3, 1955")]),
+ (255, "What year was Mike Cavan's successor born", "repair_candidate", ["unspecified_successor_role", "duplicate_training_action"],
+  "Fourth copy of the same search, with the same successor and birth result. The extra predecessor article does not establish a new missing relation or cure the ambiguous office.",
+  "Use one corrected SMU-head-coach path only if the full pair passes independent review; keep all original copies in the audit trail.",
+  [("before_action", "SMU Mustangs football under Mike Cavan", "was succeeded by Phil Bennett"), ("retrieved_after_search", "Phil Bennett (American football)", "born December 3, 1955")]),
+ (256, "What is the Pakistani pop group", "retain_candidate", [],
+  "The Samjhana article identifies Vital Signs as the Pakistani group and its song as a rendition of Red Red Wine. The latter article attributes the original song to Neil Diamond. The group answer is supported.", None,
+  [("before_action", "Samjhana (song)", "Pakistani pop group, Vital Signs"), ("before_action", "Samjhana (song)", "rendition of the famous song, Red Red Wine"), ("before_action", "Red Red Wine", "originally written, performed, and recorded by American singer Neil Diamond")]),
+ (257, "The 2016 Superbike World Championship", "repair_candidate", ["award_name_omitted"],
+  "The championship source identifies Jonathan Rea, and his biography gives the four years. It specifically names the award Irish Motorcyclist of the Year, whereas the question's 'man of the year' omits that qualifier and is not an exact award name.",
+  "Proposed question: In which years was 2016 Superbike World Champion Jonathan Rea named Irish Motorcyclist of the Year? Check paired states and independently review the corrected wording.",
+  [("before_action", "2016 Superbike World Championship", "Jonathan Rea won his second consecutive Superbike World Championship title"), ("before_action", "Jonathan Rea", "named Irish Motorcyclist of the Year in 2007, 2008, 2011 and 2016")]),
+ (258, "David Lee DeHarport", "retain_candidate", [],
+  "DeHarport's biography identifies Canyon de Chelly National Monument as the survey site. The monument article independently supplies the Navajo Nation/Four Corners geography and April 1, 1931 establishment, so the answer is fully grounded.", None,
+  [("before_action", "David DeHarport", "archaeological survey work of Arizona's Canyon de Chelly National Monument"), ("before_action", "Canyon de Chelly National Monument", "established on April 1, 1931"), ("before_action", "Canyon de Chelly National Monument", "within the boundaries of the Navajo Nation and lies in the Four Corners region")]),
+ (259, "\"The Simpsons\"' fourteenth season", "retain_candidate", ["query_copies_visible_context", "duplicate_training_action_group"],
+  "The season article identifies the Mike Scully episode, and searching its visible sentence retrieves the episode article with the November 10, 2002 U.S. first-air date. The answer state at row 185 supports the same question; row 260 repeats this search.", None,
+  [("before_action", "The Simpsons (season 14)", "The other episode, \"How I Spent My Strummer Vacation\", was run by Mike Scully"), ("retrieved_after_search", "How I Spent My Strummer Vacation", "first aired on the Fox network in the United States on November 10, 2002")]),
+ (260, "\"The Simpsons\"' fourteenth season", "repair_candidate", ["duplicate_training_action"],
+  "Same question and copied episode-sentence query as row 259, retrieving the same U.S. air date. Different input distractors do not make a new target.",
+  "Retain the original row, deduplicate the search path and check the paired answer before future export.",
+  [("before_action", "The Simpsons (season 14)", "The other episode, \"How I Spent My Strummer Vacation\", was run by Mike Scully"), ("retrieved_after_search", "How I Spent My Strummer Vacation", "first aired on the Fox network in the United States on November 10, 2002")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-026.jsonl")

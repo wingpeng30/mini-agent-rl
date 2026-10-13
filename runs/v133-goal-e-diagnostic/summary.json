@@ -1,0 +1,656 @@
+{
+  "status": "complete",
+  "runtime_seconds": 87.65299999999999,
+  "effective_lora": {
+    "lora_modules": 96,
+    "v118_effective_frobenius": 1.4244398789340569,
+    "relative_effective_delta_from_v118": {
+      "sft_c": 0.010675786952592766,
+      "sft_d": 0.025748341347727827
+    }
+  },
+  "models": {
+    "v118": {
+      "train": {
+        "n": 25,
+        "valid": 25,
+        "em": 20,
+        "mean_f1": 0.8133333333333332
+      },
+      "dev": {
+        "n": 16,
+        "valid": 16,
+        "em": 12,
+        "mean_f1": 0.8416666666666667
+      },
+      "token_metrics": {
+        "train_answer": {
+          "tokens": 93,
+          "token_weighted_nll": 0.2291277757074724,
+          "row_mean_token_accuracy": 0.9486666703224182
+        },
+        "train_format": {
+          "tokens": 226,
+          "token_weighted_nll": 0.015160461937168003,
+          "row_mean_token_accuracy": 1.0
+        },
+        "dev_answer": {
+          "tokens": 58,
+          "token_weighted_nll": 0.14042025894841886,
+          "row_mean_token_accuracy": 0.8781250007450581
+        },
+        "dev_format": {
+          "tokens": 144,
+          "token_weighted_nll": 0.016168092403353915,
+          "row_mean_token_accuracy": 1.0
+        }
+      },
+      "anchor_active_vs_disabled": {
+        "0": {
+          "enabled_disabled_max_abs": 10.828125,
+          "repeat_max_abs": 0.0
+        },
+        "8": {
+          "enabled_disabled_max_abs": 14.21875,
+          "repeat_max_abs": 0.0
+        },
+        "16": {
+          "enabled_disabled_max_abs": 12.234375,
+          "repeat_max_abs": 0.0
+        },
+        "24": {
+          "enabled_disabled_max_abs": 13.66943359375,
+          "repeat_max_abs": 0.0
+        }
+      },
+      "active_adapters": [
+        "default"
+      ],
+      "matched_lora_modules": 96,
+      "adapter_dtypes": [
+        "torch.float32"
+      ]
+    },
+    "sft_c": {
+      "train": {
+        "n": 25,
+        "valid": 25,
+        "em": 21,
+        "mean_f1": 0.8533333333333333
+      },
+      "dev": {
+        "n": 16,
+        "valid": 16,
+        "em": 12,
+        "mean_f1": 0.8416666666666667
+      },
+      "token_metrics": {
+        "train_answer": {
+          "tokens": 93,
+          "token_weighted_nll": 0.20786600214208886,
+          "row_mean_token_accuracy": 0.9486666703224182
+        },
+        "train_format": {
+          "tokens": 226,
+          "token_weighted_nll": 0.006989652694788127,
+          "row_mean_token_accuracy": 1.0
+        },
+        "dev_answer": {
+          "tokens": 58,
+          "token_weighted_nll": 0.1378487038189256,
+          "row_mean_token_accuracy": 0.8781250007450581
+        },
+        "dev_format": {
+          "tokens": 144,
+          "token_weighted_nll": 0.009444661852386262,
+          "row_mean_token_accuracy": 1.0
+        }
+      },
+      "anchor_active_vs_disabled": {
+        "0": {
+          "enabled_disabled_max_abs": 11.140625,
+          "repeat_max_abs": 0.0
+        },
+        "8": {
+          "enabled_disabled_max_abs": 14.34375,
+          "repeat_max_abs": 0.0
+        },
+        "16": {
+          "enabled_disabled_max_abs": 12.7734375,
+          "repeat_max_abs": 0.0
+        },
+        "24": {
+          "enabled_disabled_max_abs": 14.1484375,
+          "repeat_max_abs": 0.0
+        }
+      },
+      "active_adapters": [
+        "default"
+      ],
+      "matched_lora_modules": 96,
+      "adapter_dtypes": [
+        "torch.float32"
+      ]
+    },
+    "sft_d": {
+      "train": {
+        "n": 25,
+        "valid": 25,
+        "em": 23,
+        "mean_f1": 0.92
+      },
+      "dev": {
+        "n": 16,
+        "valid": 16,
+        "em": 12,
+        "mean_f1": 0.8416666666666667
+      },
+      "token_metrics": {
+        "train_answer": {
+          "tokens": 93,
+          "token_weighted_nll": 0.17007296336113767,
+          "row_mean_token_accuracy": 0.9686666679382324
+        },
+        "train_format": {
+          "tokens": 226,
+          "token_weighted_nll": 0.0046502495641960245,
+          "row_mean_token_accuracy": 1.0
+        },
+        "dev_answer": {
+          "tokens": 58,
+          "token_weighted_nll": 0.13850378199352015,
+          "row_mean_token_accuracy": 0.8781250007450581
+        },
+        "dev_format": {
+          "tokens": 144,
+          "token_weighted_nll": 0.006666958319126732,
+          "row_mean_token_accuracy": 1.0
+        }
+      },
+      "anchor_active_vs_disabled": {
+        "0": {
+          "enabled_disabled_max_abs": 11.328125,
+          "repeat_max_abs": 0.0
+        },
+        "8": {
+          "enabled_disabled_max_abs": 14.796875,
+          "repeat_max_abs": 0.0
+        },
+        "16": {
+          "enabled_disabled_max_abs": 13.7578125,
+          "repeat_max_abs": 0.0
+        },
+        "24": {
+          "enabled_disabled_max_abs": 14.7734375,
+          "repeat_max_abs": 0.0
+        }
+      },
+      "active_adapters": [
+        "default"
+      ],
+      "matched_lora_modules": 96,
+      "adapter_dtypes": [
+        "torch.float32"
+      ]
+    }
+  },
+  "paired": {
+    "sft_c": {
+      "train": {
+        "new_correct": [
+          17
+        ],
+        "lost_correct": [],
+        "retained_correct": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          18,
+          19,
+          21,
+          23,
+          24
+        ],
+        "changed_outputs": [
+          17
+        ]
+      },
+      "dev": {
+        "new_correct": [],
+        "lost_correct": [],
+        "retained_correct": [
+          1,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "changed_outputs": []
+      }
+    },
+    "sft_d": {
+      "train": {
+        "new_correct": [
+          3,
+          17,
+          22
+        ],
+        "lost_correct": [],
+        "retained_correct": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          18,
+          19,
+          21,
+          23,
+          24
+        ],
+        "changed_outputs": [
+          3,
+          17,
+          22
+        ]
+      },
+      "dev": {
+        "new_correct": [],
+        "lost_correct": [],
+        "retained_correct": [
+          1,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "changed_outputs": []
+      }
+    }
+  },
+  "dev_error_candidates": {
+    "0": {
+      "v118": {
+        "prediction": "GMGB",
+        "gold": "New Orleans Gators",
+        "candidate_likelihood": {
+          "gold": {
+            "count": 4,
+            "nll_mean": 0.24657262861728668,
+            "accuracy": 0.75,
+            "nll_sum": 0.9862905144691467,
+            "token_ids": [
+              3446,
+              25089,
+              469,
+              2878
+            ]
+          },
+          "prediction": {
+            "count": 2,
+            "nll_mean": 0.37070432305336,
+            "accuracy": 1.0,
+            "nll_sum": 0.74140864610672,
+            "token_ids": [
+              20011,
+              5213
+            ]
+          },
+          "first_divergent_answer_token": 0
+        }
+      },
+      "sft_c": {
+        "prediction": "GMGB",
+        "gold": "New Orleans Gators",
+        "candidate_likelihood": {
+          "gold": {
+            "count": 4,
+            "nll_mean": 0.24659572541713715,
+            "accuracy": 0.75,
+            "nll_sum": 0.9863829016685486,
+            "token_ids": [
+              3446,
+              25089,
+              469,
+              2878
+            ]
+          },
+          "prediction": {
+            "count": 2,
+            "nll_mean": 0.39504721760749817,
+            "accuracy": 1.0,
+            "nll_sum": 0.7900944352149963,
+            "token_ids": [
+              20011,
+              5213
+            ]
+          },
+          "first_divergent_answer_token": 0
+        }
+      },
+      "sft_d": {
+        "prediction": "GMGB",
+        "gold": "New Orleans Gators",
+        "candidate_likelihood": {
+          "gold": {
+            "count": 4,
+            "nll_mean": 0.24170836806297302,
+            "accuracy": 0.75,
+            "nll_sum": 0.9668334722518921,
+            "token_ids": [
+              3446,
+              25089,
+              469,
+              2878
+            ]
+          },
+          "prediction": {
+            "count": 2,
+            "nll_mean": 0.35476768016815186,
+            "accuracy": 1.0,
+            "nll_sum": 0.7095353603363037,
+            "token_ids": [
+              20011,
+              5213
+            ]
+          },
+          "first_divergent_answer_token": 0
+        }
+      }
+    },
+    "2": {
+      "v118": {
+        "prediction": "folk rock",
+        "gold": "rock",
+        "candidate_likelihood": {
+          "gold": {
+            "count": 1,
+            "nll_mean": 2.3761308193206787,
+            "accuracy": 0.0,
+            "nll_sum": 2.3761308193206787,
+            "token_ids": [
+              19896
+            ]
+          },
+          "prediction": {
+            "count": 2,
+            "nll_mean": 0.06487101316452026,
+            "accuracy": 1.0,
+            "nll_sum": 0.12974202632904053,
+            "token_ids": [
+              39580,
+              6730
+            ]
+          },
+          "first_divergent_answer_token": 0
+        }
+      },
+      "sft_c": {
+        "prediction": "folk rock",
+        "gold": "rock",
+        "candidate_likelihood": {
+          "gold": {
+            "count": 1,
+            "nll_mean": 2.375847339630127,
+            "accuracy": 0.0,
+            "nll_sum": 2.375847339630127,
+            "token_ids": [
+              19896
+            ]
+          },
+          "prediction": {
+            "count": 2,
+            "nll_mean": 0.06465154886245728,
+            "accuracy": 1.0,
+            "nll_sum": 0.12930309772491455,
+            "token_ids": [
+              39580,
+              6730
+            ]
+          },
+          "first_divergent_answer_token": 0
+        }
+      },
+      "sft_d": {
+        "prediction": "folk rock",
+        "gold": "rock",
+        "candidate_likelihood": {
+          "gold": {
+            "count": 1,
+            "nll_mean": 2.4880735874176025,
+            "accuracy": 0.0,
+            "nll_sum": 2.4880735874176025,
+            "token_ids": [
+              19896
+            ]
+          },
+          "prediction": {
+            "count": 2,
+            "nll_mean": 0.05800166353583336,
+            "accuracy": 1.0,
+            "nll_sum": 0.11600332707166672,
+            "token_ids": [
+              39580,
+              6730
+            ]
+          },
+          "first_divergent_answer_token": 0
+        }
+      }
+    },
+    "3": {
+      "v118": {
+        "prediction": "The Sounds",
+        "gold": "Tad",
+        "candidate_likelihood": {
+          "gold": {
+            "count": 2,
+            "nll_mean": 0.6228067874908447,
+            "accuracy": 0.5,
+            "nll_sum": 1.2456135749816895,
+            "token_ids": [
+              51,
+              327
+            ]
+          },
+          "prediction": {
+            "count": 2,
+            "nll_mean": 0.18714265525341034,
+            "accuracy": 1.0,
+            "nll_sum": 0.3742853105068207,
+            "token_ids": [
+              760,
+              42674
+            ]
+          },
+          "first_divergent_answer_token": 0
+        }
+      },
+      "sft_c": {
+        "prediction": "The Sounds",
+        "gold": "Tad",
+        "candidate_likelihood": {
+          "gold": {
+            "count": 2,
+            "nll_mean": 0.6230218410491943,
+            "accuracy": 0.5,
+            "nll_sum": 1.2460436820983887,
+            "token_ids": [
+              51,
+              327
+            ]
+          },
+          "prediction": {
+            "count": 2,
+            "nll_mean": 0.18733249604701996,
+            "accuracy": 1.0,
+            "nll_sum": 0.3746649920940399,
+            "token_ids": [
+              760,
+              42674
+            ]
+          },
+          "first_divergent_answer_token": 0
+        }
+      },
+      "sft_d": {
+        "prediction": "The Sounds",
+        "gold": "Tad",
+        "candidate_likelihood": {
+          "gold": {
+            "count": 2,
+            "nll_mean": 0.6221224069595337,
+            "accuracy": 0.5,
+            "nll_sum": 1.2442448139190674,
+            "token_ids": [
+              51,
+              327
+            ]
+          },
+          "prediction": {
+            "count": 2,
+            "nll_mean": 0.1861874908208847,
+            "accuracy": 1.0,
+            "nll_sum": 0.3723749816417694,
+            "token_ids": [
+              760,
+              42674
+            ]
+          },
+          "first_divergent_answer_token": 0
+        }
+      }
+    },
+    "15": {
+      "v118": {
+        "prediction": "Mary McDonnell",
+        "gold": "Mary Eileen McDonnell",
+        "candidate_likelihood": {
+          "gold": {
+            "count": 5,
+            "nll_mean": 0.58810955286026,
+            "accuracy": 0.800000011920929,
+            "nll_sum": 2.9405477046966553,
+            "token_ids": [
+              40110,
+              458,
+              87571,
+              69143,
+              46850
+            ]
+          },
+          "prediction": {
+            "count": 3,
+            "nll_mean": 0.02260918915271759,
+            "accuracy": 1.0,
+            "nll_sum": 0.06782756745815277,
+            "token_ids": [
+              40110,
+              69143,
+              46850
+            ]
+          },
+          "first_divergent_answer_token": 1
+        }
+      },
+      "sft_c": {
+        "prediction": "Mary McDonnell",
+        "gold": "Mary Eileen McDonnell",
+        "candidate_likelihood": {
+          "gold": {
+            "count": 5,
+            "nll_mean": 0.5644845366477966,
+            "accuracy": 0.800000011920929,
+            "nll_sum": 2.822422504425049,
+            "token_ids": [
+              40110,
+              458,
+              87571,
+              69143,
+              46850
+            ]
+          },
+          "prediction": {
+            "count": 3,
+            "nll_mean": 0.02486482635140419,
+            "accuracy": 1.0,
+            "nll_sum": 0.07459447532892227,
+            "token_ids": [
+              40110,
+              69143,
+              46850
+            ]
+          },
+          "first_divergent_answer_token": 1
+        }
+      },
+      "sft_d": {
+        "prediction": "Mary McDonnell",
+        "gold": "Mary Eileen McDonnell",
+        "candidate_likelihood": {
+          "gold": {
+            "count": 5,
+            "nll_mean": 0.5642492175102234,
+            "accuracy": 0.800000011920929,
+            "nll_sum": 2.8212459087371826,
+            "token_ids": [
+              40110,
+              458,
+              87571,
+              69143,
+              46850
+            ]
+          },
+          "prediction": {
+            "count": 3,
+            "nll_mean": 0.024370986968278885,
+            "accuracy": 1.0,
+            "nll_sum": 0.07311295717954636,
+            "token_ids": [
+              40110,
+              69143,
+              46850
+            ]
+          },
+          "first_divergent_answer_token": 1
+        }
+      }
+    }
+  }
+}

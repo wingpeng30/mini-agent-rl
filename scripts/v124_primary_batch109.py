@@ -1,0 +1,46 @@
+"""Primary examination of v123 internal candidate states 81–90."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (81, "What type of classical music does the song Ovvoru Pookalume", "quarantine_pending_repair", ["raga_classification_transferred_to_song", "two_traditions_not_song_evidence"],
+  "The song article only says Ovvoru Pookalume was composed in the Sindhu Bhairavi raga. The retrieved raga article states that this raga occurs in both Hindustani and Carnatic classical music; it does not classify this specific film song as belonging to both traditions. The inference transfers a property of a musical framework to an individual recording.",
+  "Ask which raga the song uses, or obtain a source classifying this particular song's tradition before making a new pair.",
+  [("before_action", "Ovvoru Pookalume", "in the raaga Sindhu Bhairavi"), ("retrieved_after_search", "Sindhu Bhairavi (raga)", "raga in Hindustani and Carnatic classical music")]),
+ (82, "What type of classical music does the song Ovvoru Pookalume", "quarantine_pending_repair", ["paired_song_raga_category_error"],
+  "The frozen answer Hindustani and Carnatic classical music describes traditions in which Sindhu Bhairavi can be a raga. The evidence does not say the specific Tamil film song is itself both types of classical music, so the answer does not follow for this question.",
+  "Do not reuse this target without song-specific classification evidence; a raga-name question would be a different task.",
+  [("before_action", "Ovvoru Pookalume", "raaga Sindhu Bhairavi"), ("before_action", "Sindhu Bhairavi (raga)", "Hindustani and Carnatic classical music")]),
+ (83, "In what year was the man under whose command", "retain_candidate", ["query_uses_visible_flotilla_commander", "retrieval_adds_birth_year"],
+  "The initial 1st U-boat Flotilla article names Karl Dönitz as its founding commander. The query repeats that fact and retrieves his biography, which gives 1891 as his birth year. Otto Weddigen is only the honoree, not the founding commander.", None,
+  [("before_action", "1st U-boat Flotilla", 'under the command of "Fregattenkapitän" Karl Dönitz'), ("retrieved_after_search", "Karl Dönitz", "16 September 1891")]),
+ (84, "In what year was the man under whose command", "retain_candidate", [],
+  "Karl Dönitz is identified as the flotilla's founding commander, and his retrieved biography states 1891. The answer does not confuse him with the namesake Otto Weddigen.", None,
+  [("before_action", "1st U-boat Flotilla", "Karl Dönitz"), ("before_action", "Karl Dönitz", "16 September 1891")]),
+ (85, "How many No. 1 country singles has the artist how recorded", "repair_candidate", ["how_for_who_typo", "query_uses_visible_singer", "retrieval_adds_count"],
+  "The initial Old Coyote Town article names Don Williams as performer; the query retrieves his biography, which says he amassed 17 number-one country hits. The question's 'artist how recorded' is a conspicuous typo for 'who recorded'.",
+  "Correct 'how' to 'who' and replay; preserve the number-one-country-hits meaning.",
+  [("before_action", "Old Coyote Town", "recorded by American country music artist Don Williams"), ("retrieved_after_search", "Don Williams", "17 number one country hits")]),
+ (86, "How many No. 1 country singles has the artist how recorded", "repair_candidate", ["paired_question_typo", "answer_supported"],
+  "17 is supported by Don Williams's biography, and the song article credits him. The malformed 'how recorded' question should be fixed before exporting the pair.",
+  "Retain 17 under corrected wording and re-audit.",
+  [("before_action", "Old Coyote Town", "recorded by American country music artist Don Williams"), ("before_action", "Don Williams", "17 number one country hits")]),
+ (87, "WCCW-FM serves the city with a population", "repair_candidate", ["city_selected_before_station_link", "answer_population_visible_before_search"],
+  "The initial Traverse City article already supplies its 2010 city population of 14,674, but no initial excerpt links WCCW-FM to Traverse City. Querying the city name preselects a candidate answer location; retrieval only then establishes the station's location.",
+  "Query WCCW-FM location first, then use the dated city population source and replay.",
+  [("before_action", "Traverse City, Michigan", "population was 14,674 at the 2010 census"), ("retrieved_after_search", "WCCW-FM", "in Traverse City, Michigan")]),
+ (88, "WCCW-FM serves the city with a population", "repair_candidate", ["paired_preselected_city_query", "answer_supported_after_search"],
+  "The station article links WCCW-FM to Traverse City, and the city's initial article gives 14,674 in the 2010 census. The corresponding search chose Traverse City before the station-city relation was visible, so the answer evidence cannot validate that query.",
+  "Preserve 14,674 only after station-first retrieval replay.",
+  [("before_action", "Traverse City, Michigan", "population was 14,674 at the 2010 census"), ("before_action", "WCCW-FM", "in Traverse City, Michigan")]),
+ (89, "When was the American actor who was among the cast members of Flawless", "quarantine_pending_repair", ["american_male_actor_not_unique", "query_selects_heredia_from_cast"],
+  "The initial Flawless article lists Robert De Niro, Philip Seymour Hoffman, and Wilson Jermaine Heredia among male cast members. 'The American actor' does not uniquely identify Heredia; the query chooses the sentence containing him, and retrieval supplies his birth date without resolving the question's missing discriminator.",
+  "Specify Wilson Jermaine Heredia or a unique role/attribute and replay; do not infer uniqueness from one retrieved biography.",
+  [("before_action", "Flawless (1999 film)", "Robert De Niro and Philip Seymour Hoffman"), ("before_action", "Flawless (1999 film)", "Wilson Jermaine Heredia"), ("retrieved_after_search", "Wilson Jermaine Heredia", "December 2, 1971")]),
+ (90, "When was the American actor who was among the cast members of Flawless", "quarantine_pending_repair", ["paired_nonunique_american_actor"],
+  "December 2, 1971 is Wilson Jermaine Heredia's supported birth date, but the frozen question describes several possible American male actors in the listed Flawless cast. The answer is not uniquely determined by the question.",
+  "Use a unique Heredia clue and a fresh pair-level audit before considering the date as a target.",
+  [("before_action", "Flawless (1999 film)", "Robert De Niro and Philip Seymour Hoffman"), ("before_action", "Flawless (1999 film)", "Wilson Jermaine Heredia"), ("before_action", "Wilson Jermaine Heredia", "December 2, 1971")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-109.jsonl", cohort="v123_internal_candidates")

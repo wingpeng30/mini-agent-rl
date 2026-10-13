@@ -1,0 +1,7 @@
+{
+  "adapter": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-p-system/p3-training/rl/adapter-final",
+  "confirmed": false,
+  "reason": "incumbent_retained",
+  "replication": null,
+  "selected": "old_rl"
+}

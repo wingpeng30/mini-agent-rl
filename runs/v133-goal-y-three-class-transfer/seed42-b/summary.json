@@ -1,0 +1,7 @@
+{
+  "adapter_sha256": "4c1ce2a4f692d7df63ada15bcabb33c21ab51229152ca28d9cdb2376a07e3e7b",
+  "base_unchanged": true,
+  "changed_lora": 192,
+  "reload_max_abs": 0.0,
+  "updates": 25
+}

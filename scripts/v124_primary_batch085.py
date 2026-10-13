@@ -1,0 +1,45 @@
+"""Primary examination of v122 training-supplement candidate states 61–70."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (61, "Who manufactured the third fastest roller coaster", "quarantine_pending_repair", ["manufacturer_not_proved_for_oblivion", "unanchored_speed_rank", "manufacturer_inferred_from_other_ride"],
+  "The Oblivion article calls it the UK's third-fastest coaster in the source snapshot, without a date or manufacturer. The retrieved Diving Machine G5 article says G5 was built by Bolliger & Mabillard and calls it the second dive-coaster model after Oblivion. Shared ride type and sequence do not establish Oblivion's manufacturer. The proposed answer is not supported by the visible documents.",
+  "Isolate this pair until an Oblivion-specific manufacturer source and dated rank can be bound; do not transfer G5's manufacturer to Oblivion.",
+  [("before_action", "Oblivion (roller coaster)", "third fastest roller coaster in the UK"), ("retrieved_after_search", "Diving Machine G5", "built in 2000 by Swiss manufacturers Bolliger & Mabillard"), ("retrieved_after_search", "Diving Machine G5", "first being Oblivion at Alton Towers")]),
+ (62, "Who manufactured the third fastest roller coaster", "quarantine_pending_repair", ["paired_manufacturer_inferred_from_other_ride"],
+  "Bolliger & Mabillard is only identified as G5's builder in the retrieved article, not as Oblivion's builder. The first/second dive-coaster connection is insufficient to answer the manufacturer question, and the speed ranking lacks a time anchor.",
+  "Keep the frozen answer out of eligible training until direct Oblivion evidence and a dated question are independently reviewed.",
+  [("before_action", "Oblivion (roller coaster)", "third fastest roller coaster in the UK"), ("before_action", "Diving Machine G5", "built in 2000 by Swiss manufacturers Bolliger & Mabillard")]),
+ (63, "Which of the teams Tom Miller played for", "retain_candidate", ["query_uses_visible_football_player"],
+  "The initial Tom Miller football biography lists the Green Bay Packers among his teams. The question-grounded query retrieves the Packers article, which explicitly dates the franchise to 1919. Other Tom Millers are visible distractors but the teams clue selects the football player.", None,
+  [("before_action", "Tom Miller (American football)", "the Green Bay Packers"), ("retrieved_after_search", "Green Bay Packers", "dating back to 1919")]),
+ (64, "Which of the teams Tom Miller played for", "retain_candidate", [],
+  "Tom Miller's NFL team list includes the Packers, and the Packers article dates their franchise to 1919. The answer is supported by the two-source chain.", None,
+  [("before_action", "Tom Miller (American football)", "the Green Bay Packers"), ("before_action", "Green Bay Packers", "dating back to 1919")]),
+ (65, "The 1994 French drama film written and directed by Claire Denis", "repair_candidate", ["question_missing_person_head", "query_uses_visible_murders_relation"],
+  "The initial I Can't Sleep article says the film was loosely inspired by murders committed by Thierry Paulin, and retrieval gives Paulin's birth date. The question omits the person/killings clause after 'inspired by', making its grammatical subject unclear despite the recoverable evidence chain.",
+  "Ask 'On what date was Thierry Paulin, whose murders loosely inspired Claire Denis's 1994 film I Can't Sleep, born?' and replay.",
+  [("before_action", "I Can't Sleep (film)", "loosely inspired by the murders committed by Thierry Paulin"), ("retrieved_after_search", "Thierry Paulin", "November 28, 1963")]),
+ (66, "The 1994 French drama film written and directed by Claire Denis", "repair_candidate", ["paired_question_missing_person_head"],
+  "Thierry Paulin is the named inspiration through his murders and his biography gives November 28, 1963. The frozen question is malformed and does not clearly ask for that person's birth date.",
+  "Keep the date only in a corrected question with replayed input and review.",
+  [("before_action", "I Can't Sleep (film)", "murders committed by Thierry Paulin"), ("before_action", "Thierry Paulin", "November 28, 1963")]),
+ (67, " Anjulie has written songs for a singer", "repair_candidate", ["unspecified_singer_among_multiple", "query_copies_list_not_unique_target"],
+  "The initial Anjulie article lists Kelly Clarkson, Nicki Minaj, Icona Pop, Fefe Dobson and Kreesha Turner among recipients. The question does not identify which singer; the query repeats the full list and retrieval finds Clarkson's 2002 rise, but this does not make her the unique referent of the original wording.",
+  "Name Kelly Clarkson or identify her American Idol win in the question, then search that explicit person-year relation and replay.",
+  [("before_action", "Anjulie", "written songs for Kelly Clarkson, Nicki Minaj, Icona Pop, Fefe Dobson, and Kreesha Turner"), ("retrieved_after_search", "Kelly Clarkson", "rose to fame in 2002")]),
+ (68, " Anjulie has written songs for a singer", "repair_candidate", ["paired_unspecified_singer_among_multiple"],
+  "2002 is explicitly stated for Kelly Clarkson, one of several singers in Anjulie's client list. The bare phrase 'a singer' does not pick Clarkson, so the answer is not uniquely entailed by the question.",
+  "Use a Clarkson-specific revised question and replay; do not treat the original as a unique labeled example.",
+  [("before_action", "Anjulie", "Kelly Clarkson, Nicki Minaj, Icona Pop, Fefe Dobson, and Kreesha Turner"), ("before_action", "Kelly Clarkson", "rose to fame in 2002")]),
+ (69, "What Indian actress played the lead role in Dangerous Love", "repair_candidate", ["answer_visible_before_search", "redundant_search"],
+  "The initial Dangerous Ishhq article itself says the English title is Dangerous Love and Karisma Kapoor plays the lead. Searching the entire answer-bearing sentence only retrieves her biography, which checks Indian nationality; it is not needed to identify the actress.",
+  "If retained, use a direct-answer action and omit the redundant search target after replay.",
+  [("before_action", "Dangerous Ishhq", "Dangerous Ishhq (\"Dangerous Love\")"), ("before_action", "Dangerous Ishhq", "starring Karisma Kapoor in the lead role"), ("retrieved_after_search", "Karisma Kapoor", "is an Indian actress")]),
+ (70, "What Indian actress played the lead role in Dangerous Love", "retain_candidate", ["answer_visible_before_paired_search"],
+  "The film's initial text directly names Karisma Kapoor as lead and gives Dangerous Love as alternate title; her biography confirms Indian actress status. The answer is supported without the paired search.", None,
+  [("before_action", "Dangerous Ishhq", "starring Karisma Kapoor in the lead role"), ("before_action", "Karisma Kapoor", "is an Indian actress")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-085.jsonl", cohort="v122_train_candidates")

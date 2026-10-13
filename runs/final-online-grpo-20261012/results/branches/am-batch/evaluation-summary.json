@@ -1,0 +1,24 @@
+{
+  "status": "COMPLETED",
+  "branch": "am-batch",
+  "case_count": 128,
+  "current_process_cases": 128,
+  "evaluation_wall_seconds": 217.34119565412402,
+  "batch_size": 4,
+  "questions_per_second": 0.5889357496850194,
+  "model_calls": 372,
+  "searches": 244,
+  "input_tokens": 221760,
+  "output_tokens": 6504,
+  "exact_match": 63.0,
+  "normalized_exact_match": 64.0,
+  "f1": 0.6231943791771094,
+  "adapter_sha256": "3bcd1f85382c1d7775fa674c1a6e1e68c80911a69b86de209d20f2ab6269280c",
+  "gpu_memory": {
+    "peak_allocated_gb": 2.875,
+    "peak_reserved_gb": 4.305,
+    "device_process_gb": 4.801,
+    "device_memory_source": "single_compute_process_fallback"
+  },
+  "resumed": false
+}

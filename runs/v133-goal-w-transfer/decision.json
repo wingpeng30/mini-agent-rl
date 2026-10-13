@@ -1,0 +1,14 @@
+{
+  "audit_sha256": "b3f8c273cb5c33a75f432bb7c2a9aa8385ff179cdcbe8473bbf812044925cca6",
+  "baseline": {
+    "invalid": 0,
+    "regression": 7,
+    "total": 20
+  },
+  "generous_upper_bound": 12,
+  "minimum_required": 16,
+  "reason": "W1_train_affiliation_quota_shortfall",
+  "selected": "goal_t_seed42_update32",
+  "source_candidates": 28,
+  "status": "stopped_before_new_model_work"
+}

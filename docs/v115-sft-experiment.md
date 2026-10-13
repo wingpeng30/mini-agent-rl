@@ -49,10 +49,11 @@ Only after internal acceptance will the complete independent 100-question set be
 | v101 vs v115 task result | Numeric gate failed | EM `28/50 → 31/50` (+3 net: 4 gains, 1 loss); F1 `0.6205 → 0.6785`; retention `27/28` (96.4%); protocol 100% |
 | v115 state diagnostics | Numeric gate failed | Protocol 100%; supported-answer correctness `28/44` (63.6%, required 90%); insufficient-evidence search `50/56` (89.3%, required 90%) |
 | v112 task reference | Descriptive only | EM 30/50, F1 0.6647, net gain +2 over v101, retention 26/28; not used as the acceptance baseline |
-| Independent semantic review | Incomplete; no semantic pass claimed | Two isolated reviewers received the blinded 100-state and 17 changed-task packets. Reviewer B completed only a partial semantic upgrade and marked remaining records provisional; reviewer A reported the same packet coverage but had not completed case-by-case semantic judgments at the time of this report. Therefore the required independent semantic gate is not established. |
+| Independent semantic review | Incomplete; no semantic pass claimed | Reviewer A completed all 100 states and 17 changed-task cases (351 candidate judgments; 236 supported, 65 unsupported, 50 uncertain). Reviewer B's artifact remains a partial semantic upgrade with untouched records provisional. Since two complete independent reviews are required, the semantic gate is not established. |
 | Independent100 | Not opened | Blocked because two internal state gates failed; final-test remains untouched |
 | Backup | Passed | AutoDL archive `backups/v115-final/v115-run.tar.gz`, SHA-256 `34245dd8bca6dc399a276b5c18b6a1d5412632c832ec234672aece648af8ee15`; 80 files checked against the included SHA-256 manifest |
-| GitHub publication, AutoDL shutdown | Pending | Publish the documented source version first; shut down only after confirming no user workloads and verifying console state |
+| GitHub publication | Passed | Source and documentation pushed as commit `11260f2896bf1be8e747f3b0eb73fb468fa5b050` on branch `codex/v115-controlled-sft`, with tag `v0.8.7`. Private datasets, reports, mapping and model weights are excluded. |
+| AutoDL shutdown | Invoked | GPU was idle (1 MiB, 0% utilization); only TensorBoard/Jupyter services were running. `/usr/bin/shutdown --help` caused the SSH session to close and later SSH attempts were refused; at the user's direction, no further console verification was performed. |
 
 ## Data and runtime limitations
 

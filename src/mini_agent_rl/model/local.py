@@ -18,6 +18,8 @@ from pydantic import BaseModel, Field, model_validator
 
 from ..domain import Message, ModelResponse, ToolCall, ToolDefinition
 from .context import budget_messages
+from .observation_presentation import LEGACY_JSON, DOCUMENT_BLOCKS_V1, present_observation
+from .context_aware_decoding import ContextAwareDecodingConfig
 
 
 class LocalModelConfig(BaseModel):
@@ -31,7 +33,7 @@ class LocalModelConfig(BaseModel):
     gradient_checkpointing: bool = True
     max_new_tokens: int = Field(default=128, ge=16, le=2048)
     max_input_tokens: int = Field(default=2048, ge=128, le=32768)
-    timeout: float = Field(default=120.0, gt=0)
+    timeout: float | None = Field(default=120.0, gt=0)
     trust_remote_code: bool = False
     local_files_only: bool = True
     enable_thinking: bool = False
@@ -41,12 +43,22 @@ class LocalModelConfig(BaseModel):
     recompute_old_logprobs: bool = True
     # legacy 仅用于历史回放；compact-v1 是 v0.8.6 的可审计证据表达。
     observation_encoding: Literal["legacy", "compact-v1", "compact-v2", "compact-v3"] = "legacy"
+    observation_presentation: Literal["legacy-json", "document-blocks-v1", "evidence-addresses-v1"] = "legacy-json"
+    action_completion: Literal["eos", "first-json-v1"] = "eos"
+    action_constraint: Literal["none", "json-action-v1", "evidence-action-v1"] = "none"
+    context_aware_decoding: ContextAwareDecodingConfig | None = None
 
     @model_validator(mode="after")
     def validate_quantization(self):
         # bitsandbytes 在原生 Windows 上兼容性不稳定，因此量化必须显式开启，不能静默选择。
         if self.load_in_4bit and self.device == "cpu":
             raise ValueError("CPU 模式不支持本项目的 4-bit 加载")
+        if self.action_completion == "first-json-v1" and self.enable_thinking:
+            raise ValueError("first-json-v1 only supports non-thinking JSON actions")
+        if self.action_constraint != "none" and (self.enable_thinking or self.recompute_old_logprobs):
+            raise ValueError("action constraints require non-thinking inference without unmasked old logprobs")
+        if self.context_aware_decoding is not None and (self.enable_thinking or self.recompute_old_logprobs or self.action_constraint != "none"):
+            raise ValueError("CAD requires non-thinking unconstrained inference without raw-policy old logprobs")
         return self
 
 
@@ -141,6 +153,94 @@ def generation_terminator_ids(tokenizer: Any) -> list[int]:
     return values
 
 
+def first_json_object_end(text: str) -> int | None:
+    """Return the end offset of the first structurally complete top-level JSON object.
+
+    This deliberately checks only structure, not JSON validity. A malformed first
+    object still forms the one attempted action and must never be skipped in favor
+    of a later object.
+    """
+    start = len(text) - len(text.lstrip())
+    if start >= len(text) or text[start] != "{":
+        return None
+    stack: list[str] = []
+    in_string = False
+    escaped = False
+    pairs = {"}": "{", "]": "["}
+    for index in range(start, len(text)):
+        char = text[index]
+        if in_string:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                in_string = False
+            continue
+        if char == '"':
+            in_string = True
+        elif char in "{[":
+            stack.append(char)
+        elif char in "}]":
+            if not stack or stack[-1] != pairs[char]:
+                # Still stop at a closed outer object when its JSON is malformed.
+                if char == "}" and stack == ["{"]:
+                    return index + 1
+                return None
+            stack.pop()
+            if not stack:
+                return index + 1
+    return None
+
+
+class _FirstJSONStoppingCriteria:
+    """Transformers stopping criterion for a single generated action."""
+
+    def __init__(self, tokenizer: Any, prompt_length: int):
+        self.tokenizer = tokenizer
+        self.prompt_length = prompt_length
+        self.stop_offset: int | None = None
+
+    def __call__(self, input_ids, scores, **kwargs):
+        import torch
+
+        if input_ids.shape[0] != 1:
+            raise RuntimeError("first-json-v1 requires batch size 1")
+        generated = input_ids[0, self.prompt_length:].tolist()
+        text = self.tokenizer.decode(generated, skip_special_tokens=False)
+        self.stop_offset = first_json_object_end(text)
+        return torch.tensor([self.stop_offset is not None], dtype=torch.bool, device=input_ids.device)
+
+
+class _BatchActionStoppingCriteria:
+    """Record each row's actual end before generate fills finished rows with PAD."""
+
+    def __init__(self, tokenizer: Any, prompt_length: int, batch_size: int, first_json: bool):
+        self.tokenizer, self.prompt_length = tokenizer, prompt_length
+        self.first_json = first_json
+        self.eos_token_id = generation_terminator_ids(tokenizer)
+        self.stop_lengths: list[int | None] = [None] * batch_size
+        self.stop_offsets: list[int | None] = [None] * batch_size
+        self.stop_reasons: list[str | None] = [None] * batch_size
+
+    def __call__(self, input_ids, scores, **kwargs):
+        import torch
+
+        if input_ids.shape[0] != len(self.stop_lengths):
+            raise RuntimeError("batch action stopper row count changed")
+        for row in range(input_ids.shape[0]):
+            if self.stop_lengths[row] is not None:
+                continue
+            ids = input_ids[row, self.prompt_length:].tolist()
+            offset = (first_json_object_end(self.tokenizer.decode(ids, skip_special_tokens=False))
+                      if self.first_json else None)
+            reason = "first_json" if offset is not None else "eos" if ids and ids[-1] in self.eos_token_id else None
+            if reason is not None:
+                self.stop_lengths[row], self.stop_offsets[row], self.stop_reasons[row] = len(ids), offset, reason
+        return torch.tensor([length is not None for length in self.stop_lengths], dtype=torch.bool,
+                            device=input_ids.device)
+
+
 def local_environment_report() -> dict[str, Any]:
     """只检查依赖和硬件，不加载权重、不访问 Hugging Face。"""
 
@@ -225,13 +325,66 @@ class TransformersModelClient:
         self._model.eval()
         self._load_seconds = time.perf_counter() - started
 
-    def _render_chat(self, messages: list[Message]):
+    def _present_messages(self, messages: list[Message]):
+        rendered = []
+        spans = []
+        for index, message in enumerate(messages):
+            content = message.content
+            if message.role == "tool" and self.config.observation_presentation != LEGACY_JSON:
+                if self.config.observation_presentation == "evidence-addresses-v1":
+                    from .constrained_evidence import addressed_observation
+                    content, records = addressed_observation(content, f"m{index}")
+                else:
+                    content, records = present_observation(content, self.config.observation_presentation)
+                spans.extend({**record, "message_index": index} for record in records)
+            rendered.append({"role": message.role, "content": content})
+        return rendered, spans
+
+    def _render_chat(self, messages: list[Message], *, return_presentation: bool = False):
         """集中调用 chat template，保证预算估算与最终编码完全一致。"""
-        chat = [{"role": m.role, "content": m.content} for m in messages]
+        chat, body_spans = self._present_messages(messages)
         # Qwen 模板的 enable_thinking 是直接模板参数；嵌套参数会被忽略。
         template_kwargs = {"enable_thinking": self.config.enable_thinking}
-        return self._processor.apply_chat_template(chat, add_generation_prompt=True, tokenize=True,
-                                                   return_dict=True, return_tensors="pt", **template_kwargs)
+        encoded = self._processor.apply_chat_template(chat, add_generation_prompt=True, tokenize=True,
+                                                      return_dict=True, return_tensors="pt", **template_kwargs)
+        if not return_presentation:
+            return encoded
+        metadata = {"observation_presentation": self.config.observation_presentation,
+                    "document_bodies": body_spans}
+        if self.config.observation_presentation != LEGACY_JSON and body_spans:
+            tokenizer = getattr(self._processor, "tokenizer", self._processor)
+            if not getattr(tokenizer, "is_fast", False):
+                raise RuntimeError("document-blocks-v1 requires a fast tokenizer for exact citation token offsets")
+            rendered_text = self._processor.apply_chat_template(chat, add_generation_prompt=True,
+                                                                 tokenize=False, **template_kwargs)
+            offset_encoding = tokenizer(rendered_text, add_special_tokens=False,
+                                        return_offsets_mapping=True, return_tensors="pt")
+            template_ids = offset_encoding["input_ids"][0].tolist()
+            actual_ids = encoded["input_ids"][0].tolist()
+            if template_ids != actual_ids:
+                raise RuntimeError("tokenizer offsets do not reproduce the actual chat-template input")
+            offsets = offset_encoding["offset_mapping"][0].tolist()
+            cursor = 0
+            for record in body_spans:
+                message_index = record["message_index"]
+                body = chat[message_index]["content"]
+                body = body[record["rendered_char_span"][0]:record["rendered_char_span"][1]]
+                if not body:
+                    record["input_token_span"] = [0, 0]
+                    continue
+                char_start = rendered_text.find(body, cursor)
+                if char_start < 0:
+                    raise RuntimeError("presented document body is absent from rendered chat template")
+                char_end = char_start + len(body)
+                token_indexes = [i for i, pair in enumerate(offsets)
+                                 if pair[1] > char_start and pair[0] < char_end]
+                if not token_indexes:
+                    raise RuntimeError("document body has no corresponding input token span")
+                record["rendered_prompt_char_span"] = [char_start, char_end]
+                record["input_token_span"] = [token_indexes[0], token_indexes[-1] + 1]
+                cursor = char_end
+            metadata["rendered_prompt_sha256"] = hashlib.sha256(rendered_text.encode("utf-8")).hexdigest()
+        return encoded, metadata
 
     def _content_length(self, text: str) -> int:
         tokenizer = getattr(self._processor, "tokenizer", self._processor)
@@ -243,7 +396,7 @@ class TransformersModelClient:
             return int(self._render_chat(items)["input_ids"].shape[1])
         budgeted = budget_messages(messages, self.config.max_input_tokens, render_length, self._content_length,
                                    self.config.observation_encoding)
-        encoded = self._render_chat(budgeted.messages)
+        encoded, presentation_metadata = self._render_chat(budgeted.messages, return_presentation=True)
         encoded = encoded.to(self._model.device)
         # 元数据挂在 BatchEncoding 对象上，不能放进字典，否则 generate 会把它
         # 当成模型 forward 参数并报“未使用的 model_kwargs”。
@@ -254,6 +407,8 @@ class TransformersModelClient:
         ).hexdigest()
         encoded._context_usage["retained_tool_documents"] = budgeted.retained_tool_documents
         encoded._context_usage["document_changes"] = budgeted.document_changes
+        encoded._context_usage["presentation"] = presentation_metadata
+        encoded._budgeted_messages = budgeted.messages
         self._context_records.append(dict(encoded._context_usage))
         return encoded
 
@@ -287,8 +442,14 @@ class TransformersModelClient:
         action_mask = torch.ones_like(action)
         full_mask = torch.cat([inputs.get("attention_mask", torch.ones_like(inputs["input_ids"])), action_mask], dim=1)
         context = torch.enable_grad() if with_grad else torch.inference_mode()
+        forward_kwargs = {}
+        if not bool(full_mask.all()):
+            # Batch generation numbers semantic tokens from zero, independently
+            # of left PAD. Match those positions during exact policy replay.
+            positions = full_mask.long().cumsum(-1) - 1
+            forward_kwargs["position_ids"] = positions.masked_fill(full_mask == 0, 0)
         with context:
-            logits = self._model(input_ids=full_ids, attention_mask=full_mask).logits
+            logits = self._model(input_ids=full_ids, attention_mask=full_mask, **forward_kwargs).logits
             positions = logits[0, prompt_length - 1 : prompt_length - 1 + len(action_token_ids)]
             # 无论 backbone 为 BF16 还是 FP32，softmax 统一在 FP32 中进行，减小数值误差。
             values = torch.log_softmax(positions.float(), dim=-1).gather(1, action[0].unsqueeze(1)).squeeze(1)
@@ -418,7 +579,9 @@ class TransformersModelClient:
                 "generation": {"max_new_tokens": self.config.max_new_tokens, "max_input_tokens": self.config.max_input_tokens,
                                "load_in_4bit": self.config.load_in_4bit, "thinking": self.config.enable_thinking,
                                "deterministic": self.config.deterministic, "logprob_mode": self.config.logprob_mode,
-                               "observation_encoding": self.config.observation_encoding}}
+                               "observation_encoding": self.config.observation_encoding,
+                               "action_completion": self.config.action_completion,
+                               "context_aware_decoding": self.config.context_aware_decoding.model_dump() if self.config.context_aware_decoding else None}}
 
     def _generate_sync(self, messages: list[Message], temperature: float, seed: int | None) -> ModelResponse:
         import torch
@@ -435,13 +598,39 @@ class TransformersModelClient:
             torch.use_deterministic_algorithms(True, warn_only=True)
         inputs = self._inputs(messages, "rollout_sampling")
         do_sample = temperature > 0
+        cad_processor = None
+        cad = self.config.context_aware_decoding
+        if cad is not None and do_sample:
+            raise ValueError("CAD currently supports greedy single-sample inference only")
         tokenizer = getattr(self._processor, "tokenizer", self._processor)
         terminators = generation_terminator_ids(tokenizer)
         generation = {"max_new_tokens": self.config.max_new_tokens, "do_sample": do_sample}
         if terminators:
             generation["eos_token_id"] = terminators
+        first_json_stopper = None
+        if self.config.action_completion == "first-json-v1":
+            if inputs["input_ids"].shape[0] != 1:
+                raise RuntimeError("first-json-v1 requires batch size 1")
+            from transformers import StoppingCriteriaList
+            first_json_stopper = _FirstJSONStoppingCriteria(tokenizer, inputs["input_ids"].shape[1])
+            generation["stopping_criteria"] = StoppingCriteriaList([first_json_stopper])
         if do_sample:
             generation["temperature"] = temperature
+        if self.config.action_constraint != "none":
+            from .constrained_evidence import make_processor
+            generation["logits_processor"] = [make_processor(self, inputs)]
+        if cad is not None:
+            from .context_aware_decoding import ContextAwareLogitsProcessor, reference_messages, search_count
+            if cad.alpha > 0 and search_count(messages) in cad.after_searches:
+                if inputs["input_ids"].shape[0] != 1:
+                    raise RuntimeError("CAD requires batch size 1")
+                if any(inputs._context_usage.get(k) for k in ("lossy_body_trimmed", "documents_deleted", "history_dropped", "prompt_truncated", "context_budget_error")):
+                    raise RuntimeError("CAD experiment refuses clipped evidence")
+                reference = self._render_chat(reference_messages(inputs._budgeted_messages)).to(self._model.device)
+                if reference["input_ids"].shape[1] > self.config.max_input_tokens:
+                    raise RuntimeError("CAD reference exceeds input budget")
+                cad_processor = ContextAwareLogitsProcessor(self._model, inputs["input_ids"].shape[1], reference, cad.alpha)
+                generation["logits_processor"] = [cad_processor]
         # Generation uses KV cache; training scorers disable it again in
         # prepare_for_training(), preventing phase-specific settings from leaking.
         self._model.config.use_cache = True
@@ -454,6 +643,11 @@ class TransformersModelClient:
         raw = self._processor.decode(action_ids, skip_special_tokens=False)
         parse_ids, terminal_usage = trim_generation_terminators(action_ids.tolist(), tokenizer)
         parse_text = self._processor.decode(parse_ids, skip_special_tokens=False)
+        first_json_end = (first_json_object_end(parse_text)
+                          if self.config.action_completion == "first-json-v1" else None)
+        first_json_tail = parse_text[first_json_end:] if first_json_end is not None else ""
+        if first_json_end is not None:
+            parse_text = parse_text[:first_json_end]
         # generate 的 score 可能已被 temperature 或 logits processor 改写；RL 的
         # old logprob 必须来自原始策略，因此对 prompt+action 做一次 teacher-forced 前向。
         # 采样后的 old logprob 精确重放本次生成使用的 token，不重新渲染消息。
@@ -471,6 +665,8 @@ class TransformersModelClient:
             parse_status = ("unclosed_think" if self.config.enable_thinking and "</think>" not in raw
                             else "invalid_json_action")
         usage = dict(getattr(inputs, "_context_usage", {}))
+        if cad is not None:
+            usage["context_aware_decoding"] = cad_processor.audit() if cad_processor else dict(enabled=False, alpha=cad.alpha, reference_sequences=0)
         reasoning_tokens = len(tokenizer.encode(reasoning, add_special_tokens=False)) if reasoning else 0
         action_text = raw if parse_error else (action_text if 'action_text' in locals() else raw)
         # A malformed completion remains in the policy sequence, but it has no JSON action segment.
@@ -478,7 +674,13 @@ class TransformersModelClient:
         usage.update({"prompt_tokens": prompt_length, "completion_tokens": len(action_ids),
                       "thinking_enabled": self.config.enable_thinking,
                       "reasoning_tokens": reasoning_tokens, "json_action_tokens": json_tokens,
-                      "output_truncated": len(action_ids) >= self.config.max_new_tokens and not any(terminal_usage.values()),
+                      "action_completion": self.config.action_completion,
+                      "first_json_stop_offset": first_json_end,
+                      "first_json_tail_chars": len(first_json_tail),
+                      "output_truncated": len(action_ids) >= self.config.max_new_tokens and not any(terminal_usage.values()) and first_json_end is None,
+                      "generation_stop_reason": ("first_json" if first_json_end is not None else
+                                                 "eos" if any(terminal_usage.values()) else
+                                                 "length" if len(action_ids) >= self.config.max_new_tokens else "other"),
                       "thinking_parse_status": parse_status,
                       **terminal_usage,
                       "action_protocol": "think-json-v1" if self.config.enable_thinking else "json-v1"})
@@ -499,10 +701,136 @@ class TransformersModelClient:
             action_protocol=usage["action_protocol"],
         )
 
+    def _generate_batch_sync(self, requests: list[dict[str, Any]], batch_seed: int,
+                             policy_version: str) -> list[ModelResponse]:
+        """A single GPU generate call; row order and one batch RNG seed are explicit."""
+        import math
+        import torch
+        from transformers import StoppingCriteriaList
+
+        if not requests:
+            raise ValueError("generate_batch requires at least one request")
+        modes = []
+        for request in requests:
+            temperature = float(request.get("temperature", 0.0))
+            sample = bool(request.get("sample", temperature > 0))
+            if not math.isfinite(temperature) or (sample and temperature <= 0) or (not sample and temperature != 0):
+                raise ValueError("batch sampling requires positive temperature; greedy requires temperature 0")
+            if not isinstance(request.get("messages"), list) or not request["messages"]:
+                raise ValueError("each batch request requires messages")
+            modes.append((sample, temperature))
+        if len(set(modes)) != 1:
+            raise ValueError("one batch must use the same sampling mode and temperature")
+        if self.config.enable_thinking or self.config.action_constraint != "none" or self.config.context_aware_decoding is not None:
+            raise ValueError("generate_batch supports direct unconstrained actions without CAD")
+        if self._model is None:
+            self._load()
+        torch.manual_seed(batch_seed)
+        if self.config.deterministic:
+            torch.backends.cudnn.benchmark = False
+            torch.backends.cudnn.deterministic = True
+            torch.use_deterministic_algorithms(True, warn_only=True)
+        tokenizer = getattr(self._processor, "tokenizer", self._processor)
+        terminators = generation_terminator_ids(tokenizer)
+        pad_id = getattr(tokenizer, "pad_token_id", None)
+        if pad_id is None:
+            pad_id = terminators[0] if terminators else None
+        if pad_id is None or not terminators:
+            raise ValueError("batch generation requires PAD and an EOS/message terminator")
+        encoded = [self._inputs(request["messages"], "rollout_batch_sampling") for request in requests]
+        width = max(item["input_ids"].shape[1] for item in encoded)
+        ids = torch.full((len(encoded), width), pad_id, dtype=torch.long, device=self._model.device)
+        masks = torch.zeros_like(ids)
+        contexts = []
+        for row, item in enumerate(encoded):
+            length = item["input_ids"].shape[1]
+            ids[row, -length:] = item["input_ids"][0]
+            masks[row, -length:] = item.get("attention_mask", torch.ones_like(item["input_ids"]))[0]
+            context = dict(getattr(item, "_context_usage", {}))
+            context.update(unpadded_prompt_sha256=context.get("prompt_sha256"), left_padding_tokens=width - length,
+                           padded_prompt_tokens=width, actual_prompt_tokens=int(masks[row].sum()),
+                           prompt_sha256=hashlib.sha256(bytes(str(ids[row].tolist()), "utf-8")).hexdigest())
+            contexts.append(context)
+        sample, temperature = modes[0]
+        stopper = _BatchActionStoppingCriteria(tokenizer, width, len(encoded),
+                                               self.config.action_completion == "first-json-v1")
+        generation = dict(max_new_tokens=self.config.max_new_tokens, do_sample=sample,
+                          top_p=1.0, top_k=0, repetition_penalty=1.0,
+                          eos_token_id=terminators, pad_token_id=pad_id,
+                          stopping_criteria=StoppingCriteriaList([stopper]))
+        if sample:
+            generation["temperature"] = temperature
+        positions = (masks.long().cumsum(-1) - 1).masked_fill(masks == 0, 0)
+        self._model.config.use_cache = True
+        with torch.inference_mode():
+            output = self._model.generate(input_ids=ids, attention_mask=masks, position_ids=positions, **generation)
+        if output.shape[0] != len(encoded) or not torch.equal(output[:, :width], ids):
+            raise RuntimeError("batch generation changed the row count or prompt tokens")
+        responses = []
+        for row, request in enumerate(requests):
+            all_actions = output[row, width:].tolist()
+            stop_length = stopper.stop_lengths[row]
+            if stop_length is None:
+                # EOS is retained if it really ended the row; later batch PAD is not.
+                eos_at = next((index for index, token in enumerate(all_actions) if token in terminators), None)
+                stop_length = eos_at + 1 if eos_at is not None else len(all_actions)
+            action_ids = all_actions[:stop_length]
+            if not action_ids:
+                raise RuntimeError("batch generation returned an empty action")
+            raw = self._processor.decode(action_ids, skip_special_tokens=False)
+            parse_ids, terminal_usage = trim_generation_terminators(action_ids, tokenizer)
+            parse_text = self._processor.decode(parse_ids, skip_special_tokens=False)
+            first_json_end = first_json_object_end(parse_text) if stopper.first_json else None
+            tail = parse_text[first_json_end:] if first_json_end is not None else ""
+            if first_json_end is not None:
+                parse_text = parse_text[:first_json_end]
+            try:
+                _, action_text = split_reasoning_action(parse_text, False)
+                content, tool_call = parse_agent_action(action_text)
+                parse_error = None
+            except ActionParseError as exc:
+                content, tool_call, parse_error = "", None, str(exc)
+            prompt_ids, prompt_mask = ids[row].tolist(), masks[row].tolist()
+            logprobs = (self._score_sync(request["messages"], action_ids, False, "sampling_old_logprob",
+                                         prompt_ids, prompt_mask).detach().cpu().tolist()
+                        if self.config.recompute_old_logprobs else [])
+            stop_reason = ("first_json" if first_json_end is not None else "eos" if any(terminal_usage.values())
+                           else "length" if len(action_ids) >= self.config.max_new_tokens else "other")
+            context = contexts[row]
+            usage = dict(context)
+            usage.update(context_usage=dict(context), prompt_tokens=int(masks[row].sum()),
+                         completion_tokens=len(action_ids), thinking_enabled=False, reasoning_tokens=0,
+                         json_action_tokens=0 if parse_error else len(tokenizer.encode(action_text, add_special_tokens=False)),
+                         action_completion=self.config.action_completion, first_json_stop_offset=first_json_end,
+                         first_json_tail_chars=len(tail), output_truncated=stop_reason == "length",
+                         generation_stop_reason=stop_reason, thinking_parse_status="invalid_json_action" if parse_error else "valid",
+                         action_protocol="json-v1", batch_seed=batch_seed, batch_row=row, batch_size=len(encoded),
+                         policy_version=policy_version, sampling_temperature=temperature, sampling_top_p=1.0,
+                         sampling_top_k=0, sampling_repetition_penalty=1.0, rng_mode="fixed-batch-row-order",
+                         position_ids_mode="attention-mask-cumsum", prompt_position_ids=positions[row].tolist(),
+                         **terminal_usage)
+            responses.append(ModelResponse(content=content, tool_calls=[tool_call] if tool_call else [],
+                prompt_token_ids=prompt_ids, prompt_attention_mask=prompt_mask, action_token_ids=action_ids,
+                action_mask=[1] * len(action_ids), old_logprobs=logprobs, parse_error=parse_error,
+                usage=usage, raw_text=raw, json_action_tokens=usage["json_action_tokens"], action_protocol="json-v1"))
+        return responses
+
+    async def generate_batch(self, requests: list[dict[str, Any]], batch_seed: int,
+                             policy_version: str) -> list[ModelResponse]:
+        """Serialize one real batched GPU call against single-request generation."""
+        async with self._generation_lock:
+            generation = asyncio.to_thread(self._generate_batch_sync, requests, batch_seed, policy_version)
+            if self.config.timeout is None:
+                return await generation
+            return await asyncio.wait_for(generation, timeout=self.config.timeout)
+
     async def generate(self, messages: list[Message], tools: list[ToolDefinition], *, temperature: float = 0.0, seed: int | None = None) -> ModelResponse:
         # 同步 GPU 推理由线程承载，使现有异步 Agent runtime 不被阻塞。
         async with self._generation_lock:
-            return await asyncio.wait_for(asyncio.to_thread(self._generate_sync, messages, temperature, seed), timeout=self.config.timeout)
+            generation = asyncio.to_thread(self._generate_sync, messages, temperature, seed)
+            if self.config.timeout is None:
+                return await generation
+            return await asyncio.wait_for(generation, timeout=self.config.timeout)
 
     @property
     def load_seconds(self) -> float | None:

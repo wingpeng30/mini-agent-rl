@@ -95,6 +95,12 @@ def load_jsonl(path: str | Path, limit: int | None = None) -> list[dict[str, Any
     return records[:limit] if limit else records
 
 
+def _evaluation_arguments(validation_enabled: bool, eval_steps: int) -> dict[str, Any]:
+    """Disable Trainer evaluation completely when no validation set is supplied."""
+    return {"eval_strategy": "steps" if validation_enabled else "no",
+            "eval_steps": eval_steps if validation_enabled else None}
+
+
 def build_lora_model(model_path: str, dtype: str = "bfloat16", gradient_checkpointing: bool = True,
                      adapter_path: str | None = None):
     """加载文本+视觉模型，但只在语言模型线性层注入 LoRA；视觉塔保持冻结。"""
@@ -115,26 +121,30 @@ def build_lora_model(model_path: str, dtype: str = "bfloat16", gradient_checkpoi
     return model, processor
 
 
-def train_sft(model_path: str, train_path: str, validation_path: str, output_dir: str, max_steps: int | None = None,
+def train_sft(model_path: str, train_path: str, validation_path: str | None, output_dir: str, max_steps: int | None = None,
               epochs: int = 2, max_length: int = 2048, seed: int = 42, batch_size: int = 1,
               gradient_accumulation_steps: int = 8, gradient_checkpointing: bool = True,
               adapter_path: str | None = None, enable_thinking: bool = False,
               learning_rate: float = 1e-4, save_steps: int = 50,
-              eval_steps: int = 50, warmup_ratio: float = 0.05) -> dict[str, Any]:
+              eval_steps: int = 50, warmup_ratio: float = 0.05,
+              wall_clock_cap_seconds: int | None = None) -> dict[str, Any]:
     """执行 LoRA-SFT 并保存 adapter、训练状态和指标。"""
     import torch
     from datasets import Dataset
-    from transformers import Trainer, TrainingArguments
+    from transformers import Trainer, TrainerCallback, TrainingArguments
+    import time
 
+    run_started = time.monotonic()
     model, processor = build_lora_model(model_path, gradient_checkpointing=gradient_checkpointing, adapter_path=adapter_path)
     train_records = load_jsonl(train_path)
-    validation_records = load_jsonl(validation_path)
+    validation_records = load_jsonl(validation_path) if validation_path else None
     def encode_record(item: dict[str, Any]) -> dict[str, list[int]]:
         return encode_assistant_only(processor, item["messages"], max_length,
                                      item.get("target_assistant_index"),
                                      bool(item.get("thinking_enabled", enable_thinking)))
     train_data = Dataset.from_list([encode_record(item) for item in train_records])
-    validation_data = Dataset.from_list([encode_record(item) for item in validation_records])
+    validation_data = (Dataset.from_list([encode_record(item) for item in validation_records])
+                       if validation_records is not None else None)
     # This pinned Transformers build exposes warmup_steps but not warmup_ratio.
     # Calculate the configured fraction explicitly so the schedule remains stable.
     updates_per_epoch = max(1, (len(train_data) + batch_size * gradient_accumulation_steps - 1) // (batch_size * gradient_accumulation_steps))
@@ -152,8 +162,7 @@ def train_sft(model_path: str, train_path: str, validation_path: str, output_dir
         logging_steps=1,
         save_strategy="steps",
         save_steps=save_steps,
-        eval_strategy="steps",
-        eval_steps=eval_steps,
+        **_evaluation_arguments(validation_data is not None, eval_steps),
         warmup_steps=warmup_steps,
         max_grad_norm=1.0,
         report_to=[],
@@ -162,10 +171,25 @@ def train_sft(model_path: str, train_path: str, validation_path: str, output_dir
         seed=seed,
         data_seed=seed,
     )
-    trainer = Trainer(model=model, args=arguments, train_dataset=train_data, eval_dataset=validation_data, data_collator=AssistantOnlyCollator(processor.tokenizer.pad_token_id or processor.tokenizer.eos_token_id))
+    speed_check: dict[str, Any] = {"status": "not_checked", "cap_seconds": wall_clock_cap_seconds}
+    class FirstTwoStepSpeedGate(TrainerCallback):
+        def on_step_end(self, args, state, control, **kwargs):
+            if state.global_step == 2 and speed_check["status"] == "not_checked":
+                elapsed = time.monotonic() - run_started
+                projected = elapsed * planned_steps / 2
+                speed_check.update({"status": "within_cap" if wall_clock_cap_seconds is None or projected <= wall_clock_cap_seconds else "projected_over_cap",
+                                    "checked_after_step": 2, "elapsed_seconds": round(elapsed, 3),
+                                    "projected_total_seconds": round(projected, 3)})
+                if wall_clock_cap_seconds is not None and projected > wall_clock_cap_seconds:
+                    control.should_training_stop = True
+            return control
+
+    trainer = Trainer(model=model, args=arguments, train_dataset=train_data, eval_dataset=validation_data,
+                      data_collator=AssistantOnlyCollator(processor.tokenizer.pad_token_id or processor.tokenizer.eos_token_id),
+                      callbacks=[FirstTwoStepSpeedGate()])
     trainer.train()
     trainer.save_model(output_dir)
-    metrics = {"seed": seed, "global_step": trainer.state.global_step, "train_samples": len(train_data), "validation_samples": len(validation_data), "max_length": max_length, "batch_size": batch_size, "gradient_accumulation_steps": gradient_accumulation_steps, "gradient_checkpointing": gradient_checkpointing, "adapter_path": adapter_path, "enable_thinking": enable_thinking, "learning_rate": learning_rate, "save_steps": save_steps, "eval_steps": eval_steps, "warmup_ratio": warmup_ratio, "warmup_steps": warmup_steps, "train_metrics": trainer.state.log_history, "peak_gpu_memory_gb": round(torch.cuda.max_memory_allocated() / 1024**3, 3)}
+    metrics = {"seed": seed, "global_step": trainer.state.global_step, "train_samples": len(train_data), "validation_samples": len(validation_data) if validation_data is not None else 0, "evaluation_enabled": validation_data is not None, "max_length": max_length, "batch_size": batch_size, "gradient_accumulation_steps": gradient_accumulation_steps, "gradient_checkpointing": gradient_checkpointing, "adapter_path": adapter_path, "enable_thinking": enable_thinking, "learning_rate": learning_rate, "save_steps": save_steps, "eval_steps": eval_steps if validation_data is not None else None, "warmup_ratio": warmup_ratio, "warmup_steps": warmup_steps, "train_metrics": trainer.state.log_history, "peak_gpu_memory_gb": round(torch.cuda.max_memory_allocated() / 1024**3, 3), "speed_check": speed_check, "elapsed_seconds": round(time.monotonic() - run_started, 3)}
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     (Path(output_dir) / "training_metrics.json").write_text(json.dumps(metrics, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
     return metrics

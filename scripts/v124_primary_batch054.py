@@ -1,0 +1,46 @@
+"""Primary examination of v122 internal candidate states 81–90."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (81, "Prince Axel of Denmark was", "repair_candidate", ["query_targets_wrong_relative", "retrieval_recovers_missing_relation"],
+  "The missing relation is Axel's cousin who was King of Greece. The query instead names Prince Nicholas, whose visible article identifies him as a son of George I but does not establish the requested Axel-to-king link. Retrieval happens to bring in Axel's article, which does identify Constantine I. The retrieved evidence supports the paired answer, but this query is a poor target for the missing relation.",
+  "Use an action-time-grounded query about Prince Axel's cousin or search directly for Prince Axel; independently verify the revised retrieval before using the pair.",
+  [("before_action", "Prince Nicholas of Greece and Denmark", "fourth child and third son of King George I of Greece"), ("retrieved_after_search", "Prince Axel of Denmark", "first cousin of Christian X of Denmark, Haakon VII of Norway, Constantine I of Greece")]),
+ (82, "Prince Axel of Denmark was", "repair_candidate", ["paired_query_targets_wrong_relative"],
+  "The answer's two reign intervals are stated in Constantine I's article, and the retrieved Axel article supplies the cousin link. The answer itself is supported; the pair remains unsuitable as an unmodified search training example because the preceding query targeted Nicholas instead.",
+  "Keep the supported answer only if a corrected preceding search is replayed and the paired context and token budget are independently checked.",
+  [("before_action", "Prince Axel of Denmark", "first cousin of Christian X of Denmark, Haakon VII of Norway, Constantine I of Greece"), ("before_action", "Constantine I of Greece", "King of Greece from 1913 to 1917 and from 1920 to 1922")]),
+ (83, "Rebel Eats was", "repair_candidate", ["question_from_ambiguous_vs_birthplace"],
+  "Rebel Eats identifies producer Justin Warner, and the search retrieves his biography. That biography establishes birth in Hagerstown, Maryland, but the question's 'from what state' does not explicitly specify birthplace; the answer is an inference from birthplace rather than an exact statement of origin.",
+  "If retaining this pair, ask in which state the show's producer was born, then recheck the exact paired context.",
+  [("before_action", "Rebel Eats", "The show was produced by Justin Warner"), ("retrieved_after_search", "Justin Warner", "born in Hagerstown, Maryland")]),
+ (84, "Rebel Eats was", "repair_candidate", ["question_from_ambiguous_vs_birthplace"],
+  "Maryland is supported as Justin Warner's birth state, and Rebel Eats names him as producer. The present wording asks where he is 'from', which the cited biography does not separately establish.",
+  "Retain Maryland only with a birthplace-specific question and a replayed, independently reviewed pair.",
+  [("before_action", "Rebel Eats", "The show was produced by Justin Warner"), ("before_action", "Justin Warner", "born in Hagerstown, Maryland")]),
+ (85, "Where is The Portuguese Tribune", "repair_candidate", ["unnecessary_search_answer_already_visible", "query_contains_full_answer"],
+  "The initial Portuguese Tribune snippet already states the full headquarters location. The proposed search copies that sentence including Modesto, California, so it teaches an unnecessary tool call instead of stopping and answering.",
+  "Replace this pair with a supported direct-answer state if the training objective permits one-step questions; otherwise exclude the redundant search example.",
+  [("before_action", "The Portuguese Tribune", "headquartered in Modesto, California")]),
+ (86, "Where is The Portuguese Tribune", "repair_candidate", ["paired_unnecessary_search", "answer_supported_before_search"],
+  "Modesto, California is directly supported by the initial snippet. The answer is correct, but the paired search was unnecessary and contains the answer verbatim, so the two-state training pair should not be retained unchanged.",
+  "Use a direct answer from the initial state or exclude the pair; any replacement requires a separate replay and review.",
+  [("before_action", "The Portuguese Tribune", "headquartered in Modesto, California")]),
+ (87, "What is the nationality of the person", "retain_candidate", ["query_copies_visible_relation"],
+  "The film snippet identifies Fiona Shaw as the protagonist. The search copies that relation and retrieves Shaw's article, which states she is Irish. It targets the missing nationality without importing the answer into the query.", None,
+  [("before_action", "Mind Games (2001 film)", "starring Fiona Shaw as the protagonist"), ("retrieved_after_search", "Fiona Shaw", "is an Irish actress")]),
+ (88, "What is the nationality of the person", "retain_candidate", [],
+  "The retrieved biography calls Fiona Shaw Irish, while the film article names her as the protagonist. The answer follows the same entity chain.", None,
+  [("before_action", "Mind Games (2001 film)", "starring Fiona Shaw as the protagonist"), ("before_action", "Fiona Shaw", "is an Irish actress")]),
+ (89, "New Jersey's 11th congressional district", "repair_candidate", ["unanchored_time_sensitive_current_office"],
+  "The source snapshot names Rodney Frelinghuysen as representative and the search retrieves his service start. The question phrases the representation in the present tense without a date, so its referent can change over time even though this frozen source supports the historical 1995 answer.",
+  "Anchor the question to Rodney Frelinghuysen's service start or to an explicitly dated source snapshot, then replay the pair.",
+  [("before_action", "New Jersey's 11th congressional district", "is represented by Republican Rodney Frelinghuysen"), ("retrieved_after_search", "Rodney Frelinghuysen", "serving since 1995")]),
+ (90, "New Jersey's 11th congressional district", "repair_candidate", ["unanchored_time_sensitive_current_office"],
+  "The retrieved biography supports 1995 for Frelinghuysen, but the question's present-tense representative is not time anchored. This is a wording defect, not evidence that the frozen 1995 extraction failed.",
+  "Keep 1995 only with a dated or explicitly named Frelinghuysen question and revalidated paired context.",
+  [("before_action", "New Jersey's 11th congressional district", "is represented by Republican Rodney Frelinghuysen"), ("before_action", "Rodney Frelinghuysen", "serving since 1995")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-054.jsonl", cohort="v122_internal_candidates")

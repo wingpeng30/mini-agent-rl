@@ -1,0 +1,45 @@
+"""Primary case examination of original training rows 211–220."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (211, "Ohio Brush Creek rises", "retain_candidate", ["numeric_query_from_question", "paired_search_path"],
+  "The numeric clue 1348 occurs in the question and the retrieved Serpent Mound article supplies the missing Serpent Mound crater relation. This broad numeric query happens to find the right article; it is not evidence of robust entity targeting. Review with the paired row 210 and answer state.", None,
+  [("retrieved_after_search", "Serpent Mound", "a 1348 ft -long, three-foot-high prehistoric effigy mound on a plateau of the Serpent Mound crater")]),
+ (212, "How many people lived in the city Roberto Tapia", "retain_candidate", ["query_copies_visible_context", "duplicate_training_action_group"],
+  "The visible Tapia biography names Culiacán as his upbringing city, and the copied-sentence query retrieves the city's explicitly dated 2010 city population, distinct from the municipality population. This is one of three nearly duplicate search states; only a deduplicated representative could remain in a future training export.", None,
+  [("before_action", "Roberto Tapia", "raised in Culiacán, Sinaloa, Mexico"), ("retrieved_after_search", "Culiacán", "675,773 inhabitants in the city (census of 2010) and 858,638 in the municipality")]),
+ (213, "How many people lived in the city Roberto Tapia", "repair_candidate", ["duplicate_training_action", "query_copies_visible_context"],
+  "This state repeats row 212's question, action query and returned answer evidence with only irrelevant input distractors changed. Counting both as independent search supervision would overweight one example.",
+  "Deduplicate at the question/action level after checking provenance and paired answer states; preserve this frozen row and its distinct input but do not silently count it as a new training example.",
+  [("before_action", "Roberto Tapia", "raised in Culiacán, Sinaloa, Mexico"), ("retrieved_after_search", "Culiacán", "675,773 inhabitants in the city (census of 2010)")]),
+ (214, "How many people lived in the city Roberto Tapia", "repair_candidate", ["duplicate_training_action", "query_copies_visible_context"],
+  "This third state has the same question and identical query as rows 212–213; its retrieval returns the same city census paragraph. A distinct distractor arrangement does not by itself establish an independently useful label.",
+  "Evaluate one representative with its paired answer and remove redundant copies from any corrected training export; retain original rows for audit.",
+  [("before_action", "Roberto Tapia", "raised in Culiacán, Sinaloa, Mexico"), ("retrieved_after_search", "Culiacán", "675,773 inhabitants in the city (census of 2010)")]),
+ (215, "What is is a super tall", "repair_candidate", ["present_tense_construction_unanchored", "query_misses_comparison_target"],
+  "The query searches a neighborhood already visible before the action, and retrieves a 30 Hudson Yards article describing construction, but the status is undated. The comparison target 30 Hudson Yards was available in the question, so this query does not directly seek the missing building evidence.",
+  "Propose a source-scoped question about which building the supplied article describes as under construction, with a query for the named candidate 30 Hudson Yards. Replay retrieval and independent review; do not claim current construction.",
+  [("before_action", "West Side (Manhattan)", "The West Side of Manhattan refers to the side of Manhattan Island"), ("retrieved_after_search", "30 Hudson Yards", "a super tall office building currently under construction in the West Side area of Manhattan")]),
+ (216, "what does Wardle", "repair_candidate", ["ambiguous_commonality", "query_restates_question"],
+  "The South Pennines excerpt describes the region and the search retrieves Wardle lying among its foothills. Yet 'what do they have in common' does not specify whether the answer should be shared geography, containment, or proximity; Wardle is a village and South Pennines a region.",
+  "Specify the relation as a source-scoped location question, then check all same-question states and target answers before a paired replay and independent review.",
+  [("before_action", "South Pennines", "a region of moorland and hill country in Northern England"), ("retrieved_after_search", "Wardle, Greater Manchester", "It lies amongst the foothills of the South Pennines")]),
+ (217, "what does Wardle", "repair_candidate", ["ambiguous_commonality", "paired_search_same_query"],
+  "The repeated query retrieves Wardle's foothills relation, but the same underspecified 'in common' question remains and cannot be repaired by retrieval alone. This state has different pre-action evidence from row 216 and must be replayed separately.",
+  "Apply the question-level relation repair consistently across rows 216–217 and the answer state; do not treat repeat retrieval as independent semantic validation.",
+  [("before_action", "South Pennines", "region of moorland and hill country in Northern England"), ("retrieved_after_search", "Wardle, Greater Manchester", "foothills of the South Pennines")]),
+ (218, "When was one of the co founder", "retain_candidate", ["query_copies_visible_context", "duplicate_training_action_group"],
+  "The GF Biochemicals article names Mathieu Flamini and Pasquale Granata. The copied sentence retrieves Flamini's biography, which identifies him as a French footballer and states his birth date. The other cofounder is not claimed to be a footballer. This is one representative of three duplicate searches.", None,
+  [("before_action", "GF Biochemicals", "co-founded by Mathieu Flamini and Pasquale Granata"), ("retrieved_after_search", "Mathieu Flamini", "born 7 March 1984"), ("retrieved_after_search", "Mathieu Flamini", "a French professional footballer")]),
+ (219, "When was one of the co founder", "repair_candidate", ["duplicate_training_action"],
+  "This state repeats the same question and query as row 218 and returns the same Flamini biography despite a different irrelevant distractor. It does not add an independent training target.",
+  "Keep the frozen row for audit but deduplicate after verifying all same-question states and answer evidence.",
+  [("before_action", "GF Biochemicals", "co-founded by Mathieu Flamini and Pasquale Granata"), ("retrieved_after_search", "Mathieu Flamini", "born 7 March 1984")]),
+ (220, "When was one of the co founder", "repair_candidate", ["duplicate_training_action"],
+  "This third search is identical to rows 218–219 in question, query and retrieved target evidence, with fewer pre-action distractors. It should not inflate the weight of this one path.",
+  "Check paired answer states, select a single justified representative for any future corrected export, and retain all original rows unchanged.",
+  [("before_action", "GF Biochemicals", "co-founded by Mathieu Flamini and Pasquale Granata"), ("retrieved_after_search", "Mathieu Flamini", "born 7 March 1984")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-022.jsonl")

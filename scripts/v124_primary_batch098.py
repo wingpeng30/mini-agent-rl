@@ -1,0 +1,46 @@
+"""Primary examination of v122 training-supplement candidate states 191–200."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (191, "What is the acreage of the mansion owned", "repair_candidate", ["mansion_vs_estate_acreage", "search_uses_visible_elvis_relation"],
+  "The initial Way Down article names Elvis Presley and his Graceland home studio; retrieval supplies a 13.8-acre Graceland estate. The question asks for acreage of the mansion, conflating a building with its surrounding estate. The query is grounded but the target wording must be repaired.",
+  "Ask for the acreage of the Graceland estate owned by Elvis Presley and replay both states.",
+  [("before_action", "Way Down", "song recorded by Elvis Presley"), ("before_action", "Way Down", "home studio in Graceland"), ("retrieved_after_search", "Graceland", "mansion on a 13.8 acre estate")]),
+ (192, "What is the acreage of the mansion owned", "repair_candidate", ["paired_mansion_estate_conflation", "answer_numeric_unit_implicit"],
+  "The source supports 13.8 acres for Graceland's estate, not the mansion's floor area. The numeric answer 13.8 is potentially right for a corrected estate-area question, but not cleanly for the original wording.",
+  "Bind the answer to an estate-acreage question and preserve acres as the unit during replay.",
+  [("before_action", "Graceland", "mansion on a 13.8 acre estate"), ("before_action", "Graceland", "owned by Elvis Presley")]),
+ (193, "Which 2012 popular song album by Plácido Domingo", "retain_candidate", ["album_name_visible_before_search", "search_checks_sales_qualifier"],
+  "The initial album article identifies Songs and lists Harry Connick Jr. among guests. The query repeats that guest list, and retrieval confirms Connick's more-than-28-million sales qualifier. It verifies an initially missing predicate rather than discovering the title.", None,
+  [("before_action", "Songs (2012 Plácido Domingo album)", "Songs is a 2012 popular song album by Plácido Domingo"), ("before_action", "Songs (2012 Plácido Domingo album)", "Harry Connick Jr."), ("retrieved_after_search", "Harry Connick Jr.", "sold over 28million albums worldwide")]),
+ (194, "Which 2012 popular song album by Plácido Domingo", "retain_candidate", [],
+  "The Songs article matches Plácido Domingo, 2012, and guest Harry Connick Jr.; his biography reports sales over 28 million. The answer is supported, with title visible before retrieval.", None,
+  [("before_action", "Songs (2012 Plácido Domingo album)", "Songs is a 2012 popular song album by Plácido Domingo"), ("before_action", "Songs (2012 Plácido Domingo album)", "Harry Connick Jr."), ("before_action", "Harry Connick Jr.", "sold over 28million albums worldwide")]),
+ (195, "What is the name of the county where Gerald Munro", "repair_candidate", ["query_uses_birthplace_not_marriage_place", "same_named_city_cross_border"],
+  "Gerald Munro's initial biography distinguishes birth in Sault Ste. Marie, Ontario from marriage in Sault Ste. Marie, Michigan. The search copies only the birth-city sentence; it happens to retrieve the Michigan city and county, but could easily have targeted the Canadian city.",
+  "Search the explicitly stated Michigan marriage city and county, then replay.",
+  [("before_action", "Gerald Munro", "He was born in Sault Ste. Marie, Ontario"), ("before_action", "Gerald Munro", "He married Florence M. Cameron in 1925 at Sault Ste. Marie, Michigan"), ("retrieved_after_search", "Sault Ste. Marie, Michigan", "county seat of, Chippewa County")]),
+ (196, "What is the name of the county where Gerald Munro", "repair_candidate", ["paired_birthplace_query_cross_border", "answer_supported"],
+  "The marriage took place in Sault Ste. Marie, Michigan, whose retrieved page locates it in Chippewa County. The answer is supported, but the paired query quoted his Ontario birthplace, a distinct same-name city.",
+  "Preserve the county only after a marriage-place-targeted search replay.",
+  [("before_action", "Gerald Munro", "He married Florence M. Cameron in 1925 at Sault Ste. Marie, Michigan"), ("before_action", "Sault Ste. Marie, Michigan", "county seat of, Chippewa County")]),
+ (197, "In what city is the university whose Department", "repair_candidate", ["university_selected_before_fastook_link", "answer_city_visible_before_search"],
+  "The initial University of Maine article already gives Orono, but no initial excerpt links James L. Fastook to that institution. Querying the university name preselects the answer-bearing institution; retrieval later finds the Fastook Glacier article and only then establishes the missing affiliation.",
+  "Search James L. Fastook's Department of Computer Sciences affiliation first, then answer from a verified university location; replay.",
+  [("before_action", "University of Maine", "public research university in Orono, Maine"), ("retrieved_after_search", "Fastook Glacier", "James L. Fastook of the Department of Computer Sciences and the Institute for Quaternary Studies at the University of Maine")]),
+ (198, "In what city is the university whose Department", "repair_candidate", ["paired_preselected_university_query", "answer_supported_after_search"],
+  "The post-search Fastook article supports University of Maine, whose initial article places it in Orono. However, the paired search chose University of Maine before that affiliation appeared. The answer evidence does not validate the earlier selection.",
+  "Retain Orono after a grounded affiliation-query replay; consider omitting the state if the target is city only.",
+  [("before_action", "University of Maine", "university in Orono, Maine"), ("before_action", "Fastook Glacier", "James L. Fastook of the Department of Computer Sciences")]),
+ (199, "What year was the person who played Shelby", "repair_candidate", ["query_selects_wrong_glee_actor", "correct_actor_visible_before_search"],
+  "Both initial Glee episode descriptions identify Shelby as played by Idina Menzel. The query instead copies Ali Stroker's birth sentence; Stroker's presence on Glee is a different role. Retrieval happens to include Menzel's 1971 birth year.",
+  "Query Idina Menzel birth year from the role attribution already present and replay.",
+  [("before_action", "Theatricality", "Shelby (Idina Menzel)"), ("before_action", "Ali Stroker", "born June 16, 1987"), ("retrieved_after_search", "Idina Menzel", "May 30, 1971")]),
+ (200, "What year was the person who played Shelby", "repair_candidate", ["paired_wrong_actor_query", "answer_supported"],
+  "Idina Menzel is explicitly credited as Shelby, and her retrieved biography supports 1971. The corresponding search followed Ali Stroker instead of Menzel; this action cannot be kept as a good query target.",
+  "Keep the year only after a corrected Menzel query and independent review.",
+  [("before_action", "Theatricality", "Shelby (Idina Menzel)"), ("before_action", "Idina Menzel", "May 30, 1971")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-098.jsonl", cohort="v122_train_candidates")

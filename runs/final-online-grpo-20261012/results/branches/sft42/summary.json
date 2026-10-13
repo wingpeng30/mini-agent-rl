@@ -1,0 +1,23 @@
+{
+  "method": "continued_trajectory_sft",
+  "seed": 42,
+  "status": "COMPLETED",
+  "training_complete": true,
+  "updates": 128,
+  "groups": 0,
+  "zero_variance": 0,
+  "training_seconds": 233.42516495287418,
+  "peak_reserved_gb": 13.475,
+  "gpu_memory": {
+    "peak_allocated_gb": 11.922,
+    "peak_reserved_gb": 13.475,
+    "device_process_gb": 13.973,
+    "device_memory_source": "single_compute_process_fallback"
+  },
+  "changed_lora_tensors": 192,
+  "base_unchanged": true,
+  "reference_unchanged": null,
+  "adapter_sha256": "0846e7915bb472015c90fc7e0ad021ee99b9b55c4df69b29c5a0ccf3f7eb0444",
+  "reload_max_abs": null,
+  "reload_note": "final evaluation reloads saved checkpoint; no additional scoring probe"
+}

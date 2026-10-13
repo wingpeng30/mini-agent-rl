@@ -1,0 +1,110 @@
+{
+  "version": "v133-ten-case-revised-review-materials-v1",
+  "source_packet_sha256": "ec09c8d9976784975ee5a6491434235f16c29f1665cfbb7c28729f06cb7a20af",
+  "source_packet": "D:\\AgentLightning\\mini-agent-rl\\runs\\v133-search-budget-20260927-cuda-run01\\blind-review\\deepseek-packet.json",
+  "scope": "anonymous evidence and citation scopes for fresh independent review",
+  "original_votes_modified": false,
+  "api_requests": 0,
+  "cases": [
+    {
+      "case_id": "case-001",
+      "file": "case-001.json",
+      "sha256": "4245ef0f8790a297e6996dc787c515f27f1c674eb0e03b9a7c2567824788b16a",
+      "action": "search",
+      "candidate_answer_time_document_counts": {
+        "candidate_1": 5,
+        "candidate_2": 4
+      }
+    },
+    {
+      "case_id": "case-007",
+      "file": "case-007.json",
+      "sha256": "4be7e42b7ff0fbb790c155f996780271a9fb8578da1adf929345f92c5324ce8f",
+      "action": "search",
+      "candidate_answer_time_document_counts": {
+        "candidate_1": 5,
+        "candidate_2": 4
+      }
+    },
+    {
+      "case_id": "case-010",
+      "file": "case-010.json",
+      "sha256": "0dfec4958a8f248b33acab83a85d44853ee648a27189f6647db7e120ea5f1596",
+      "action": "answer",
+      "candidate_answer_time_document_counts": {
+        "candidate_1": 5,
+        "candidate_2": 5
+      }
+    },
+    {
+      "case_id": "case-011",
+      "file": "case-011.json",
+      "sha256": "c67a0b9bdf1423a032493879c912d2df962dab1e04c5b23a99c6e0d1e1d8bdd9",
+      "action": "answer",
+      "candidate_answer_time_document_counts": {
+        "candidate_1": 5,
+        "candidate_2": 5
+      }
+    },
+    {
+      "case_id": "case-012",
+      "file": "case-012.json",
+      "sha256": "a7130d32d0d5f409d4a1ce1e3294d16243455b9752e5c917f144418fe5cc528e",
+      "action": "answer",
+      "candidate_answer_time_document_counts": {
+        "candidate_1": 5,
+        "candidate_2": 5
+      }
+    },
+    {
+      "case_id": "case-015",
+      "file": "case-015.json",
+      "sha256": "dd765d1d3a5f8a82c645d2a8b3e3b45ca3e55fcc363f1165d91a8ed3abfcceb8",
+      "action": "answer",
+      "candidate_answer_time_document_counts": {
+        "candidate_1": 5,
+        "candidate_2": 0
+      }
+    },
+    {
+      "case_id": "case-017",
+      "file": "case-017.json",
+      "sha256": "554481beb8007be7a6759c8a5cab80ada0b96efd94d59faae2a2c218c359ffef",
+      "action": "answer",
+      "candidate_answer_time_document_counts": {
+        "candidate_1": 0,
+        "candidate_2": 3
+      }
+    },
+    {
+      "case_id": "case-018",
+      "file": "case-018.json",
+      "sha256": "52f73fa3196947e5e5f9e7af07b1ef392ee759e20e85543d3124d4b02945d8ac",
+      "action": "answer",
+      "candidate_answer_time_document_counts": {
+        "candidate_1": 0,
+        "candidate_2": 0
+      }
+    },
+    {
+      "case_id": "case-021",
+      "file": "case-021.json",
+      "sha256": "9f06f006ca7b4dbd1959169aae24d8c3bbabce528fd032e505d31cb08dbeae04",
+      "action": "answer",
+      "candidate_answer_time_document_counts": {
+        "candidate_1": 3,
+        "candidate_2": 5
+      }
+    },
+    {
+      "case_id": "case-022",
+      "file": "case-022.json",
+      "sha256": "e4349bf55300590639f2c07962c89e69ecfc515e05752010e474559c5bff9f8e",
+      "action": "answer",
+      "candidate_answer_time_document_counts": {
+        "candidate_1": 5,
+        "candidate_2": 3
+      }
+    }
+  ]
+}

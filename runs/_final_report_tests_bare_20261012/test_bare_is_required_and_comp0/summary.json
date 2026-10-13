@@ -1,0 +1,5778 @@
+{
+  "kind": "exposed fixed-data regression; no new semantic review",
+  "status": {},
+  "groups": {
+    "natural104": {
+      "branches": {
+        "am-serial": {
+          "count": 104,
+          "expected": 104,
+          "complete": true,
+          "strict_em_count": 52.0,
+          "normalized_em_count": 52.0,
+          "strict_em_rate": 0.5,
+          "normalized_em_rate": 0.5,
+          "mean_f1": 0.5,
+          "answered": 104,
+          "invalid_actions": 0.0,
+          "repeated_actions": 0.0,
+          "model_calls": 208.0,
+          "searches": 104.0,
+          "input_tokens": 10400.0,
+          "output_tokens": 1040.0,
+          "sum_question_seconds": 104.0,
+          "mean_question_seconds": 1.0,
+          "p95_question_seconds": 1.0,
+          "peak_allocated_gib": 0.0,
+          "peak_reserved_gib": 0.0,
+          "end_reasons": {
+            "answer": 104
+          }
+        },
+        "sft42": {
+          "count": 104,
+          "expected": 104,
+          "complete": true,
+          "strict_em_count": 52.0,
+          "normalized_em_count": 52.0,
+          "strict_em_rate": 0.5,
+          "normalized_em_rate": 0.5,
+          "mean_f1": 0.5,
+          "answered": 104,
+          "invalid_actions": 0.0,
+          "repeated_actions": 0.0,
+          "model_calls": 208.0,
+          "searches": 104.0,
+          "input_tokens": 10400.0,
+          "output_tokens": 1040.0,
+          "sum_question_seconds": 104.0,
+          "mean_question_seconds": 1.0,
+          "p95_question_seconds": 1.0,
+          "peak_allocated_gib": 0.0,
+          "peak_reserved_gib": 0.0,
+          "end_reasons": {
+            "answer": 104
+          }
+        },
+        "grpo42": {
+          "count": 104,
+          "expected": 104,
+          "complete": true,
+          "strict_em_count": 52.0,
+          "normalized_em_count": 52.0,
+          "strict_em_rate": 0.5,
+          "normalized_em_rate": 0.5,
+          "mean_f1": 0.5,
+          "answered": 104,
+          "invalid_actions": 0.0,
+          "repeated_actions": 0.0,
+          "model_calls": 208.0,
+          "searches": 104.0,
+          "input_tokens": 10400.0,
+          "output_tokens": 1040.0,
+          "sum_question_seconds": 104.0,
+          "mean_question_seconds": 1.0,
+          "p95_question_seconds": 1.0,
+          "peak_allocated_gib": 0.0,
+          "peak_reserved_gib": 0.0,
+          "end_reasons": {
+            "answer": 104
+          }
+        },
+        "grpo43": {
+          "count": 104,
+          "expected": 104,
+          "complete": true,
+          "strict_em_count": 52.0,
+          "normalized_em_count": 52.0,
+          "strict_em_rate": 0.5,
+          "normalized_em_rate": 0.5,
+          "mean_f1": 0.5,
+          "answered": 104,
+          "invalid_actions": 0.0,
+          "repeated_actions": 0.0,
+          "model_calls": 208.0,
+          "searches": 104.0,
+          "input_tokens": 10400.0,
+          "output_tokens": 1040.0,
+          "sum_question_seconds": 104.0,
+          "mean_question_seconds": 1.0,
+          "p95_question_seconds": 1.0,
+          "peak_allocated_gib": 0.0,
+          "peak_reserved_gib": 0.0,
+          "end_reasons": {
+            "answer": 104
+          }
+        }
+      },
+      "paired_vs_am": {
+        "sft42": {
+          "pairs": 104,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": [],
+          "normalized_em_delta": 0.0,
+          "mean_f1_delta": 0.0,
+          "normalized_em_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "mean_f1_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "gains": 0,
+          "losses": 0,
+          "unchanged": 104,
+          "changed_cases": []
+        },
+        "grpo42": {
+          "pairs": 104,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": [],
+          "normalized_em_delta": 0.0,
+          "mean_f1_delta": 0.0,
+          "normalized_em_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "mean_f1_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "gains": 0,
+          "losses": 0,
+          "unchanged": 104,
+          "changed_cases": []
+        },
+        "grpo43": {
+          "pairs": 104,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": [],
+          "normalized_em_delta": 0.0,
+          "mean_f1_delta": 0.0,
+          "normalized_em_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "mean_f1_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "gains": 0,
+          "losses": 0,
+          "unchanged": 104,
+          "changed_cases": []
+        }
+      },
+      "paired_vs_sft": {
+        "grpo42": {
+          "pairs": 104,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": [],
+          "normalized_em_delta": 0.0,
+          "mean_f1_delta": 0.0,
+          "normalized_em_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "mean_f1_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "gains": 0,
+          "losses": 0,
+          "unchanged": 104,
+          "changed_cases": []
+        },
+        "grpo43": {
+          "pairs": 104,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": [],
+          "normalized_em_delta": 0.0,
+          "mean_f1_delta": 0.0,
+          "normalized_em_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "mean_f1_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "gains": 0,
+          "losses": 0,
+          "unchanged": 104,
+          "changed_cases": []
+        }
+      }
+    },
+    "all128": {
+      "branches": {
+        "am-serial": {
+          "count": 128,
+          "expected": 128,
+          "complete": true,
+          "strict_em_count": 64.0,
+          "normalized_em_count": 64.0,
+          "strict_em_rate": 0.5,
+          "normalized_em_rate": 0.5,
+          "mean_f1": 0.5,
+          "answered": 128,
+          "invalid_actions": 0.0,
+          "repeated_actions": 0.0,
+          "model_calls": 256.0,
+          "searches": 128.0,
+          "input_tokens": 12800.0,
+          "output_tokens": 1280.0,
+          "sum_question_seconds": 128.0,
+          "mean_question_seconds": 1.0,
+          "p95_question_seconds": 1.0,
+          "peak_allocated_gib": 0.0,
+          "peak_reserved_gib": 0.0,
+          "end_reasons": {
+            "answer": 128
+          }
+        },
+        "sft42": {
+          "count": 128,
+          "expected": 128,
+          "complete": true,
+          "strict_em_count": 64.0,
+          "normalized_em_count": 64.0,
+          "strict_em_rate": 0.5,
+          "normalized_em_rate": 0.5,
+          "mean_f1": 0.5,
+          "answered": 128,
+          "invalid_actions": 0.0,
+          "repeated_actions": 0.0,
+          "model_calls": 256.0,
+          "searches": 128.0,
+          "input_tokens": 12800.0,
+          "output_tokens": 1280.0,
+          "sum_question_seconds": 128.0,
+          "mean_question_seconds": 1.0,
+          "p95_question_seconds": 1.0,
+          "peak_allocated_gib": 0.0,
+          "peak_reserved_gib": 0.0,
+          "end_reasons": {
+            "answer": 128
+          }
+        },
+        "grpo42": {
+          "count": 128,
+          "expected": 128,
+          "complete": true,
+          "strict_em_count": 64.0,
+          "normalized_em_count": 64.0,
+          "strict_em_rate": 0.5,
+          "normalized_em_rate": 0.5,
+          "mean_f1": 0.5,
+          "answered": 128,
+          "invalid_actions": 0.0,
+          "repeated_actions": 0.0,
+          "model_calls": 256.0,
+          "searches": 128.0,
+          "input_tokens": 12800.0,
+          "output_tokens": 1280.0,
+          "sum_question_seconds": 128.0,
+          "mean_question_seconds": 1.0,
+          "p95_question_seconds": 1.0,
+          "peak_allocated_gib": 0.0,
+          "peak_reserved_gib": 0.0,
+          "end_reasons": {
+            "answer": 128
+          }
+        },
+        "grpo43": {
+          "count": 128,
+          "expected": 128,
+          "complete": true,
+          "strict_em_count": 64.0,
+          "normalized_em_count": 64.0,
+          "strict_em_rate": 0.5,
+          "normalized_em_rate": 0.5,
+          "mean_f1": 0.5,
+          "answered": 128,
+          "invalid_actions": 0.0,
+          "repeated_actions": 0.0,
+          "model_calls": 256.0,
+          "searches": 128.0,
+          "input_tokens": 12800.0,
+          "output_tokens": 1280.0,
+          "sum_question_seconds": 128.0,
+          "mean_question_seconds": 1.0,
+          "p95_question_seconds": 1.0,
+          "peak_allocated_gib": 0.0,
+          "peak_reserved_gib": 0.0,
+          "end_reasons": {
+            "answer": 128
+          }
+        }
+      },
+      "paired_vs_am": {
+        "sft42": {
+          "pairs": 128,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": [],
+          "normalized_em_delta": 0.0,
+          "mean_f1_delta": 0.0,
+          "normalized_em_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "mean_f1_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "gains": 0,
+          "losses": 0,
+          "unchanged": 128,
+          "changed_cases": []
+        },
+        "grpo42": {
+          "pairs": 128,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": [],
+          "normalized_em_delta": 0.0,
+          "mean_f1_delta": 0.0,
+          "normalized_em_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "mean_f1_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "gains": 0,
+          "losses": 0,
+          "unchanged": 128,
+          "changed_cases": []
+        },
+        "grpo43": {
+          "pairs": 128,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": [],
+          "normalized_em_delta": 0.0,
+          "mean_f1_delta": 0.0,
+          "normalized_em_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "mean_f1_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "gains": 0,
+          "losses": 0,
+          "unchanged": 128,
+          "changed_cases": []
+        }
+      },
+      "paired_vs_sft": {
+        "grpo42": {
+          "pairs": 128,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": [],
+          "normalized_em_delta": 0.0,
+          "mean_f1_delta": 0.0,
+          "normalized_em_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "mean_f1_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "gains": 0,
+          "losses": 0,
+          "unchanged": 128,
+          "changed_cases": []
+        },
+        "grpo43": {
+          "pairs": 128,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": [],
+          "normalized_em_delta": 0.0,
+          "mean_f1_delta": 0.0,
+          "normalized_em_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "mean_f1_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "gains": 0,
+          "losses": 0,
+          "unchanged": 128,
+          "changed_cases": []
+        }
+      }
+    },
+    "single24": {
+      "branches": {
+        "am-serial": {
+          "count": 24,
+          "expected": 24,
+          "complete": true,
+          "strict_em_count": 12.0,
+          "normalized_em_count": 12.0,
+          "strict_em_rate": 0.5,
+          "normalized_em_rate": 0.5,
+          "mean_f1": 0.5,
+          "answered": 24,
+          "invalid_actions": 0.0,
+          "repeated_actions": 0.0,
+          "model_calls": 48.0,
+          "searches": 24.0,
+          "input_tokens": 2400.0,
+          "output_tokens": 240.0,
+          "sum_question_seconds": 24.0,
+          "mean_question_seconds": 1.0,
+          "p95_question_seconds": 1.0,
+          "peak_allocated_gib": 0.0,
+          "peak_reserved_gib": 0.0,
+          "end_reasons": {
+            "answer": 24
+          }
+        },
+        "sft42": {
+          "count": 24,
+          "expected": 24,
+          "complete": true,
+          "strict_em_count": 12.0,
+          "normalized_em_count": 12.0,
+          "strict_em_rate": 0.5,
+          "normalized_em_rate": 0.5,
+          "mean_f1": 0.5,
+          "answered": 24,
+          "invalid_actions": 0.0,
+          "repeated_actions": 0.0,
+          "model_calls": 48.0,
+          "searches": 24.0,
+          "input_tokens": 2400.0,
+          "output_tokens": 240.0,
+          "sum_question_seconds": 24.0,
+          "mean_question_seconds": 1.0,
+          "p95_question_seconds": 1.0,
+          "peak_allocated_gib": 0.0,
+          "peak_reserved_gib": 0.0,
+          "end_reasons": {
+            "answer": 24
+          }
+        },
+        "grpo42": {
+          "count": 24,
+          "expected": 24,
+          "complete": true,
+          "strict_em_count": 12.0,
+          "normalized_em_count": 12.0,
+          "strict_em_rate": 0.5,
+          "normalized_em_rate": 0.5,
+          "mean_f1": 0.5,
+          "answered": 24,
+          "invalid_actions": 0.0,
+          "repeated_actions": 0.0,
+          "model_calls": 48.0,
+          "searches": 24.0,
+          "input_tokens": 2400.0,
+          "output_tokens": 240.0,
+          "sum_question_seconds": 24.0,
+          "mean_question_seconds": 1.0,
+          "p95_question_seconds": 1.0,
+          "peak_allocated_gib": 0.0,
+          "peak_reserved_gib": 0.0,
+          "end_reasons": {
+            "answer": 24
+          }
+        },
+        "grpo43": {
+          "count": 24,
+          "expected": 24,
+          "complete": true,
+          "strict_em_count": 12.0,
+          "normalized_em_count": 12.0,
+          "strict_em_rate": 0.5,
+          "normalized_em_rate": 0.5,
+          "mean_f1": 0.5,
+          "answered": 24,
+          "invalid_actions": 0.0,
+          "repeated_actions": 0.0,
+          "model_calls": 48.0,
+          "searches": 24.0,
+          "input_tokens": 2400.0,
+          "output_tokens": 240.0,
+          "sum_question_seconds": 24.0,
+          "mean_question_seconds": 1.0,
+          "p95_question_seconds": 1.0,
+          "peak_allocated_gib": 0.0,
+          "peak_reserved_gib": 0.0,
+          "end_reasons": {
+            "answer": 24
+          }
+        }
+      },
+      "paired_vs_am": {
+        "sft42": {
+          "pairs": 24,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": [],
+          "normalized_em_delta": 0.0,
+          "mean_f1_delta": 0.0,
+          "normalized_em_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "mean_f1_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "gains": 0,
+          "losses": 0,
+          "unchanged": 24,
+          "changed_cases": []
+        },
+        "grpo42": {
+          "pairs": 24,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": [],
+          "normalized_em_delta": 0.0,
+          "mean_f1_delta": 0.0,
+          "normalized_em_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "mean_f1_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "gains": 0,
+          "losses": 0,
+          "unchanged": 24,
+          "changed_cases": []
+        },
+        "grpo43": {
+          "pairs": 24,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": [],
+          "normalized_em_delta": 0.0,
+          "mean_f1_delta": 0.0,
+          "normalized_em_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "mean_f1_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "gains": 0,
+          "losses": 0,
+          "unchanged": 24,
+          "changed_cases": []
+        }
+      },
+      "paired_vs_sft": {
+        "grpo42": {
+          "pairs": 24,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": [],
+          "normalized_em_delta": 0.0,
+          "mean_f1_delta": 0.0,
+          "normalized_em_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "mean_f1_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "gains": 0,
+          "losses": 0,
+          "unchanged": 24,
+          "changed_cases": []
+        },
+        "grpo43": {
+          "pairs": 24,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": [],
+          "normalized_em_delta": 0.0,
+          "mean_f1_delta": 0.0,
+          "normalized_em_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "mean_f1_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "gains": 0,
+          "losses": 0,
+          "unchanged": 24,
+          "changed_cases": []
+        }
+      }
+    }
+  },
+  "training": {
+    "sft42": {
+      "update_records": 0,
+      "group_records": 0,
+      "planned_groups": 0,
+      "planned_updates": 128,
+      "sampled_trajectories": 0,
+      "updates_per_second": null,
+      "groups_per_second": null
+    },
+    "grpo42": {
+      "update_records": 0,
+      "group_records": 0,
+      "planned_groups": 128,
+      "planned_updates": 256,
+      "sampled_trajectories": 0,
+      "updates_per_second": null,
+      "groups_per_second": null
+    },
+    "grpo43": {
+      "update_records": 0,
+      "group_records": 0,
+      "planned_groups": 128,
+      "planned_updates": 256,
+      "sampled_trajectories": 0,
+      "updates_per_second": null,
+      "groups_per_second": null
+    }
+  },
+  "warnings": [],
+  "new_semantic_review": false,
+  "bootstrap": {
+    "draws": 2000,
+    "seed": 42,
+    "method": "paired percentile"
+  },
+  "complete": true,
+  "bare_model": {
+    "branch": "base-untrained",
+    "groups": {
+      "natural104": {
+        "metrics": {
+          "count": 104,
+          "expected": 104,
+          "complete": true,
+          "strict_em_count": 0.0,
+          "normalized_em_count": 0.0,
+          "strict_em_rate": 0.0,
+          "normalized_em_rate": 0.0,
+          "mean_f1": 0.0,
+          "answered": 104,
+          "invalid_actions": 0.0,
+          "repeated_actions": 0.0,
+          "model_calls": 208.0,
+          "searches": 104.0,
+          "input_tokens": 10400.0,
+          "output_tokens": 1040.0,
+          "sum_question_seconds": 104.0,
+          "mean_question_seconds": 1.0,
+          "p95_question_seconds": 1.0,
+          "peak_allocated_gib": 0.0,
+          "peak_reserved_gib": 0.0,
+          "end_reasons": {
+            "answer": 104
+          }
+        },
+        "paired_to_branches": {
+          "am-serial": {
+            "pairs": 104,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": [],
+            "normalized_em_delta": 0.5,
+            "mean_f1_delta": 0.5,
+            "normalized_em_bootstrap95": [
+              0.40384615384615385,
+              0.5865384615384616
+            ],
+            "mean_f1_bootstrap95": [
+              0.40384615384615385,
+              0.5865384615384616
+            ],
+            "gains": 52,
+            "losses": 0,
+            "unchanged": 52,
+            "changed_cases": [
+              {
+                "case_id": "1",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "101",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "103",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "11",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "13",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "15",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "17",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "19",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "21",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "23",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "25",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "27",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "29",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "3",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "31",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "33",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "35",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "37",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "39",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "41",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "43",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "45",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "47",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "49",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "5",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "51",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "53",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "55",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "57",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "59",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "61",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "63",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "65",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "67",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "69",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "7",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "71",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "73",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "75",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "77",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "79",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "81",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "83",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "85",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "87",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "89",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "9",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "91",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "93",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "95",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "97",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "99",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              }
+            ]
+          },
+          "sft42": {
+            "pairs": 104,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": [],
+            "normalized_em_delta": 0.5,
+            "mean_f1_delta": 0.5,
+            "normalized_em_bootstrap95": [
+              0.40384615384615385,
+              0.5865384615384616
+            ],
+            "mean_f1_bootstrap95": [
+              0.40384615384615385,
+              0.5865384615384616
+            ],
+            "gains": 52,
+            "losses": 0,
+            "unchanged": 52,
+            "changed_cases": [
+              {
+                "case_id": "1",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "101",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "103",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "11",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "13",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "15",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "17",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "19",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "21",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "23",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "25",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "27",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "29",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "3",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "31",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "33",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "35",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "37",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "39",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "41",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "43",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "45",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "47",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "49",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "5",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "51",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "53",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "55",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "57",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "59",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "61",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "63",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "65",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "67",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "69",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "7",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "71",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "73",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "75",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "77",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "79",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "81",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "83",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "85",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "87",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "89",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "9",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "91",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "93",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "95",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "97",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "99",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              }
+            ]
+          },
+          "grpo42": {
+            "pairs": 104,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": [],
+            "normalized_em_delta": 0.5,
+            "mean_f1_delta": 0.5,
+            "normalized_em_bootstrap95": [
+              0.40384615384615385,
+              0.5865384615384616
+            ],
+            "mean_f1_bootstrap95": [
+              0.40384615384615385,
+              0.5865384615384616
+            ],
+            "gains": 52,
+            "losses": 0,
+            "unchanged": 52,
+            "changed_cases": [
+              {
+                "case_id": "1",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "101",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "103",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "11",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "13",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "15",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "17",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "19",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "21",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "23",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "25",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "27",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "29",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "3",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "31",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "33",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "35",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "37",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "39",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "41",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "43",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "45",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "47",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "49",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "5",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "51",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "53",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "55",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "57",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "59",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "61",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "63",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "65",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "67",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "69",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "7",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "71",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "73",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "75",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "77",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "79",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "81",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "83",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "85",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "87",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "89",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "9",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "91",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "93",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "95",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "97",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "99",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              }
+            ]
+          },
+          "grpo43": {
+            "pairs": 104,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": [],
+            "normalized_em_delta": 0.5,
+            "mean_f1_delta": 0.5,
+            "normalized_em_bootstrap95": [
+              0.40384615384615385,
+              0.5865384615384616
+            ],
+            "mean_f1_bootstrap95": [
+              0.40384615384615385,
+              0.5865384615384616
+            ],
+            "gains": 52,
+            "losses": 0,
+            "unchanged": 52,
+            "changed_cases": [
+              {
+                "case_id": "1",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "101",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "103",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "11",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "13",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "15",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "17",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "19",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "21",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "23",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "25",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "27",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "29",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "3",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "31",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "33",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "35",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "37",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "39",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "41",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "43",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "45",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "47",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "49",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "5",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "51",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "53",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "55",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "57",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "59",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "61",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "63",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "65",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "67",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "69",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "7",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "71",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "73",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "75",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "77",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "79",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "81",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "83",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "85",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "87",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "89",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "9",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "91",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "93",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "95",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "97",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "99",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              }
+            ]
+          }
+        }
+      },
+      "all128": {
+        "metrics": {
+          "count": 128,
+          "expected": 128,
+          "complete": true,
+          "strict_em_count": 0.0,
+          "normalized_em_count": 0.0,
+          "strict_em_rate": 0.0,
+          "normalized_em_rate": 0.0,
+          "mean_f1": 0.0,
+          "answered": 128,
+          "invalid_actions": 0.0,
+          "repeated_actions": 0.0,
+          "model_calls": 256.0,
+          "searches": 128.0,
+          "input_tokens": 12800.0,
+          "output_tokens": 1280.0,
+          "sum_question_seconds": 128.0,
+          "mean_question_seconds": 1.0,
+          "p95_question_seconds": 1.0,
+          "peak_allocated_gib": 0.0,
+          "peak_reserved_gib": 0.0,
+          "end_reasons": {
+            "answer": 128
+          }
+        },
+        "paired_to_branches": {
+          "am-serial": {
+            "pairs": 128,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": [],
+            "normalized_em_delta": 0.5,
+            "mean_f1_delta": 0.5,
+            "normalized_em_bootstrap95": [
+              0.4140625,
+              0.5859375
+            ],
+            "mean_f1_bootstrap95": [
+              0.4140625,
+              0.5859375
+            ],
+            "gains": 64,
+            "losses": 0,
+            "unchanged": 64,
+            "changed_cases": [
+              {
+                "case_id": "1",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "101",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "103",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "105",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "107",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "109",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "11",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "111",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "113",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "115",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "117",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "119",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "121",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "123",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "125",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "127",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "13",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "15",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "17",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "19",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "21",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "23",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "25",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "27",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "29",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "3",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "31",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "33",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "35",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "37",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "39",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "41",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "43",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "45",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "47",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "49",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "5",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "51",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "53",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "55",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "57",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "59",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "61",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "63",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "65",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "67",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "69",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "7",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "71",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "73",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "75",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "77",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "79",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "81",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "83",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "85",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "87",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "89",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "9",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "91",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "93",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "95",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "97",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "99",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              }
+            ]
+          },
+          "sft42": {
+            "pairs": 128,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": [],
+            "normalized_em_delta": 0.5,
+            "mean_f1_delta": 0.5,
+            "normalized_em_bootstrap95": [
+              0.4140625,
+              0.5859375
+            ],
+            "mean_f1_bootstrap95": [
+              0.4140625,
+              0.5859375
+            ],
+            "gains": 64,
+            "losses": 0,
+            "unchanged": 64,
+            "changed_cases": [
+              {
+                "case_id": "1",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "101",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "103",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "105",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "107",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "109",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "11",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "111",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "113",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "115",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "117",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "119",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "121",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "123",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "125",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "127",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "13",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "15",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "17",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "19",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "21",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "23",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "25",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "27",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "29",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "3",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "31",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "33",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "35",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "37",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "39",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "41",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "43",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "45",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "47",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "49",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "5",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "51",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "53",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "55",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "57",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "59",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "61",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "63",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "65",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "67",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "69",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "7",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "71",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "73",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "75",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "77",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "79",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "81",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "83",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "85",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "87",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "89",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "9",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "91",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "93",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "95",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "97",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "99",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              }
+            ]
+          },
+          "grpo42": {
+            "pairs": 128,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": [],
+            "normalized_em_delta": 0.5,
+            "mean_f1_delta": 0.5,
+            "normalized_em_bootstrap95": [
+              0.4140625,
+              0.5859375
+            ],
+            "mean_f1_bootstrap95": [
+              0.4140625,
+              0.5859375
+            ],
+            "gains": 64,
+            "losses": 0,
+            "unchanged": 64,
+            "changed_cases": [
+              {
+                "case_id": "1",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "101",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "103",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "105",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "107",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "109",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "11",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "111",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "113",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "115",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "117",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "119",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "121",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "123",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "125",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "127",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "13",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "15",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "17",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "19",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "21",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "23",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "25",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "27",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "29",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "3",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "31",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "33",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "35",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "37",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "39",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "41",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "43",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "45",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "47",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "49",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "5",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "51",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "53",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "55",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "57",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "59",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "61",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "63",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "65",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "67",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "69",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "7",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "71",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "73",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "75",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "77",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "79",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "81",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "83",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "85",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "87",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "89",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "9",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "91",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "93",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "95",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "97",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "99",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              }
+            ]
+          },
+          "grpo43": {
+            "pairs": 128,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": [],
+            "normalized_em_delta": 0.5,
+            "mean_f1_delta": 0.5,
+            "normalized_em_bootstrap95": [
+              0.4140625,
+              0.5859375
+            ],
+            "mean_f1_bootstrap95": [
+              0.4140625,
+              0.5859375
+            ],
+            "gains": 64,
+            "losses": 0,
+            "unchanged": 64,
+            "changed_cases": [
+              {
+                "case_id": "1",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "101",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "103",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "105",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "107",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "109",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "11",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "111",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "113",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "115",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "117",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "119",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "121",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "123",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "125",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "127",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "13",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "15",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "17",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "19",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "21",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "23",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "25",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "27",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "29",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "3",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "31",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "33",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "35",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "37",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "39",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "41",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "43",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "45",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "47",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "49",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "5",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "51",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "53",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "55",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "57",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "59",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "61",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "63",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "65",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "67",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "69",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "7",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "71",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "73",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "75",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "77",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "79",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "81",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "83",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "85",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "87",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "89",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "9",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "91",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "93",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "95",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "97",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "99",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              }
+            ]
+          }
+        }
+      },
+      "single24": {
+        "metrics": {
+          "count": 24,
+          "expected": 24,
+          "complete": true,
+          "strict_em_count": 0.0,
+          "normalized_em_count": 0.0,
+          "strict_em_rate": 0.0,
+          "normalized_em_rate": 0.0,
+          "mean_f1": 0.0,
+          "answered": 24,
+          "invalid_actions": 0.0,
+          "repeated_actions": 0.0,
+          "model_calls": 48.0,
+          "searches": 24.0,
+          "input_tokens": 2400.0,
+          "output_tokens": 240.0,
+          "sum_question_seconds": 24.0,
+          "mean_question_seconds": 1.0,
+          "p95_question_seconds": 1.0,
+          "peak_allocated_gib": 0.0,
+          "peak_reserved_gib": 0.0,
+          "end_reasons": {
+            "answer": 24
+          }
+        },
+        "paired_to_branches": {
+          "am-serial": {
+            "pairs": 24,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": [],
+            "normalized_em_delta": 0.5,
+            "mean_f1_delta": 0.5,
+            "normalized_em_bootstrap95": [
+              0.2916666666666667,
+              0.7083333333333334
+            ],
+            "mean_f1_bootstrap95": [
+              0.2916666666666667,
+              0.7083333333333334
+            ],
+            "gains": 12,
+            "losses": 0,
+            "unchanged": 12,
+            "changed_cases": [
+              {
+                "case_id": "105",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "107",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "109",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "111",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "113",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "115",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "117",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "119",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "121",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "123",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "125",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "127",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              }
+            ]
+          },
+          "sft42": {
+            "pairs": 24,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": [],
+            "normalized_em_delta": 0.5,
+            "mean_f1_delta": 0.5,
+            "normalized_em_bootstrap95": [
+              0.2916666666666667,
+              0.7083333333333334
+            ],
+            "mean_f1_bootstrap95": [
+              0.2916666666666667,
+              0.7083333333333334
+            ],
+            "gains": 12,
+            "losses": 0,
+            "unchanged": 12,
+            "changed_cases": [
+              {
+                "case_id": "105",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "107",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "109",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "111",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "113",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "115",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "117",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "119",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "121",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "123",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "125",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "127",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              }
+            ]
+          },
+          "grpo42": {
+            "pairs": 24,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": [],
+            "normalized_em_delta": 0.5,
+            "mean_f1_delta": 0.5,
+            "normalized_em_bootstrap95": [
+              0.2916666666666667,
+              0.7083333333333334
+            ],
+            "mean_f1_bootstrap95": [
+              0.2916666666666667,
+              0.7083333333333334
+            ],
+            "gains": 12,
+            "losses": 0,
+            "unchanged": 12,
+            "changed_cases": [
+              {
+                "case_id": "105",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "107",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "109",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "111",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "113",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "115",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "117",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "119",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "121",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "123",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "125",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "127",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              }
+            ]
+          },
+          "grpo43": {
+            "pairs": 24,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": [],
+            "normalized_em_delta": 0.5,
+            "mean_f1_delta": 0.5,
+            "normalized_em_bootstrap95": [
+              0.2916666666666667,
+              0.7083333333333334
+            ],
+            "mean_f1_bootstrap95": [
+              0.2916666666666667,
+              0.7083333333333334
+            ],
+            "gains": 12,
+            "losses": 0,
+            "unchanged": 12,
+            "changed_cases": [
+              {
+                "case_id": "105",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "107",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "109",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "111",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "113",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "115",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "117",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "119",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "121",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "123",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "125",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              },
+              {
+                "case_id": "127",
+                "change": "gain",
+                "question": null,
+                "baseline_answer": "1",
+                "candidate_answer": "1",
+                "baseline_reason": "answer",
+                "candidate_reason": "answer"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "efficiency": {
+    "serial": {
+      "measured_cases": 128,
+      "wall_seconds": null,
+      "scope": "full evaluation",
+      "questions_per_minute": null,
+      "input_tokens_per_second": null,
+      "output_tokens_per_second": null,
+      "peak_allocated_gib": null,
+      "peak_reserved_gib": null
+    },
+    "batch": {
+      "measured_cases": 0,
+      "wall_seconds": null,
+      "scope": "full evaluation",
+      "questions_per_minute": null,
+      "input_tokens_per_second": null,
+      "output_tokens_per_second": null,
+      "peak_allocated_gib": null,
+      "peak_reserved_gib": null
+    },
+    "answer_comparison": {
+      "pairs": 0,
+      "identical_case_sets": false,
+      "before_only": [
+        "0",
+        "1",
+        "10",
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "11",
+        "110",
+        "111",
+        "112",
+        "113",
+        "114",
+        "115",
+        "116",
+        "117",
+        "118",
+        "119",
+        "12",
+        "120",
+        "121",
+        "122",
+        "123",
+        "124",
+        "125",
+        "126",
+        "127",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "2",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "3",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "4",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "5",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "6",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "7",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "8",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "9",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99"
+      ],
+      "after_only": []
+    },
+    "exact_answer_changes": [],
+    "batch_throughput_ratio": null
+  }
+}

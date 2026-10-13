@@ -1,0 +1,28 @@
+{
+  "method": "online_hybrid_grpo",
+  "seed": 43,
+  "status": "COMPLETED",
+  "training_complete": true,
+  "groups": 128,
+  "samples": 512,
+  "partial_trajectory_attempts": 0,
+  "model_generation_attempts": 1437,
+  "updates": 110,
+  "zero_variance": 73,
+  "policy_epochs": 2,
+  "training_seconds": 1909.8551972284913,
+  "effective_groups": 55,
+  "peak_reserved_gb": 15.859,
+  "gpu_memory": {
+    "peak_allocated_gb": 12.257,
+    "peak_reserved_gb": 15.859,
+    "device_process_gb": 16.451,
+    "device_memory_source": "single_compute_process_fallback"
+  },
+  "changed_lora_tensors": 192,
+  "base_unchanged": true,
+  "reference_unchanged": true,
+  "adapter_sha256": "45a3de2229ea2f8214f1963fe111ea921960e314a479c8a5802581ed4b6a4737",
+  "reload_max_abs": null,
+  "reload_note": "final evaluation reloads saved checkpoint; no additional scoring probe"
+}

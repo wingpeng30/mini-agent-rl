@@ -1,0 +1,65 @@
+{
+  "product": {
+    "retriever": "bm25-v2",
+    "top_k": 3,
+    "system_prompt": "direct-v090",
+    "thinking": false,
+    "max_input_tokens": 16384,
+    "max_new_tokens": 2048,
+    "max_model_calls_per_case": 4,
+    "max_searches_per_case": 3,
+    "observation_encoding": "legacy",
+    "action_completion": "first-json-v1",
+    "device": "cuda",
+    "dtype": "bfloat16",
+    "load_in_4bit": false,
+    "timeout": null,
+    "observation_presentation": "legacy-json",
+    "action_constraint": "none"
+  },
+  "arms": {
+    "A": "none",
+    "C": "draft",
+    "B": "reader"
+  },
+  "decision_config": {
+    "max_auxiliary_calls": 2,
+    "max_model_calls": 6
+  },
+  "caps": {
+    "generation": 1196,
+    "search": 576
+  },
+  "paths": {
+    "runner": "/root/autodl-tmp/mini-agent-rl/scripts/run_v133_goal_aw.py",
+    "pipeline": "/root/autodl-tmp/mini-agent-rl/src/mini_agent_rl/model/decision_pipeline.py",
+    "q": "/root/autodl-tmp/mini-agent-rl/scripts/run_v133_goal_q_search.py",
+    "local": "/root/autodl-tmp/mini-agent-rl/src/mini_agent_rl/model/local.py",
+    "plan": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-aw-hop-reader-v1/PLAN.md",
+    "inputs": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-aw-hop-reader-v1/probe-inputs.jsonl",
+    "parent": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-am-action-sft-v2/seed42-A/adapter-final/adapter_model.safetensors",
+    "tokenizer": "/root/autodl-tmp/qwen_08b/tokenizer.json",
+    "corpus": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-z-multihop-sft/corpus-dev.json",
+    "cases": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-am-action-sft-v2/evaluation-cases.jsonl",
+    "rulings": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-ar-constrained-evidence-v1/probe-adjudications.jsonl"
+  },
+  "hashes": {
+    "runner": "aa85a79ba53b6d5078b012a19617aa99aef71ebd9a84b426f4a8272005d8f292",
+    "pipeline": "87696ba132e9aec503eafeb2a7d47b18c316711be367f12190eca87e97a5ffd9",
+    "q": "eb95643baf9ad32eaea7b6edffa789ec097baec742d698d7cd1fde3d25bf3246",
+    "local": "19609c72f6bc76ab017a6408d75a45403a5573f0f246ea1e15468a942edaea5a",
+    "plan": "a403ae87a7b5bd0f9f96091adb4af68fcb6773da21120b26bb9bd52e1b428068",
+    "inputs": "9e4d832d1524c6c4b27f22b4e25a225c47f02c1aec33a2d23c540a0c59f1c5b4",
+    "parent": "3bcd1f85382c1d7775fa674c1a6e1e68c80911a69b86de209d20f2ab6269280c",
+    "tokenizer": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+    "corpus": "dc2a2f843ad04bb2c38ce839e1959034b7c63f1cbbc24971de2557ce3cf62d37",
+    "cases": "8c7fe268441632d38102f1eead4ae7ea5cbf90c5e0289cbddca0b7e106fde9e6",
+    "rulings": "9714f88a76627947a4daadf010bfa9fd7067cb96cc95cdc0ac880dbf9bdb603f"
+  },
+  "A_exact_inputs": 32,
+  "A_fresh_generation": true,
+  "parent": "AM42A",
+  "parent_sha256": "3bcd1f85382c1d7775fa674c1a6e1e68c80911a69b86de209d20f2ab6269280c",
+  "training_updates": 0,
+  "new_confirmation": 0
+}

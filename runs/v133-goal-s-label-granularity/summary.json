@@ -1,0 +1,159 @@
+{
+  "decision": {
+    "a42": {
+      "invalid": 0,
+      "main": 9,
+      "mean_f1": 0.69375,
+      "mean_latency": 1.8161453272914514,
+      "model": "42-a",
+      "regression": 6,
+      "searches": 32,
+      "support": 32,
+      "total": 15
+    },
+    "a43": {
+      "invalid": 0,
+      "main": 10,
+      "mean_f1": 0.7041666666666666,
+      "mean_latency": 1.7065648530842736,
+      "model": "43-a",
+      "regression": 6,
+      "searches": 32,
+      "support": 32,
+      "total": 16
+    },
+    "adapter": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-p-system/p3-training/rl/adapter-final",
+    "b42": {
+      "invalid": 0,
+      "main": 12,
+      "mean_f1": 0.7208333333333333,
+      "mean_latency": 1.5696584339020774,
+      "model": "42-b",
+      "regression": 6,
+      "searches": 32,
+      "support": 32,
+      "total": 18
+    },
+    "b43": {
+      "invalid": 0,
+      "main": 12,
+      "mean_f1": 0.7708333333333334,
+      "mean_latency": 1.5547258432488889,
+      "model": "43-b",
+      "regression": 8,
+      "searches": 32,
+      "support": 32,
+      "total": 20
+    },
+    "baseline": {
+      "invalid": 0,
+      "main": 12,
+      "mean_f1": 0.7345982142857143,
+      "mean_latency": 1.741808993392624,
+      "model": "incumbent",
+      "regression": 7,
+      "searches": 32,
+      "support": 32,
+      "total": 19
+    },
+    "reason": "incumbent_retained",
+    "replication_gate": {
+      "reason": "product_better_than_control",
+      "replicate": true
+    },
+    "selected": "incumbent"
+  },
+  "gpu_seconds": 710.8131143860519,
+  "models": [
+    {
+      "invalid": 0,
+      "main": 12,
+      "mean_f1": 0.7345982142857143,
+      "mean_latency": 1.741808993392624,
+      "model": "incumbent",
+      "regression": 7,
+      "searches": 32,
+      "support": 32,
+      "total": 19
+    },
+    {
+      "invalid": 0,
+      "main": 9,
+      "mean_f1": 0.69375,
+      "mean_latency": 1.8161453272914514,
+      "model": "42-a",
+      "regression": 6,
+      "searches": 32,
+      "support": 32,
+      "total": 15
+    },
+    {
+      "invalid": 0,
+      "main": 12,
+      "mean_f1": 0.7208333333333333,
+      "mean_latency": 1.5696584339020774,
+      "model": "42-b",
+      "regression": 6,
+      "searches": 32,
+      "support": 32,
+      "total": 18
+    },
+    {
+      "invalid": 0,
+      "main": 10,
+      "mean_f1": 0.7041666666666666,
+      "mean_latency": 1.7065648530842736,
+      "model": "43-a",
+      "regression": 6,
+      "searches": 32,
+      "support": 32,
+      "total": 16
+    },
+    {
+      "invalid": 0,
+      "main": 12,
+      "mean_f1": 0.7708333333333334,
+      "mean_latency": 1.5547258432488889,
+      "model": "43-b",
+      "regression": 8,
+      "searches": 32,
+      "support": 32,
+      "total": 20
+    }
+  ],
+  "stages": [
+    {
+      "name": "baseline",
+      "seconds": 60.96673420444131
+    },
+    {
+      "name": "train42_a",
+      "seconds": 62.3441634811461
+    },
+    {
+      "name": "train42_b",
+      "seconds": 63.024499490857124
+    },
+    {
+      "name": "eval42",
+      "seconds": 209.39652816951275
+    },
+    {
+      "name": "train43_a",
+      "seconds": 58.86070842295885
+    },
+    {
+      "name": "train43_b",
+      "seconds": 58.380301017314196
+    },
+    {
+      "name": "eval43",
+      "seconds": 182.97902112826705
+    },
+    {
+      "name": "final",
+      "seconds": 14.861158471554518
+    }
+  ],
+  "status": "complete"
+}

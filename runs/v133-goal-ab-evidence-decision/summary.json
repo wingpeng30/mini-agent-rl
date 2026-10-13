@@ -1,0 +1,701 @@
+{
+  "development_decision": {
+    "counts": {
+      "aa_regression-42-A": {
+        "bad_total": 22,
+        "correct_sufficient": 36,
+        "em": 26,
+        "f1_sum": 34.153246753246755,
+        "factual_error": 6,
+        "indeterminate": 2,
+        "invalid": 0,
+        "latency_sum": 163.52033838257194,
+        "missing_required_information": 4,
+        "searches_sum": 129,
+        "stop_errors": 23,
+        "unsupported_by_visible_evidence": 16
+      },
+      "aa_regression-42-B": {
+        "bad_total": 20,
+        "correct_sufficient": 38,
+        "em": 27,
+        "f1_sum": 35.153246753246755,
+        "factual_error": 5,
+        "indeterminate": 2,
+        "invalid": 0,
+        "latency_sum": 160.7255422361195,
+        "missing_required_information": 4,
+        "searches_sum": 129,
+        "stop_errors": 23,
+        "unsupported_by_visible_evidence": 15
+      },
+      "aa_regression-43-A": {
+        "bad_total": 20,
+        "correct_sufficient": 38,
+        "em": 29,
+        "f1_sum": 36.97142857142857,
+        "factual_error": 6,
+        "indeterminate": 2,
+        "invalid": 0,
+        "latency_sum": 161.5169993713498,
+        "missing_required_information": 4,
+        "searches_sum": 129,
+        "stop_errors": 20,
+        "unsupported_by_visible_evidence": 14
+      },
+      "aa_regression-43-B": {
+        "bad_total": 19,
+        "correct_sufficient": 39,
+        "em": 29,
+        "f1_sum": 37.153246753246755,
+        "factual_error": 6,
+        "indeterminate": 2,
+        "invalid": 0,
+        "latency_sum": 153.73115630820394,
+        "missing_required_information": 4,
+        "searches_sum": 129,
+        "stop_errors": 19,
+        "unsupported_by_visible_evidence": 13
+      },
+      "aa_regression-baseline": {
+        "bad_total": 23,
+        "correct_sufficient": 32,
+        "em": 26,
+        "f1_sum": 33.97142857142857,
+        "factual_error": 6,
+        "indeterminate": 3,
+        "invalid": 0,
+        "latency_sum": 173.9199060164392,
+        "missing_required_information": 6,
+        "searches_sum": 130,
+        "stop_errors": 24,
+        "unsupported_by_visible_evidence": 17
+      },
+      "dev-42-A": {
+        "bad_total": 21,
+        "correct_sufficient": 38,
+        "em": 27,
+        "f1_sum": 33.7033078033078,
+        "factual_error": 7,
+        "invalid": 0,
+        "latency_sum": 158.81962793320417,
+        "missing_required_information": 5,
+        "searches_sum": 129,
+        "stop_errors": 20,
+        "unsupported_by_visible_evidence": 14
+      },
+      "dev-42-B": {
+        "bad_total": 20,
+        "correct_sufficient": 39,
+        "em": 26,
+        "f1_sum": 32.7033078033078,
+        "factual_error": 6,
+        "invalid": 0,
+        "latency_sum": 176.19409907236695,
+        "missing_required_information": 5,
+        "searches_sum": 128,
+        "stop_errors": 19,
+        "unsupported_by_visible_evidence": 14
+      },
+      "dev-43-A": {
+        "bad_total": 24,
+        "correct_sufficient": 36,
+        "em": 26,
+        "f1_sum": 31.50940170940171,
+        "factual_error": 8,
+        "invalid": 0,
+        "latency_sum": 134.42442277818918,
+        "missing_required_information": 4,
+        "searches_sum": 126,
+        "stop_errors": 19,
+        "unsupported_by_visible_evidence": 16
+      },
+      "dev-43-B": {
+        "bad_total": 24,
+        "correct_sufficient": 37,
+        "em": 27,
+        "f1_sum": 33.17606837606838,
+        "factual_error": 7,
+        "invalid": 0,
+        "latency_sum": 161.93991672992706,
+        "missing_required_information": 3,
+        "searches_sum": 126,
+        "stop_errors": 19,
+        "unsupported_by_visible_evidence": 17
+      },
+      "dev-baseline": {
+        "bad_total": 19,
+        "correct_sufficient": 36,
+        "em": 24,
+        "f1_sum": 31.131746031746033,
+        "factual_error": 9,
+        "invalid": 0,
+        "latency_sum": 163.80062758922577,
+        "missing_required_information": 9,
+        "searches_sum": 130,
+        "stop_errors": 15,
+        "unsupported_by_visible_evidence": 10
+      },
+      "old-42-A": {
+        "bad_total": 5,
+        "correct_sufficient": 27,
+        "em": 21,
+        "f1_sum": 24.566666666666666,
+        "factual_error": 1,
+        "invalid": 0,
+        "latency_sum": 46.08108942210674,
+        "main": 15,
+        "regression": 12,
+        "searches_sum": 36,
+        "stop_errors": 6,
+        "unsupported_by_visible_evidence": 4
+      },
+      "old-42-B": {
+        "bad_total": 6,
+        "correct_sufficient": 26,
+        "em": 20,
+        "f1_sum": 23.566666666666666,
+        "factual_error": 2,
+        "invalid": 0,
+        "latency_sum": 52.51572097837925,
+        "main": 14,
+        "regression": 12,
+        "searches_sum": 35,
+        "stop_errors": 6,
+        "unsupported_by_visible_evidence": 4
+      },
+      "old-43-A": {
+        "bad_total": 6,
+        "correct_sufficient": 26,
+        "em": 20,
+        "f1_sum": 23.566666666666666,
+        "factual_error": 2,
+        "invalid": 0,
+        "latency_sum": 49.971571676433086,
+        "main": 14,
+        "regression": 12,
+        "searches_sum": 34,
+        "stop_errors": 6,
+        "unsupported_by_visible_evidence": 4
+      },
+      "old-43-B": {
+        "bad_total": 6,
+        "correct_sufficient": 26,
+        "em": 20,
+        "f1_sum": 23.566666666666666,
+        "factual_error": 2,
+        "invalid": 0,
+        "latency_sum": 52.347024869173765,
+        "main": 14,
+        "regression": 12,
+        "searches_sum": 34,
+        "stop_errors": 6,
+        "unsupported_by_visible_evidence": 4
+      },
+      "old-baseline": {
+        "bad_total": 5,
+        "correct_sufficient": 27,
+        "em": 21,
+        "f1_sum": 25.066666666666666,
+        "factual_error": 1,
+        "invalid": 0,
+        "latency_sum": 60.59218532219529,
+        "main": 15,
+        "regression": 12,
+        "searches_sum": 46,
+        "stop_errors": 8,
+        "unsupported_by_visible_evidence": 4
+      },
+      "y-42-A": {
+        "bad_total": 5,
+        "correct_sufficient": 43,
+        "em": 37,
+        "f1_sum": 43.266666666666666,
+        "factual_error": 1,
+        "invalid": 0,
+        "latency_sum": 82.25652772560716,
+        "searches_sum": 56,
+        "stop_errors": 6,
+        "unsupported_by_visible_evidence": 4
+      },
+      "y-42-B": {
+        "bad_total": 5,
+        "correct_sufficient": 43,
+        "em": 36,
+        "f1_sum": 42.266666666666666,
+        "factual_error": 1,
+        "invalid": 0,
+        "latency_sum": 74.29686654731631,
+        "searches_sum": 55,
+        "stop_errors": 7,
+        "unsupported_by_visible_evidence": 4
+      },
+      "y-43-A": {
+        "bad_total": 5,
+        "correct_sufficient": 43,
+        "em": 37,
+        "f1_sum": 43.266666666666666,
+        "factual_error": 1,
+        "invalid": 0,
+        "latency_sum": 68.78462249413133,
+        "searches_sum": 53,
+        "stop_errors": 5,
+        "unsupported_by_visible_evidence": 4
+      },
+      "y-43-B": {
+        "bad_total": 5,
+        "correct_sufficient": 43,
+        "em": 37,
+        "f1_sum": 43.266666666666666,
+        "factual_error": 1,
+        "invalid": 0,
+        "latency_sum": 74.72176760435104,
+        "searches_sum": 53,
+        "stop_errors": 5,
+        "unsupported_by_visible_evidence": 4
+      },
+      "y-baseline": {
+        "bad_total": 8,
+        "correct_sufficient": 40,
+        "em": 36,
+        "f1_sum": 40.93333333333333,
+        "factual_error": 3,
+        "invalid": 0,
+        "latency_sum": 94.77625891566277,
+        "searches_sum": 74,
+        "stop_errors": 11,
+        "unsupported_by_visible_evidence": 5
+      }
+    },
+    "eligible_routes": [],
+    "gates": {
+      "A": [
+        {
+          "aa_regression": 36,
+          "dev_bad": 21,
+          "dev_success": 38,
+          "goal_y": 43,
+          "old_main": 15,
+          "old_regression": 12,
+          "passed": false,
+          "protected_multihop_losses": 5,
+          "seed": 42
+        },
+        {
+          "aa_regression": 38,
+          "dev_bad": 24,
+          "dev_success": 36,
+          "goal_y": 43,
+          "old_main": 14,
+          "old_regression": 12,
+          "passed": false,
+          "protected_multihop_losses": 3,
+          "seed": 43
+        }
+      ],
+      "B": [
+        {
+          "aa_regression": 38,
+          "dev_bad": 20,
+          "dev_success": 39,
+          "goal_y": 43,
+          "old_main": 14,
+          "old_regression": 12,
+          "passed": false,
+          "protected_multihop_losses": 3,
+          "seed": 42
+        },
+        {
+          "aa_regression": 39,
+          "dev_bad": 24,
+          "dev_success": 37,
+          "goal_y": 43,
+          "old_main": 14,
+          "old_regression": 12,
+          "passed": false,
+          "protected_multihop_losses": 2,
+          "seed": 43
+        }
+      ]
+    },
+    "mechanism_supported": false,
+    "selected_route": null,
+    "status": "complete_development_gate_failed"
+  },
+  "diagnostic_gate": {
+    "dev_stop_error_cases": 17,
+    "events": {
+      "aa_regression": {
+        "premature_answer": 1,
+        "retrieval_failure": 4,
+        "unnecessary_search": 22,
+        "wrong_bridge_query": 3
+      },
+      "dev": {
+        "premature_answer": 11,
+        "retrieval_failure": 7,
+        "unnecessary_search": 6
+      },
+      "old": {},
+      "y": {
+        "unnecessary_search": 21
+      }
+    },
+    "passed": true,
+    "review_sha256": "ce7fbe55d575e89c6d5ee2f2333a6a377376d6f01d0468821c4dd5427bcd9090",
+    "threshold": 8
+  },
+  "fresh_confirm_manifest": {
+    "case_sha256": "03b0a94e9cb57f865df013287f59c9e4a9319d19496ef1f5aa6085e5f3b0fce0",
+    "confirmation_accessed": false,
+    "corpus_sha256": "96d4c2237c496c6065748fd72ae5b727d90901a1b7164f4d4d438689dbfee5d2",
+    "counts": {
+      "2wiki": 32,
+      "musique": 32
+    },
+    "pool": {
+      "2wiki": "1f48eb46312d23182227ad5775fc27dec8eeeebb250303c4d9b9ce7d43e30a51",
+      "musique": "8f45c1582c0aaf5ccc566d5f2feede355296faf49b8e89d7b8560139f895ef35"
+    },
+    "rejections": {
+      "bridge_given_in_question": 2,
+      "bridge_not_in_both_paragraphs": 3,
+      "broken_composition": 2,
+      "historical_entity": 7,
+      "historical_question_or_source_id": 25,
+      "historical_support_title": 75,
+      "long_support_paragraph": 1,
+      "not_two_support_documents": 7,
+      "support_mapping_mismatch": 20
+    }
+  },
+  "pair_decision": {
+    "on_policy_stop_error_cases": 52,
+    "pair_sha256": "47b348bacf5dbde3895742dea2cde181f488554cec97b294eb98edc87b148dc1",
+    "pairs": 54,
+    "passed": true
+  },
+  "pair_proposal_audit": {
+    "eligible": 96,
+    "qualified": 64,
+    "rejections": {
+      "answer_prompt_missing_support_side": 1
+    }
+  },
+  "pair_review_summary": {
+    "approved": 54,
+    "approved_pair_stop_error_cases": 8,
+    "main_overrides": 5,
+    "min_errors": 16,
+    "min_pairs": 32,
+    "on_policy_stop_error_cases": 52,
+    "passed": true,
+    "proposed": 64,
+    "rejected": {
+      "Album passage links In the Presence of the Lord to Eric Clapton, supporting the musician bridge. No sufficient-step body says an instrument was played by Clapton; violin is mentioned only as studied by Stevie Blacke.": 1,
+      "Apple/Safari relation is only weakly visible from the browser passage; more decisively, no visible sufficient passage establishes Apple remained profitable since Steve Jobs’ return.": 1,
+      "Film passage identifies Frank Tuttle as director. The sufficient prompt calls him a Hollywood film director but gives no place of death.": 1,
+      "Insufficient step correctly identifies Adoor Bhasi from the film. The sufficient prompt only says Adoor Bhasi was a director from Kerala; it does not establish where he died.": 1,
+      "RN-94 text names both a Turkey-based developer and a Romanian developer, so the query’s singular country is ambiguous. Although Mihai Tudose is identified as Romania’s PM, Romania is not uniquely established as the vehicle’s country of origin.": 1,
+      "Sing-Off passage supports Puerto Rico as the group’s origin, but available history does not support that Puerto Rico became independent from Spain in 1898; it became a US possession. The requested premise/answer is invalid.": 1,
+      "The proposed strategy is stated in a World War II passage; it does not establish that it could have worked against Britain in the Napoleonic Wars context. The on-policy trajectory has a stopping error: The visible strategy passage concerns World War II, not a strategy in the Napoleonic Wars context; the agent answers without evidence for the asked relation.": 1,
+      "The question asks for a company, but the teacher answer is Queen Elizabeth I. The visible passage says East India Company received a royal charter from her; that does not make her the requested company.": 1,
+      "The visible G. Devarajan biography does not state that Paravoor is his birthplace; it is only part of his name. The on-policy answer 'India' also does not provide the requested birthplace. The insufficient-step search query is grounded in the film passage naming G. Devarajan as composer.": 1,
+      "The visible G. Devarajan passage uses Paravoor as part of his name but does not state it as his birthplace. The on-policy trajectory has a stopping error: Hunsur appears as part of the director’s name, not as a stated birthplace; the answer is unsupported.": 1
+    }
+  },
+  "recomputed_development_counts": {
+    "aa_regression-42-A": {
+      "bad_total": 22,
+      "correct_sufficient": 36,
+      "em": 26,
+      "f1_sum": 34.153246753246755,
+      "factual_error": 6,
+      "indeterminate": 2,
+      "invalid": 0,
+      "latency_sum": 163.52033838257194,
+      "missing_required_information": 4,
+      "searches_sum": 129,
+      "stop_errors": 23,
+      "unsupported_by_visible_evidence": 16
+    },
+    "aa_regression-42-B": {
+      "bad_total": 20,
+      "correct_sufficient": 38,
+      "em": 27,
+      "f1_sum": 35.153246753246755,
+      "factual_error": 5,
+      "indeterminate": 2,
+      "invalid": 0,
+      "latency_sum": 160.7255422361195,
+      "missing_required_information": 4,
+      "searches_sum": 129,
+      "stop_errors": 23,
+      "unsupported_by_visible_evidence": 15
+    },
+    "aa_regression-43-A": {
+      "bad_total": 20,
+      "correct_sufficient": 38,
+      "em": 29,
+      "f1_sum": 36.97142857142857,
+      "factual_error": 6,
+      "indeterminate": 2,
+      "invalid": 0,
+      "latency_sum": 161.5169993713498,
+      "missing_required_information": 4,
+      "searches_sum": 129,
+      "stop_errors": 20,
+      "unsupported_by_visible_evidence": 14
+    },
+    "aa_regression-43-B": {
+      "bad_total": 19,
+      "correct_sufficient": 39,
+      "em": 29,
+      "f1_sum": 37.153246753246755,
+      "factual_error": 6,
+      "indeterminate": 2,
+      "invalid": 0,
+      "latency_sum": 153.73115630820394,
+      "missing_required_information": 4,
+      "searches_sum": 129,
+      "stop_errors": 19,
+      "unsupported_by_visible_evidence": 13
+    },
+    "aa_regression-baseline": {
+      "bad_total": 23,
+      "correct_sufficient": 32,
+      "em": 26,
+      "f1_sum": 33.97142857142857,
+      "factual_error": 6,
+      "indeterminate": 3,
+      "invalid": 0,
+      "latency_sum": 173.9199060164392,
+      "missing_required_information": 6,
+      "searches_sum": 130,
+      "stop_errors": 24,
+      "unsupported_by_visible_evidence": 17
+    },
+    "dev-42-A": {
+      "bad_total": 21,
+      "correct_sufficient": 38,
+      "em": 27,
+      "f1_sum": 33.7033078033078,
+      "factual_error": 7,
+      "invalid": 0,
+      "latency_sum": 158.81962793320417,
+      "missing_required_information": 5,
+      "searches_sum": 129,
+      "stop_errors": 20,
+      "unsupported_by_visible_evidence": 14
+    },
+    "dev-42-B": {
+      "bad_total": 20,
+      "correct_sufficient": 39,
+      "em": 26,
+      "f1_sum": 32.7033078033078,
+      "factual_error": 6,
+      "invalid": 0,
+      "latency_sum": 176.19409907236695,
+      "missing_required_information": 5,
+      "searches_sum": 128,
+      "stop_errors": 19,
+      "unsupported_by_visible_evidence": 14
+    },
+    "dev-43-A": {
+      "bad_total": 24,
+      "correct_sufficient": 36,
+      "em": 26,
+      "f1_sum": 31.50940170940171,
+      "factual_error": 8,
+      "invalid": 0,
+      "latency_sum": 134.42442277818918,
+      "missing_required_information": 4,
+      "searches_sum": 126,
+      "stop_errors": 19,
+      "unsupported_by_visible_evidence": 16
+    },
+    "dev-43-B": {
+      "bad_total": 24,
+      "correct_sufficient": 37,
+      "em": 27,
+      "f1_sum": 33.17606837606838,
+      "factual_error": 7,
+      "invalid": 0,
+      "latency_sum": 161.93991672992706,
+      "missing_required_information": 3,
+      "searches_sum": 126,
+      "stop_errors": 19,
+      "unsupported_by_visible_evidence": 17
+    },
+    "dev-baseline": {
+      "bad_total": 19,
+      "correct_sufficient": 36,
+      "em": 24,
+      "f1_sum": 31.131746031746033,
+      "factual_error": 9,
+      "invalid": 0,
+      "latency_sum": 163.80062758922577,
+      "missing_required_information": 9,
+      "searches_sum": 130,
+      "stop_errors": 15,
+      "unsupported_by_visible_evidence": 10
+    },
+    "old-42-A": {
+      "bad_total": 5,
+      "correct_sufficient": 27,
+      "em": 21,
+      "f1_sum": 24.566666666666666,
+      "factual_error": 1,
+      "invalid": 0,
+      "latency_sum": 46.08108942210674,
+      "main": 15,
+      "regression": 12,
+      "searches_sum": 36,
+      "stop_errors": 6,
+      "unsupported_by_visible_evidence": 4
+    },
+    "old-42-B": {
+      "bad_total": 6,
+      "correct_sufficient": 26,
+      "em": 20,
+      "f1_sum": 23.566666666666666,
+      "factual_error": 2,
+      "invalid": 0,
+      "latency_sum": 52.51572097837925,
+      "main": 14,
+      "regression": 12,
+      "searches_sum": 35,
+      "stop_errors": 6,
+      "unsupported_by_visible_evidence": 4
+    },
+    "old-43-A": {
+      "bad_total": 6,
+      "correct_sufficient": 26,
+      "em": 20,
+      "f1_sum": 23.566666666666666,
+      "factual_error": 2,
+      "invalid": 0,
+      "latency_sum": 49.971571676433086,
+      "main": 14,
+      "regression": 12,
+      "searches_sum": 34,
+      "stop_errors": 6,
+      "unsupported_by_visible_evidence": 4
+    },
+    "old-43-B": {
+      "bad_total": 6,
+      "correct_sufficient": 26,
+      "em": 20,
+      "f1_sum": 23.566666666666666,
+      "factual_error": 2,
+      "invalid": 0,
+      "latency_sum": 52.347024869173765,
+      "main": 14,
+      "regression": 12,
+      "searches_sum": 34,
+      "stop_errors": 6,
+      "unsupported_by_visible_evidence": 4
+    },
+    "old-baseline": {
+      "bad_total": 5,
+      "correct_sufficient": 27,
+      "em": 21,
+      "f1_sum": 25.066666666666666,
+      "factual_error": 1,
+      "invalid": 0,
+      "latency_sum": 60.59218532219529,
+      "main": 15,
+      "regression": 12,
+      "searches_sum": 46,
+      "stop_errors": 8,
+      "unsupported_by_visible_evidence": 4
+    },
+    "y-42-A": {
+      "bad_total": 5,
+      "correct_sufficient": 43,
+      "em": 37,
+      "f1_sum": 43.266666666666666,
+      "factual_error": 1,
+      "invalid": 0,
+      "latency_sum": 82.25652772560716,
+      "searches_sum": 56,
+      "stop_errors": 6,
+      "unsupported_by_visible_evidence": 4
+    },
+    "y-42-B": {
+      "bad_total": 5,
+      "correct_sufficient": 43,
+      "em": 36,
+      "f1_sum": 42.266666666666666,
+      "factual_error": 1,
+      "invalid": 0,
+      "latency_sum": 74.29686654731631,
+      "searches_sum": 55,
+      "stop_errors": 7,
+      "unsupported_by_visible_evidence": 4
+    },
+    "y-43-A": {
+      "bad_total": 5,
+      "correct_sufficient": 43,
+      "em": 37,
+      "f1_sum": 43.266666666666666,
+      "factual_error": 1,
+      "invalid": 0,
+      "latency_sum": 68.78462249413133,
+      "searches_sum": 53,
+      "stop_errors": 5,
+      "unsupported_by_visible_evidence": 4
+    },
+    "y-43-B": {
+      "bad_total": 5,
+      "correct_sufficient": 43,
+      "em": 37,
+      "f1_sum": 43.266666666666666,
+      "factual_error": 1,
+      "invalid": 0,
+      "latency_sum": 74.72176760435104,
+      "searches_sum": 53,
+      "stop_errors": 5,
+      "unsupported_by_visible_evidence": 4
+    },
+    "y-baseline": {
+      "bad_total": 8,
+      "correct_sufficient": 40,
+      "em": 36,
+      "f1_sum": 40.93333333333333,
+      "factual_error": 3,
+      "invalid": 0,
+      "latency_sum": 94.77625891566277,
+      "searches_sum": 74,
+      "stop_errors": 11,
+      "unsupported_by_visible_evidence": 5
+    }
+  },
+  "stages": [
+    {
+      "name": "AB0_prepared",
+      "seconds": 0.3463597297668457
+    },
+    {
+      "elapsed_from_stage_start": 152.95019780099392,
+      "name": "train-42-A",
+      "updates": 128
+    },
+    {
+      "elapsed_from_stage_start": 340.21525897085667,
+      "name": "train-42-B",
+      "updates": 128
+    },
+    {
+      "elapsed_from_stage_start": 490.43029467761517,
+      "name": "train-43-A",
+      "updates": 128
+    },
+    {
+      "elapsed_from_stage_start": 700.5456419959664,
+      "name": "train-43-B",
+      "updates": 128
+    }
+  ],
+  "status": "complete_development_gate_failed"
+}

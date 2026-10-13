@@ -1,0 +1,46 @@
+"""Primary case examination of original training rows 231–240."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (231, "Who created the first alternative education", "repair_candidate", ["program_location_conflated", "duplicate_training_action"],
+  "Same Oneonta query and Upward Bound result as rows 229–230. The source distinguishes its Hartwick designation from its initial Oneonta site, whereas the question conflates them. No independent supervision is added by this repeated query.",
+  "Use a question explicitly stating initial Oneonta location, inspect the paired answer and deduplicate the repeated search path before independent review.",
+  [("before_action", "Oneonta, New York", "Its nickname is \"City of the Hills.\""), ("retrieved_after_search", "Upward Bound High School", "in Hartwick, New York"), ("retrieved_after_search", "Upward Bound High School", "first located in the basement of a Unitarian church in Oneonta")]),
+ (232, "Who created the first alternative education", "repair_candidate", ["program_location_conflated", "duplicate_training_action"],
+  "This fourth Oneonta search has the same question, query and retrieved creator evidence as rows 229–231. The original site wording still needs repair and the redundant state must not inflate training counts.",
+  "Keep the frozen row, repair the question consistently and select at most one supported representative after paired replay.",
+  [("before_action", "Oneonta, New York", "Its nickname is \"City of the Hills.\""), ("retrieved_after_search", "Upward Bound High School", "Created by English teacher Mike Newell and principal Mark Rathbun")]),
+ (233, "Who formed first, The Get Up Kids", "retain_candidate", ["query_biases_known_entity", "duplicate_training_action_group"],
+  "The Get Up Kids' 1995 formation is known before search; the query appends that already-known name but still retrieves Moonbabies' 1997 formation, completing the comparison. The observed result supports the path, though the query is not optimally aimed at the missing band. Two identical states follow.", None,
+  [("before_action", "The Get Up Kids", "Formed in 1995"), ("retrieved_after_search", "Moonbabies (band)", "formed in 1997")]),
+ (234, "Who formed first, The Get Up Kids", "repair_candidate", ["duplicate_training_action", "query_biases_known_entity"],
+  "Exact same question, pre-action evidence, query and returned Moonbabies fact as row 233. A second copy adds no distinct decision context.",
+  "Deduplicate this search path after confirming paired answer states and record the known-entity query bias.",
+  [("before_action", "The Get Up Kids", "Formed in 1995"), ("retrieved_after_search", "Moonbabies (band)", "formed in 1997")]),
+ (235, "Who formed first, The Get Up Kids", "repair_candidate", ["duplicate_training_action", "query_biases_known_entity"],
+  "Third exact duplicate of the Get Up Kids comparison search; same known 1995 date and retrieved Moonbabies 1997 date.",
+  "Retain original audit evidence but exclude redundant copies from a corrected export pending pair review.",
+  [("before_action", "The Get Up Kids", "Formed in 1995"), ("retrieved_after_search", "Moonbabies (band)", "formed in 1997")]),
+ (236, "\"Simon Turner\" is the debut album", "repair_candidate", ["ambiguous_pronoun_target", "query_copies_visible_context"],
+  "The question introduces Simon Fisher Turner as its subject, then compares him with David Cassidy before asking what role 'he' is known for. The retrieved Keith Partridge role belongs to Cassidy, not Simon Turner; the referent is ambiguous despite a successful retrieval.",
+  "Proposed question: Which Partridge Family character was played by David Cassidy, whom Simon Fisher Turner was promoted as an alternative to? Replay all same-question states and independently review.",
+  [("before_action", "Simon Turner (album)", "homegrown alternative to David Cassidy"), ("retrieved_after_search", "David Cassidy", "known for his role as Keith Partridge")]),
+ (237, "\"Simon Turner\" is the debut album", "repair_candidate", ["ambiguous_pronoun_target", "answer_attributed_to_wrong_person"],
+  "Keith Partridge is explicitly David Cassidy's role, but the original 'he' can grammatically refer to Simon Fisher Turner, the question's main subject. The label is not safe under the original wording.",
+  "Use the explicit David Cassidy question-level repair and re-evaluate the answer after paired input replay and independent review.",
+  [("before_action", "Simon Turner (album)", "alternative to David Cassidy"), ("before_action", "David Cassidy", "known for his role as Keith Partridge")]),
+ (238, "\"Simon Turner\" is the debut album", "repair_candidate", ["ambiguous_pronoun_target", "duplicate_training_action"],
+  "Same copied album-sentence query as row 236 retrieves Cassidy's biography, but the question still leaves 'he' ambiguous. The second near-identical search should not be treated as new independent training evidence.",
+  "Repair the referent explicitly to David Cassidy and deduplicate search variants after paired replay.",
+  [("before_action", "Simon Turner (album)", "homegrown alternative to David Cassidy"), ("retrieved_after_search", "David Cassidy", "known for his role as Keith Partridge")]),
+ (239, "\"Simon Turner\" is the debut album", "repair_candidate", ["ambiguous_pronoun_target", "duplicate_training_action"],
+  "Third same-query copy with different distractors, same Cassidy role result and same pronoun problem. Neither retrieval success nor repetition repairs the question semantics.",
+  "Preserve original, apply explicit Cassidy wording to the whole question group, and keep at most one justified search representative.",
+  [("before_action", "Simon Turner (album)", "homegrown alternative to David Cassidy"), ("retrieved_after_search", "David Cassidy", "known for his role as Keith Partridge")]),
+ (240, "In which year was this Chilean professional", "retain_candidate", ["query_restates_question", "multiple_boot_endorsers"],
+  "The boot article lists many endorsers, including Arturo Vidal, so endorsement alone cannot identify him. The search result supplies Vidal's Chilean nationality, Bayern midfield role and 1987 birth, jointly resolving the clue. This was observed retrieval success, not proof the long query is robust.", None,
+  [("before_action", "Nike Mercurial Vapor", "Arturo Vidal"), ("retrieved_after_search", "Arturo Vidal", "born 22 May 1987"), ("retrieved_after_search", "Arturo Vidal", "a Chilean professional footballer who plays as a midfielder for Bundesliga club Bayern Munich")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-024.jsonl")

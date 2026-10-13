@@ -1,0 +1,46 @@
+"""Primary examination of v122 training-supplement candidate states 151–160."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (151, "What Was Me included a duet", "repair_candidate", ["answer_visible_before_search", "query_copies_irrelevant_record_description"],
+  "The initial What Was Me excerpt already identifies Beth Ditto as a duet singer and lead singer of The Gossip. The query instead appends a sparse-record description that does not target the missing singer-songwriter qualifier; retrieval merely corroborates her identity.",
+  "Treat as a direct-answer example or rewrite to make a real missing relation and replay.",
+  [("before_action", "What Was Me", "Beth Ditto, the lead singer of The Gossip"), ("retrieved_after_search", "Beth Ditto", "American singer-songwriter")]),
+ (152, "What Was Me included a duet", "repair_candidate", ["paired_redundant_search", "answer_supported"],
+  "Gossip is directly present beside Beth Ditto in the initial album description. Her retrieved biography confirms the American singer-songwriter qualifier, but the original search action copied an unrelated album-description sentence.",
+  "Keep Gossip only after revising the paired search target or convert to direct-answer supervision.",
+  [("before_action", "What Was Me", "Beth Ditto, the lead singer of The Gossip"), ("before_action", "Beth Ditto", "American singer-songwriter")]),
+ (153, "Phil Collin's daughter played", "repair_candidate", ["surname_possessive_typo", "answer_visible_before_search", "query_copies_cast_list"],
+  "The initial Rules Don't Apply article already identifies the 2016 film and lists Lily Collins with Annette Bening. The question misspells Phil Collins's possessive name; the query copies the cast list rather than targeting the missing father-daughter link, which retrieval later supplies.",
+  "Correct Phil Collins's name and use a daughter-relation query if a search example is required; replay both states.",
+  [("before_action", "Rules Don't Apply", "2016 American romantic comedy-drama film"), ("before_action", "Rules Don't Apply", "Annette Bening, Matthew Broderick, Lily Collins"), ("retrieved_after_search", "Lily Collins", "daughter of English musician Phil Collins")]),
+ (154, "Phil Collin's daughter played", "repair_candidate", ["paired_question_typo", "paired_redundant_search", "answer_supported"],
+  "Rules Don't Apply is supported by the film article and Lily Collins's biography. The paired question misspells Phil Collins's name, and the search was unnecessary to find the film title.",
+  "Correct the question and replay; do not use the current search state as necessary-search training.",
+  [("before_action", "Rules Don't Apply", "2016 American romantic comedy-drama film"), ("before_action", "Rules Don't Apply", "Annette Bening, Matthew Broderick, Lily Collins"), ("before_action", "Lily Collins", "daughter of English musician Phil Collins")]),
+ (155, "Trainwreck includes the actress and model", "repair_candidate", ["query_copies_cast_list", "missing_model_attribute_not_targeted"],
+  "The initial Trainwreck cast list includes Tilda Swinton, but not her model role or nationality. The query simply repeats a broad cast list; retrieval happens to find Swinton's biography with both attributes. A targeted search should use the candidate's name and the missing relation.",
+  "Query Tilda Swinton's actress/model nationality from action-time evidence and replay.",
+  [("before_action", "Trainwreck (film)", "Tilda Swinton"), ("retrieved_after_search", "Tilda Swinton", "British actress, model, and artist")]),
+ (156, "Trainwreck includes the actress and model", "repair_candidate", ["paired_query_not_relation_targeted", "answer_supported"],
+  "British is supported by the Tilda Swinton biography, and she appears in Trainwreck's cast. The paired query does not target the missing model/nationality relation, so the search supervision needs replay.",
+  "Retain the answer only with a repaired search or an independently verified direct-answer formulation.",
+  [("before_action", "Trainwreck (film)", "Tilda Swinton"), ("before_action", "Tilda Swinton", "British actress, model, and artist")]),
+ (157, "What studio produced a superhero film", "retain_candidate", ["entity_query_from_visible_killjoys_actress", "retrieval_adds_film_studio"],
+  "The action-time document identifies Hannah John-Kamen as a Killjoys actress. Searching her name retrieves Ant-Man and the Wasp, which names her among its cast, Peyton Reed as director, and Marvel Studios as producer. This is an observed viable entity query, not proof of general query robustness.", None,
+  [("before_action", "Hannah John-Kamen", 'roles as Dutch in the Syfy television series "Killjoys"'), ("retrieved_after_search", "Ant-Man and the Wasp", "Produced by Marvel Studios"), ("retrieved_after_search", "Ant-Man and the Wasp", "directed by Peyton Reed")]),
+ (158, "What studio produced a superhero film", "retain_candidate", [],
+  "Marvel Studios is explicitly named as producer of Ant-Man and the Wasp, whose article also names director Peyton Reed and cast member Hannah John-Kamen. The initial document links her to Killjoys.", None,
+  [("before_action", "Hannah John-Kamen", 'roles as Dutch in the Syfy television series "Killjoys"'), ("before_action", "Ant-Man and the Wasp", "Produced by Marvel Studios"), ("before_action", "Ant-Man and the Wasp", "Hannah John-Kamen")]),
+ (159, "In what year was the singer who recorded", "repair_candidate", ["query_targets_unrelated_mother", "missing_birth_year_not_targeted"],
+  "The song article already names David Frizzell alongside Shelly West. The search query copies West's mother's Dottie West sentence, which is not evidence about Frizzell's birth year; retrieval happens to include his biography with 1941.",
+  "Search David Frizzell birth year using the already visible song credit, then replay.",
+  [("before_action", "A Texas State of Mind", "recorded by American country music artists David Frizzell and Shelly West"), ("before_action", "Shelly West", "Her mother was the country music star Dottie West"), ("retrieved_after_search", "David Frizzell", "born September 26, 1941")]),
+ (160, "In what year was the singer who recorded", "repair_candidate", ["paired_query_unrelated_mother", "answer_supported"],
+  "The song credit names David Frizzell, whose retrieved biography supports 1941. The corresponding search action used an unrelated sentence about Shelly West's mother, so it is unsuitable as a grounded search example.",
+  "Preserve 1941 only after relation-targeted search replay and independent audit.",
+  [("before_action", "A Texas State of Mind", "David Frizzell and Shelly West"), ("before_action", "David Frizzell", "born September 26, 1941")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-094.jsonl", cohort="v122_train_candidates")

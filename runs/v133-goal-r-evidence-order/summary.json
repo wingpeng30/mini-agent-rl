@@ -1,0 +1,82 @@
+{
+  "decision": {
+    "adapter": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-p-system/p3-training/rl/adapter-final",
+    "confirmed": false,
+    "reason": "incumbent_retained",
+    "replication": null,
+    "selected": "incumbent"
+  },
+  "gpu_seconds": 387.20804212987423,
+  "models": [
+    {
+      "f1": 0.7345982142857143,
+      "invalid": 0,
+      "model": "incumbent",
+      "new_eval": 12,
+      "regression": 7,
+      "searches": 32,
+      "seconds": 45.29358406364918,
+      "support": 32,
+      "total": 19
+    },
+    {
+      "f1": 0.69375,
+      "invalid": 0,
+      "model": "a",
+      "new_eval": 9,
+      "regression": 6,
+      "searches": 32,
+      "seconds": 47.32555232197046,
+      "support": 32,
+      "total": 15
+    },
+    {
+      "f1": 0.69375,
+      "invalid": 0,
+      "model": "b",
+      "new_eval": 9,
+      "regression": 6,
+      "searches": 32,
+      "seconds": 41.89931704849005,
+      "support": 32,
+      "total": 15
+    }
+  ],
+  "stages": [
+    {
+      "name": "baseline",
+      "seconds": 48.18173076212406
+    },
+    {
+      "name": "collect",
+      "seconds": 30.138023026287556
+    },
+    {
+      "name": "a",
+      "seconds": 41.27925951778889
+    },
+    {
+      "name": "b",
+      "seconds": 42.01369912922382
+    },
+    {
+      "name": "evaluation",
+      "seconds": 93.78848458826542
+    },
+    {
+      "name": "diagnostic",
+      "seconds": 8.134273514151573
+    },
+    {
+      "name": "diagnostic_repair",
+      "reason": "JSON key-order replay correction",
+      "script_sha256": "b6a011b9d5545a7cac1a0c7d1f46de4894038a505176e5052e74427db1465cfe",
+      "seconds": 119.93430913984776
+    },
+    {
+      "name": "final",
+      "seconds": 3.738416112959385
+    }
+  ],
+  "status": "complete"
+}

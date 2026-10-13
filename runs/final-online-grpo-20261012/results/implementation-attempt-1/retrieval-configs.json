@@ -1,0 +1,53 @@
+{
+  "train": {
+    "corpus": "/root/autodl-tmp/hybrid-adaptation-20261006/experiment/corpus-train.json",
+    "corpus_sha256": "6d2a4e5e9649ee2a974ead350056bb810d427c4bed07b905af2cedac1b7d1b78",
+    "document_count": 2048,
+    "model_path": "/root/autodl-tmp/hybrid-adaptation-20261006/minilm",
+    "model_revision": "fa97f6e7cb1a59073dff9e6b13e2715cf7475ac9",
+    "index_dir": "/root/autodl-tmp/hybrid-adaptation-20261006/experiment/training-index",
+    "run_dir": "/root/autodl-tmp/hybrid-adaptation-20261006/experiment",
+    "title_tokens": 32,
+    "chunk_tokens": 220,
+    "overlap_tokens": 32,
+    "max_length": 256,
+    "batch_size": 32,
+    "cpu_threads": 4,
+    "candidate_k": 20,
+    "rrf_k": 60,
+    "top_k": 3
+  },
+  "evaluation": {
+    "corpus": "/root/autodl-tmp/hybrid-adaptation-20261006/experiment/corpus-dev.json",
+    "corpus_sha256": "dc2a2f843ad04bb2c38ce839e1959034b7c63f1cbbc24971de2557ce3cf62d37",
+    "document_count": 2048,
+    "model_path": "/root/autodl-tmp/hybrid-adaptation-20261006/minilm",
+    "model_revision": "fa97f6e7cb1a59073dff9e6b13e2715cf7475ac9",
+    "index_dir": "/root/autodl-tmp/hybrid-adaptation-20261006/index",
+    "run_dir": "/root/autodl-tmp/hybrid-adaptation-20261006/experiment",
+    "title_tokens": 32,
+    "chunk_tokens": 220,
+    "overlap_tokens": 32,
+    "max_length": 256,
+    "batch_size": 32,
+    "cpu_threads": 4,
+    "candidate_k": 20,
+    "rrf_k": 60,
+    "top_k": 3
+  },
+  "loading_seconds": 0.6574667915701866,
+  "train_metadata": {
+    "retriever": "hybrid-rrf-v1",
+    "corpus_sha256": "6d2a4e5e9649ee2a974ead350056bb810d427c4bed07b905af2cedac1b7d1b78",
+    "index_sha256": "a12050f42030a8d43551d04a8fe1aedf557d61a3541e7a7cac1d8bf5876e6d96",
+    "candidate_k": 20,
+    "rrf_k": 60
+  },
+  "evaluation_metadata": {
+    "retriever": "hybrid-rrf-v1",
+    "corpus_sha256": "dc2a2f843ad04bb2c38ce839e1959034b7c63f1cbbc24971de2557ce3cf62d37",
+    "index_sha256": "d5ee71f576892e343fe4cc87d9d8d091ae61dfd5f3c1bca72fafc0bbdc687963",
+    "candidate_k": 20,
+    "rrf_k": 60
+  }
+}

@@ -1,0 +1,48 @@
+"""Primary examination of v123 internal candidate states 191–200."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (191, "Who operates The AXIS Theater", "quarantine_pending_repair", ["hotel_operator_not_venue_operator", "time_scope_missing"],
+  "The AXIS passage only locates the auditorium at Planet Hollywood Las Vegas. The retrieved hotel passage says Caesars owns and operates that hotel, not explicitly that it operates the auditorium. Venue operation cannot be inherited automatically from the host property, and the operator is time-sensitive.",
+  "Find a direct dated AXIS venue-operator source or rewrite as hotel operator with an explicit date.",
+  [("before_action", "The AXIS", "auditorium located at Planet Hollywood Las Vegas"), ("retrieved_after_search", "Planet Hollywood Las Vegas", "owned and operated by Caesars Entertainment Corporation")]),
+ (192, "Who operates The AXIS Theater", "quarantine_pending_repair", ["paired_operator_relation_unsupported"],
+  "Caesars Entertainment Corporation is directly named as hotel operator, not AXIS Theater operator in the visible evidence. The answer for the original venue-operator question is unverified.",
+  "Require direct venue-operation evidence and a dated question before approval.",
+  [("before_action", "The AXIS", "located at Planet Hollywood Las Vegas"), ("before_action", "Planet Hollywood Las Vegas", "owned and operated by Caesars Entertainment Corporation")]),
+ (193, "After attending Berklee College of Music", "quarantine_pending_repair", ["producer_client_confusion", "chronological_impossibility"],
+  "Running on Ice identifies John Alagia, Doug Derryberry and Matt Scannell as producers. The parenthetical '(John Mayer, Dave Matthews Band)' after Alagia is not a co-producer list. Mayer attended Berklee and moved to Atlanta in 1997, after the album's 1995 release, so the retrieved person does not meet the album-production relation.",
+  "Discard the John Mayer target; if a valid question exists, identify an actual listed producer and verify the Berklee premise separately.",
+  [("before_action", "Running on Ice", "produced by John Alagia (John Mayer, Dave Matthews Band), Doug Derryberry and Matt Scannell"), ("retrieved_after_search", "John Mayer", "attended Berklee College of Music in Boston"), ("before_action", "Running on Ice", "released independently in 1995")]),
+ (194, "After attending Berklee College of Music", "quarantine_pending_repair", ["paired_wrong_person", "answer_not_album_producer"],
+  "John Mayer appears only in parentheses after producer John Alagia, indicating an association; the article does not name Mayer as a Running on Ice producer. His Berklee attendance cannot bridge that missing role.",
+  "Do not reuse the answer; rebuild from an actual producer with direct education evidence if possible.",
+  [("before_action", "Running on Ice", "produced by John Alagia (John Mayer, Dave Matthews Band), Doug Derryberry and Matt Scannell"), ("before_action", "John Mayer", "attended Berklee College of Music in Boston")]),
+ (195, "WOSM is located in what county", "quarantine_pending_repair", ["licensed_city_not_station_site", "location_relation_unproved"],
+  "The WOSM article says the station is licensed to Ocean Springs, not that its studio or transmitter is located there. Retrieval places Ocean Springs in Jackson County. The question asks where WOSM is located, a stronger location claim than the license evidence supports.",
+  "Rewrite to ask for the county of its licensed city, or find a source for the physical station site.",
+  [("before_action", "WOSM (FM)", "Licensed to Ocean Springs, Mississippi"), ("retrieved_after_search", "Ocean Springs, Mississippi", "city in Jackson County")]),
+ (196, "WOSM is located in what county", "quarantine_pending_repair", ["paired_license_location_conflation"],
+  "Jackson County is the county of Ocean Springs, the station's licensed city; the current documents do not establish the station's physical location in that county. The answer is unsupported for the wording 'WOSM is located'.",
+  "Use a license-city question or independent station-site evidence.",
+  [("before_action", "WOSM (FM)", "Licensed to Ocean Springs, Mississippi"), ("before_action", "Ocean Springs, Mississippi", "city in Jackson County")]),
+ (197, "What flower has a name similar", "repair_candidate", ["flower_vs_flowers_number", "query_uses_visible_hop_name"],
+  "The initial digging-bar sources name a hop bar, and retrieval states that hops are the flowers of the hop plant. The semantic target is clear, but the question asks for a singular flower while the frozen answer is the plural crop term Hops; the query copies a sentence about hop poles rather than asking about the flower.",
+  "Rewrite as 'What flowering crop shares its name with a hop bar?' and replay a targeted query.",
+  [("before_action", "Digging bar", "hop bar in Britain"), ("retrieved_after_search", "Hops", "Hops are the flowers")]),
+ (198, "What flower has a name similar", "repair_candidate", ["paired_number_and_term_mismatch"],
+  "Hops are explicitly flowers, and hop bar is the named tool. The answer's plural form and the vague 'similar' wording should be repaired as one question-answer pair before export.",
+  "Use a clear crop/flower wording, then independently review.",
+  [("before_action", "Hop bar", "type of Digging bar"), ("before_action", "Hops", "Hops are the flowers")]),
+ (199, "What is the capital of one of the countries", "quarantine_pending_repair", ["species_name_typo", "country_not_unique", "query_preselects_nigeria"],
+  "The question spells Toina sinifera, but the source is Tolna sinifera. That moth occurs in both Nigeria and South Africa; 'one of the countries' does not uniquely choose Nigeria, and the search already lists both countries. Retrieval returns Abuja for Nigeria and a South Africa capital clue, demonstrating ambiguity.",
+  "Specify Tolna sinifera and Nigeria explicitly, or ask for all supported country-capital pairs; rebuild from source.",
+  [("before_action", "Tolna sinifera", "including Nigeria and South Africa"), ("retrieved_after_search", "Nigeria", "capital, Abuja"), ("retrieved_after_search", "Modimolle", "Pretoria, South Africa's \"de facto\" capital city")]),
+ (200, "What is the capital of one of the countries", "quarantine_pending_repair", ["paired_nonunique_country", "species_name_typo"],
+  "Abuja is Nigeria's capital and Nigeria is one country where Tolna sinifera occurs, but the original question does not choose Nigeria over South Africa and misspells the species. The answer is one plausible instance rather than a unique target.",
+  "Review a country-specified corrected question before considering Abuja.",
+  [("before_action", "Tolna sinifera", "including Nigeria and South Africa"), ("before_action", "Nigeria", "capital, Abuja")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-120.jsonl", cohort="v123_internal_candidates")

@@ -1,0 +1,46 @@
+"""Primary examination of v123 internal candidate states 1–10."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (1, "How long is the river in which Fort Watuaga", "repair_candidate", ["fort_name_typo", "question_grammar", "retrieval_adds_river_length"],
+  "The initial Fort Watauga article names the Watauga River; an entity search retrieves its 78.5-mile length. The question misspells Watauga as Watuaga and uses the malformed 'in which ... on the shores of' construction, so it needs rewriting despite a grounded search.",
+  "Ask how long the Watauga River, beside Fort Watauga, is; replay the revised pair with miles retained.",
+  [("before_action", "Fort Watauga", "Sycamore Shoals of the Watauga River"), ("retrieved_after_search", "Watauga River", "78.5 mi long")]),
+ (2, "How long is the river in which Fort Watuaga", "repair_candidate", ["paired_question_typo_and_grammar", "unit_omitted_in_answer"],
+  "The available river article supports a length of 78.5 miles. The frozen answer gives only 78.5, and the paired question misspells the fort and garbles the shore relation. A revised question and unit-aware answer need fresh validation.",
+  "Use '78.5 miles' for a repaired question if the target format permits, then replay and independently review.",
+  [("before_action", "Fort Watauga", "Sycamore Shoals of the Watauga River"), ("before_action", "Watauga River", "78.5 mi long")]),
+ (3, "Which Brazilian actress starred in the independent film", "retain_candidate", ["query_uses_visible_cast", "retrieval_adds_nationality"],
+  "The initial Journey to the End of the Night article names Alice Braga in the Eric Eason film. Searching the film cast sentence retrieves Braga's biography, which directly identifies her as Brazilian; this checks the missing qualifier.", None,
+  [("before_action", "Journey to the End of the Night (film)", "directed by Eric Eason starring"), ("before_action", "Journey to the End of the Night (film)", "Alice Braga"), ("retrieved_after_search", "Alice Braga", "Brazilian actress")]),
+ (4, "Which Brazilian actress starred in the independent film", "retain_candidate", [],
+  "The film document lists Alice Braga among its stars, and her retrieved biography calls her a Brazilian actress. The answer is supported by the action-time pair.", None,
+  [("before_action", "Journey to the End of the Night (film)", "Alice Braga"), ("before_action", "Alice Braga", "Brazilian actress")]),
+ (5, "Who was born in 1978 and is involved in a film", "repair_candidate", ["vague_involved_role", "retrieval_adds_birth_year"],
+  "The initial Circle article says James Ponsoldt directed and co-wrote the Dave Eggers film; retrieval supplies Ponsoldt's 1978 birth year. The question only says 'involved in', an unnecessarily broad relation that can include several cast and crew members and does not identify the intended role.",
+  "Specify the director and co-writer of The Circle, then replay; keep the 1978 birth fact bound to Ponsoldt.",
+  [("before_action", "The Circle (2017 film)", "directed by James Ponsoldt and written by Ponsoldt and Dave Eggers"), ("retrieved_after_search", "James Ponsoldt", "born 1978")]),
+ (6, "Who was born in 1978 and is involved in a film", "repair_candidate", ["paired_vague_involved_role", "answer_supported_for_specific_role"],
+  "James Ponsoldt is a supported 1978-born director/co-writer of The Circle. The original 'involved in a film' predicate is too broad to make this the uniquely intended person without stating his role.",
+  "Use a director/co-writer-specific question and replay before admission.",
+  [("before_action", "The Circle (2017 film)", "directed by James Ponsoldt and written by Ponsoldt and Dave Eggers"), ("before_action", "James Ponsoldt", "born 1978")]),
+ (7, "How many episodes were there of the sitcom", "repair_candidate", ["episode_count_source_snapshot_unanchored", "query_uses_visible_sitcom"],
+  "Jordan Masterson's article names Last Man Standing. The query retrieves a page saying the show aired through March 31, 2017 with 130 episodes; this is a dated source snapshot, while the question asks the total without an as-of date. The target can change beyond that snapshot.",
+  "Ask for the episode count in the source's ABC run through March 31, 2017, then replay.",
+  [("before_action", "Jordan Masterson", 'sitcom "Last Man Standing"'), ("retrieved_after_search", "Last Man Standing (U.S. TV series)", "March 31, 2017 with 130 episodes")]),
+ (8, "How many episodes were there of the sitcom", "repair_candidate", ["paired_unanchored_episode_count"],
+  "The retrieved series article supports 130 episodes for its stated run ending March 31, 2017. Without that boundary in the question, the frozen answer is treated as a timeless total and is unsafe.",
+  "Bind 130 to the dated run and replay; do not use it as an unqualified series total.",
+  [("before_action", "Jordan Masterson", 'sitcom "Last Man Standing"'), ("before_action", "Last Man Standing (U.S. TV series)", "March 31, 2017 with 130 episodes")]),
+ (9, "The actor who inspired the movie Partner", "repair_candidate", ["film_inspiration_misattributed_to_actor", "query_uses_visible_hitch_link"],
+  "The Partner article says the film was inspired by Hitch, a movie starring Will Smith. It does not say Smith himself inspired Partner. The query follows the visible Hitch sentence and retrieves Smith's birth year, but the question changes the inspiration object.",
+  "Ask the birth year of the actor who starred in Hitch, the film that inspired Partner; replay.",
+  [("before_action", "Partner (2007 film)", "inspired by the hollywood movie Will Smith starrer Hitch"), ("retrieved_after_search", "Will Smith", "September 25, 1968")]),
+ (10, "The actor who inspired the movie Partner", "repair_candidate", ["paired_film_actor_relation_swap", "birth_year_supported"],
+  "1968 is Will Smith's supported birth year, but Partner is said to be inspired by his film Hitch, not by Smith as an actor. The original question's central relation needs correction.",
+  "Retain 1968 only for a corrected Hitch-starring-actor question after replay.",
+  [("before_action", "Partner (2007 film)", "inspired by the hollywood movie Will Smith starrer Hitch"), ("before_action", "Will Smith", "September 25, 1968")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-101.jsonl", cohort="v123_internal_candidates")

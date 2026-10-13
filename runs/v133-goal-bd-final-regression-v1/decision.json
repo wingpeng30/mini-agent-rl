@@ -1,0 +1,46 @@
+{
+  "checks": {
+    "supported_net_plus_two": true,
+    "errors_not_increased": true,
+    "retain_rapana_and_duke": true,
+    "protected_max_one_loss": true,
+    "all_verdicts_confirmed": true,
+    "old_main_EM_max_one_loss": true,
+    "old_regression_EM_max_one_loss": true,
+    "goal_y_regression_EM_max_one_loss": true,
+    "aa_regression_EM_max_one_loss": true,
+    "action_problem_cases_not_increased": true,
+    "invalid_cases_not_increased": true,
+    "repeated_cases_not_increased": true,
+    "overbudget_cases_not_increased": true,
+    "invalid_actions_not_increased": true,
+    "repeated_actions_not_increased": true,
+    "overbudget_actions_not_increased": true
+  },
+  "local_gain_mechanical_protection": true,
+  "semantic_dev29": {
+    "A": {
+      "supported_success": 19,
+      "error_total": 7,
+      "complete_chain_visible": 24,
+      "unconfirmed": 0,
+      "entity_relation_mismatch": 7
+    },
+    "B": {
+      "supported_success": 21,
+      "error_total": 7,
+      "complete_chain_visible": 26,
+      "unconfirmed": 0,
+      "entity_relation_mismatch": 8
+    }
+  },
+  "gained": [
+    "musique:2hop__796221_18803",
+    "2wiki:f299dd600bdd11eba7f7acde48001122"
+  ],
+  "lost": [],
+  "model_published": false,
+  "product_model": "Goal Z seed42",
+  "full_semantic_regression_protection": "not_evaluated",
+  "historical_AM_stop_unchanged": true
+}

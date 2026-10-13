@@ -1,0 +1,45 @@
+"""Primary examination of v122 internal candidate states 291–300."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (291, "In which quarterly English language literary magazine", "repair_candidate", ["query_inserts_wrong_magazine", "query_conflicts_with_periodicity"],
+  "The initial William Benton article names The Paris Review, while the query appends Poetry Salzburg Review. The latter is described as biannual, contradicting the question's quarterly qualifier. Retrieval finds The Paris Review despite this misleading extra entity.",
+  "Remove the invented magazine from the query or answer directly if the visible Benton citation suffices; replay the pair.",
+  [("before_action", "William Benton (writer)", "The Paris Review"), ("before_action", "Poetry Salzburg Review", "biannual literary magazine"), ("retrieved_after_search", "The Paris Review", "quarterly English language literary magazine")]),
+ (292, "In which quarterly English language literary magazine", "retain_candidate", ["paired_query_inserts_wrong_magazine"],
+  "Benton's poetry is explicitly listed as appearing in The Paris Review, whose article says it is a quarterly English-language literary magazine. The answer is supported, but the paired search requires repair.", None,
+  [("before_action", "William Benton (writer)", "His poetry has appeared in The New Yorker, The Paris Review"), ("before_action", "The Paris Review", "quarterly English language literary magazine")]),
+ (293, "Language Made Plain is a linguistics book", "repair_candidate", ["author_visible_before_search", "redundant_search"],
+  "The initial book article names Anthony Burgess as its author. Searching that exact sentence only retrieves additional biographical characterization, not the asked author identity.",
+  "Keep as an answer action after checking the qualification; omit the redundant search target.",
+  [("before_action", "Language Made Plain", "Language Made Plain by Anthony Burgess"), ("retrieved_after_search", "Anthony Burgess", "best known English literary figures")]),
+ (294, "Language Made Plain is a linguistics book", "retain_candidate", ["answer_visible_before_paired_search"],
+  "The book article directly identifies Anthony Burgess; his biography confirms he was an English writer and recognized literary figure. The answer is supported without the paired search.", None,
+  [("before_action", "Language Made Plain", "by Anthony Burgess"), ("before_action", "Anthony Burgess", "was an English writer and composer")]),
+ (295, "What was the name of the expedition led by the explorer", "repair_candidate", ["query_targets_county_not_missing_expedition", "retrieval_accidental"],
+  "The initial county article identifies Meriwether Lewis as the explorer buried at Grinder's Stand. The query merely repeats the county title; retrieval happens to return Lewis's biography and the expedition name, but a question-grounded query should target Lewis's expedition.",
+  "Query Meriwether Lewis expedition and replay the paired state.",
+  [("before_action", "Lewis County, Tennessee", "explorer Meriwether Lewis, who died and was buried at Grinder's Stand"), ("retrieved_after_search", "Meriwether Lewis", "leader of the Lewis and Clark Expedition")]),
+ (296, "What was the name of the expedition led by the explorer", "repair_candidate", ["paired_search_off_target"],
+  "The answer Lewis and Clark Expedition is directly supported by the retrieved Meriwether Lewis article, and the county text connects him to Grinder's Stand. The paired county-only query still lacks the expedition target.",
+  "Retain the answer only with a replayed targeted-search pair.",
+  [("before_action", "Lewis County, Tennessee", "buried at Grinder's Stand"), ("before_action", "Meriwether Lewis", "leader of the Lewis and Clark Expedition")]),
+ (297, "What final was delayed two weeks because of a disater", "repair_candidate", ["question_conflates_team_with_governing_body", "question_typo", "answer_visible_before_search", "query_unrelated_association"],
+  "The initial Scottish Cup article says the final was delayed by the Ibrox disaster during Scotland v England. The question instead says Scotland v the governing body for football in England, confusing The Football Association with the national team, and misspells disaster. The query copies an unrelated Scottish Junior Football Association description; it does not seek missing evidence.",
+  "Rewrite the question as the final delayed after the Ibrox disaster during Scotland v England, answer directly, and recheck the pair.",
+  [("before_action", "1901–02 Scottish Cup", "annual Scotland v England fixture"), ("before_action", "1901–02 Scottish Cup", "Final was delayed by two weeks"), ("retrieved_after_search", "England national football team", "controlled by The Football Association")]),
+ (298, "What final was delayed two weeks because of a disater", "repair_candidate", ["paired_question_false_team_association_relation"],
+  "1901–02 Scottish Cup is named in the source whose final was delayed, but the original question misstates the match participants as a team versus a governing body. The right label does not cure the false premise.",
+  "Use the corrected Scotland v England wording only in a separately replayed record.",
+  [("before_action", "1901–02 Scottish Cup", "1901–02 Scottish Cup"), ("before_action", "1901–02 Scottish Cup", "annual Scotland v England fixture")]),
+ (299, "Partysaurus Rex is based on the characters", "repair_candidate", ["answer_visible_before_search", "query_follows_derived_series_not_target"],
+  "The initial Partysaurus Rex article already says its Toy Story Toons short uses characters from the Toy Story feature films. Searching Toy Story Toons adds a franchise article confirming the anthropomorphic premise, but the requested series name was already present.",
+  "Use a direct-answer state or a question explicitly asking for the anthropomorphic premise; do not treat this as a necessary search example.",
+  [("before_action", "Partysaurus Rex", "based on the characters from the \"Toy Story\" feature films"), ("retrieved_after_search", "Toy Story (franchise)", "anthropomorphic concept that all toys")]),
+ (300, "Partysaurus Rex is based on the characters", "retain_candidate", ["answer_visible_before_paired_search"],
+  "The short's source expressly names Toy Story feature films, and the franchise article states the anthropomorphic-toys concept. Toy Story is supported; the paired search is redundant for the name.", None,
+  [("before_action", "Partysaurus Rex", "characters from the \"Toy Story\" feature films"), ("before_action", "Toy Story (franchise)", "anthropomorphic concept that all toys")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-075.jsonl", cohort="v122_internal_candidates")

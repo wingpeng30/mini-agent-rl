@@ -1,0 +1,160 @@
+{
+  "arms": {
+    "A": {
+      "action_completion": "first-json-v1",
+      "device": "cuda",
+      "dtype": "bfloat16",
+      "load_in_4bit": false,
+      "max_input_tokens": 16384,
+      "max_model_calls_per_case": 4,
+      "max_new_tokens": 2048,
+      "max_searches_per_case": 3,
+      "observation_encoding": "legacy",
+      "observation_presentation": "legacy-json",
+      "retriever": "bm25-v2",
+      "system_prompt": "direct-v090",
+      "thinking": false,
+      "timeout": null,
+      "top_k": 3
+    },
+    "B": {
+      "action_completion": "first-json-v1",
+      "device": "cuda",
+      "dtype": "bfloat16",
+      "load_in_4bit": false,
+      "max_input_tokens": 16384,
+      "max_model_calls_per_case": 4,
+      "max_new_tokens": 2048,
+      "max_searches_per_case": 3,
+      "observation_encoding": "legacy",
+      "observation_presentation": "document-blocks-v1",
+      "retriever": "bm25-v2",
+      "system_prompt": "direct-v090",
+      "thinking": false,
+      "timeout": null,
+      "top_k": 3
+    }
+  },
+  "dev_cases": 64,
+  "expected_hashes": {
+    "AM42A": "3bcd1f85382c1d7775fa674c1a6e1e68c80911a69b86de209d20f2ab6269280c",
+    "GoalZ": "d15d3864c1ccb810a6be7e5719d7b5d0ac87c353408ed85d973bb6393ff16b52"
+  },
+  "failure_policy": "model identity, token mapping, GPU, numeric or infrastructure failure: preserve and stop; no retries/tuning",
+  "frozen_output_hashes": {
+    "evaluation-cases.jsonl": "8c7fe268441632d38102f1eead4ae7ea5cbf90c5e0289cbddca0b7e106fde9e6",
+    "frozen-probes.jsonl": "999f8c8eb65139dcd68af7cbbaa0db6090793d7ad543d44bcb52f9583922ac7c",
+    "probe-inputs.jsonl": "35fd2a7315e5163b36bf119a4deb81f7cb4811b16f5965e8f39891cc7d4b7f97"
+  },
+  "frozen_output_paths": {
+    "evaluation-cases.jsonl": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-ap-evidence-presentation-v2/evaluation-cases.jsonl",
+    "frozen-probes.jsonl": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-ap-evidence-presentation-v2/frozen-probes.jsonl",
+    "probe-inputs.jsonl": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-ap-evidence-presentation-v2/probe-inputs.jsonl"
+  },
+  "gate": {
+    "action_problems_no_higher_than_A": true,
+    "binding_repair_min": 1,
+    "complete_B_at_least": 22,
+    "complete_gain_vs_A": 2,
+    "complete_losses_max": 1,
+    "errors_no_higher_than_A_and_at_most": 7,
+    "old_protected_losses_max": 1,
+    "partial_bad_actions_no_increase": true,
+    "partial_legal_search_min": 7,
+    "partial_legal_search_not_below_A": true,
+    "protect_Rapana_Duke": true,
+    "supported_B_at_least": 23,
+    "supported_gain_vs_A": 2
+  },
+  "goal": "AP",
+  "gpu_authorization_basis": "用户已明确授权GPU实验并说明以后无需再次确认",
+  "hashes": {
+    "aa_manifest": "dda381966f29e3ed827c594cecac896a993211da019dc6b106dfab8d4ce5fde4",
+    "aa_release": "dda381966f29e3ed827c594cecac896a993211da019dc6b106dfab8d4ce5fde4",
+    "am_adapter": "3bcd1f85382c1d7775fa674c1a6e1e68c80911a69b86de209d20f2ab6269280c",
+    "am_freeze": "959e119f85e938b34a7f0774e2327c77caf5f12e8b38ec75c99696b378156c31",
+    "am_runner": "ae4e82b1c508fac08a4b8757b41b222fac3c035e8fff4097aa64f0a313327dd2",
+    "am_summary": "7525e26106006f2e29b04dcc2f7f7f3c7ea14ba098aeb5041f83a6cb38224fa8",
+    "an_runner": "f162178711c0d914c954b4d2edf766afc7917d59c8aabde24cf0c5507a33f651",
+    "ao_runner": "93b2d4ce38741dbdc1a67a416a3ef030602eea3adcbbc703a205f258787bf2fb",
+    "base_config": "b90b86f35c8e6925ef74ee04d0e758f0a845c83a42089ad82bbaa948de9b4204",
+    "complete_probes": "2dfb86e7d84e525846e090207d9a689c89e25faa6b8b668262c6240438c7f0c8",
+    "dev_corpus": "dc2a2f843ad04bb2c38ce839e1959034b7c63f1cbbc24971de2557ce3cf62d37",
+    "evaluation": "8c7fe268441632d38102f1eead4ae7ea5cbf90c5e0289cbddca0b7e106fde9e6",
+    "model_client": "0f0f56af78ebf35daf14ec06cd70aaa8dc326c7664b9b70265fa367a3e353965",
+    "partial_probes": "4ad940ee1716c553edf912dbbe282a28f377f2286c8bd513ce015d5f0438b08a",
+    "presentation_serializer": "cba20c30604ba1a76fe29e4dc1f83f4bcff8e56e5c234b8775a930158cee11e5",
+    "probe_evidence": "853dc50e0e81853e8494134ad973637f7c5a8285bafbc49ebdda917e5c1b5e8a",
+    "probe_rulings": "d9de77ce6e12d26b0a1afd3445a153992a3236ebd0d5ec15151e0deea6858852",
+    "q_runner": "0bf40f196fb944526d2c283dbc64f8f13445d7ea91076eebe84fc4a15ce4496e",
+    "runner": "fa83126a52ffdb3dd829864267c01e1ae2528f16ba5ce57729f31adc824b97b3",
+    "semantic_rulings": "a88ae909ff8818852b3285846293ed444ee9ff75ddeca9893e1d8c7cc0e4a149",
+    "tokenizer": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+    "z_adapter": "d15d3864c1ccb810a6be7e5719d7b5d0ac87c353408ed85d973bb6393ff16b52"
+  },
+  "limits": {
+    "generations": 640,
+    "searches": 384
+  },
+  "models": {
+    "AM": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-am-action-sft-v2/seed42-A/adapter-final",
+    "Z": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-z-multihop-sft/seed42-trajectory/adapter-final"
+  },
+  "paths": {
+    "aa_manifest": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-aa-audit-confirmation/product-decision.json",
+    "aa_release": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-aa-audit-confirmation/product-decision.json",
+    "am_adapter": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-am-action-sft-v2/seed42-A/adapter-final/adapter_model.safetensors",
+    "am_freeze": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-am-action-sft-v2/execution-freeze.json",
+    "am_runner": "/root/autodl-tmp/mini-agent-rl/scripts/run_v133_goal_am.py",
+    "am_summary": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-am-action-sft-v2/seed42-A/summary.json",
+    "an_runner": "/root/autodl-tmp/mini-agent-rl/scripts/run_v133_goal_an.py",
+    "ao_runner": "/root/autodl-tmp/mini-agent-rl/scripts/run_v133_goal_ao_v2.py",
+    "base_config": "/root/autodl-tmp/qwen_08b/config.json",
+    "complete_probes": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-am-action-sft-v2/frozen-probes.jsonl",
+    "dev_corpus": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-z-multihop-sft/corpus-dev.json",
+    "evaluation": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-am-action-sft-v2/evaluation-cases.jsonl",
+    "model_client": "/root/autodl-tmp/mini-agent-rl/src/mini_agent_rl/model/local.py",
+    "partial_probes": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-an-hard-state-sft-v2/partial-probes.jsonl",
+    "presentation_serializer": "/root/autodl-tmp/mini-agent-rl/src/mini_agent_rl/model/observation_presentation.py",
+    "probe_evidence": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-ao-relation-contrast-sft-v2/probe-evidence-seed42.jsonl",
+    "probe_rulings": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-ao-relation-contrast-sft-v2/probe-review-seed42.jsonl",
+    "q_runner": "/root/autodl-tmp/mini-agent-rl/scripts/run_v133_goal_q_search.py",
+    "runner": "/root/autodl-tmp/mini-agent-rl/scripts/run_v133_goal_ap.py",
+    "semantic_rulings": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-am-action-sft-v2/semantic-review-seed42.jsonl",
+    "tokenizer": "/root/autodl-tmp/qwen_08b/tokenizer.json",
+    "z_adapter": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-z-multihop-sft/seed42-trajectory/adapter-final/adapter_model.safetensors"
+  },
+  "probe_counts": {
+    "arms": 2,
+    "complete": 24,
+    "models": 2,
+    "partial": 8,
+    "per_model_arm": 32
+  },
+  "products": {
+    "action_completion": "first-json-v1",
+    "base": "/root/autodl-tmp/qwen_08b",
+    "device": "cuda",
+    "dtype": "bfloat16",
+    "load_in_4bit": false,
+    "max_input_tokens": 16384,
+    "max_model_calls_per_case": 4,
+    "max_new_tokens": 2048,
+    "max_searches_per_case": 3,
+    "observation_encoding": "legacy",
+    "retriever": "bm25-v2",
+    "system_prompt": "direct-v090",
+    "temperature": 0,
+    "thinking": false,
+    "top_k": 3
+  },
+  "released_model_remains": "Goal Z AA seed42",
+  "stages": {
+    "dev_generations_max": 512,
+    "dev_searches_max": 384,
+    "dev_trajectories": 128,
+    "probe_generations": 128,
+    "probe_searches": 0
+  },
+  "status": "prepared"
+}

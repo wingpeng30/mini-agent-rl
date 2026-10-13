@@ -1,0 +1,18 @@
+{
+  "corpus": "runs/v133-goal-z-multihop-sft/corpus-dev.json",
+  "corpus_sha256": "dc2a2f843ad04bb2c38ce839e1959034b7c63f1cbbc24971de2557ce3cf62d37",
+  "document_count": 2048,
+  "model_path": "E:/AgentLightningAssets/models/all-MiniLM-L6-v2/fa97f6e7cb1a59073dff9e6b13e2715cf7475ac9",
+  "model_revision": "fa97f6e7cb1a59073dff9e6b13e2715cf7475ac9",
+  "index_dir": "E:/AgentLightningAssets/indexes/goal-z-dev-minilm-v1",
+  "run_dir": "E:/AgentLightningAssets/runs/retrieval-v1",
+  "title_tokens": 32,
+  "chunk_tokens": 220,
+  "overlap_tokens": 32,
+  "max_length": 256,
+  "batch_size": 32,
+  "cpu_threads": 4,
+  "candidate_k": 20,
+  "rrf_k": 60,
+  "top_k": 3
+}

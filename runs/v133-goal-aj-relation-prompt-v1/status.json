@@ -1,0 +1,11 @@
+{
+  "status": "complete",
+  "stage": "report-final-v3",
+  "trajectory_cases_per_arm": 64,
+  "probe_states": 16,
+  "probe_generations": 32,
+  "total_model_generations": 305,
+  "real_searches": 145,
+  "training_updates": 0,
+  "exploration_gate_passed": false
+}

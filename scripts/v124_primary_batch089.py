@@ -1,0 +1,46 @@
+"""Primary examination of v122 training-supplement candidate states 101–110."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (101, "Design for Living is a studio album", "retain_candidate", ["query_uses_visible_musical_link"],
+  "The album article identifies James Reyne and his theatre work on Little Shop of Horrors. Searching that sentence retrieves the musical article, which credits composer Alan Menken. The relevant title was visible before the search.", None,
+  [("before_action", "Design for Living (album)", "Reyne working in theatre (Little Shop of Horrors)"), ("retrieved_after_search", "Little Shop of Horrors (musical)", "by composer Alan Menken")]),
+ (102, "Design for Living is a studio album", "retain_candidate", [],
+  "James Reyne's album source connects him to the Little Shop of Horrors theatrical work, and the musical article names Alan Menken as composer. The answer is supported by the two documents.", None,
+  [("before_action", "Design for Living (album)", "Little Shop of Horrors"), ("before_action", "Little Shop of Horrors (musical)", "by composer Alan Menken")]),
+ (103, "Zombie Night starred the Actress", "repair_candidate", ["film_year_not_specified", "actress_not_unique_in_cast", "question_grammar"],
+  "The input contains distinct 2003 and 2013 Zombie Night films. The 2013 film's cast includes multiple actresses, and the question only says 'the Actress'. The search embeds the entire 2013 synopsis and retrieves Jennifer Taylor's CBS sitcom, but the original wording does not select her or the 2013 film uniquely.",
+  "Specify the 2013 film and Jennifer Taylor, or another distinguishing cast/role clue, before replaying the question and query.",
+  [("before_action", "Zombie Night (2013 film)", "Daryl Hannah, Jennifer Taylor, Alan Ruck, and Shirley Jones"), ("before_action", "Zombie Night (2003 film)", "2003 Canadian horror film"), ("retrieved_after_search", "Jennifer Taylor (actress)", "CBS sitcom \"Two and a Half Men\"")]),
+ (104, "Zombie Night starred the Actress", "repair_candidate", ["paired_unqualified_film_and_actress"],
+  "Jennifer Taylor appeared in the 2013 Zombie Night cast and Two and a Half Men, so the chosen answer has a chain. The bare film title and 'the actress' fail to identify one person from the several actresses or the two film versions.",
+  "Use a 2013/Jennifer-qualified revised question and replay.",
+  [("before_action", "Zombie Night (2013 film)", "Jennifer Taylor"), ("before_action", "Jennifer Taylor (actress)", "CBS sitcom \"Two and a Half Men\"")]),
+ (105, "Lorraine Heath is an author", "repair_candidate", ["query_preselects_award_before_recipient_link"],
+  "The initial RITA Award article already says it is named for Rita Clay Estrada, but no initial source connects Lorraine Heath to that award. Searching 'RITA Award' preselects the award, and retrieval then finds her receipt in 1997; later evidence cannot justify the prior selection.",
+  "Search Lorraine Heath's awards first, then follow the named award to its eponym; replay the pair.",
+  [("before_action", "RITA Award", "named for the RWA's first president, Rita Clay Estrada"), ("retrieved_after_search", "Lorraine Heath", "received the Romance Writers of America RITA Award")]),
+ (106, "Lorraine Heath is an author", "repair_candidate", ["paired_award_preselected_before_recipient_link"],
+  "Heath's biography links her to the RITA Award and that award's article names Rita Clay Estrada. The answer is supported after retrieval, but the paired search chose the award before the initial state established Heath's connection.",
+  "Retain the eponym only with a recipient-first replayed pair.",
+  [("before_action", "Lorraine Heath", "received the Romance Writers of America RITA Award"), ("before_action", "RITA Award", "named for the RWA's first president, Rita Clay Estrada")]),
+ (107, "What company was in charge of US distribution", "repair_candidate", ["film_not_identified_in_question", "doctor_who_cast_nonunique"],
+  "The initial Catherine Tate biography establishes her Doctor Who role, and retrieval finds one film, Khumba, with Tate in its cast and Millennium Entertainment as US distributor. The question names no film, year, actress, or unique role; a film starring a Doctor Who performer is not a unique identifier. The query selects Tate, but the intended film is determined only by retrieval.",
+  "Identify the 2013 animated film Khumba or Catherine Tate in the question, then replay the company lookup.",
+  [("before_action", "Catherine Tate", "played Donna Noble in the 2006 Christmas special of \"Doctor Who\""), ("retrieved_after_search", "Khumba", "Catherine Tate"), ("retrieved_after_search", "Khumba", "distributed by Millennium Entertainment in the US")]),
+ (108, "What company was in charge of US distribution", "repair_candidate", ["paired_film_not_unique"],
+  "Millennium Entertainment is explicitly named as Khumba's US distributor and Catherine Tate appears in Khumba and Doctor Who. Yet the question gives no distinguishing film identity; the correct company for one discovered film is not entailed as the sole answer.",
+  "Keep the company only in a Khumba-specific, replayed question.",
+  [("before_action", "Catherine Tate", "Doctor Who"), ("before_action", "Khumba", "distributed by Millennium Entertainment in the US")]),
+ (109, "Orange Order was founded by whom", "quarantine_pending_repair", ["answer_confuses_attackers_with_founders", "founders_not_named_in_source"],
+  "The initial Tullyvallen article says Irish Republicans attacked an Orange Order building in 1975. The retrieved Orange Order article says the Protestant organization was founded in County Armagh in 1795 but does not name these attackers as founders; their political opposition and the date make the frozen answer a cross-event substitution.",
+  "Isolate the pair. Seek a source naming actual founders, or change to a supported where/when question and replay; do not use Irish Republicans as founders.",
+  [("before_action", "Tullyvallen Orange Hall massacre", "Irish Republicans from the Provisional IRA"), ("retrieved_after_search", "Orange Order", "founded in County Armagh in 1795")]),
+ (110, "Orange Order was founded by whom", "quarantine_pending_repair", ["paired_attackers_mislabeled_founders"],
+  "Irish Republicans appear only as perpetrators of a 1975 attack on an Orange Hall. The Orange Order founding citation supplies location and date, not those attackers as founders. The frozen answer is unsupported and misleading.",
+  "Exclude these two states until a founder-specific source and newly reviewed question/answer pair exist.",
+  [("before_action", "Tullyvallen Orange Hall massacre", "Irish Republicans from the Provisional IRA"), ("before_action", "Orange Order", "founded in County Armagh in 1795")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-089.jsonl", cohort="v122_train_candidates")

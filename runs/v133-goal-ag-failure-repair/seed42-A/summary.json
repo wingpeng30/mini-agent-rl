@@ -1,0 +1,13 @@
+{
+  "adapter_sha256": "a62a79614d85f2167fcf42b5f695cfcff17f89c106ef4a34e2da69015bb9c9c2",
+  "arm": "A",
+  "base_unchanged": true,
+  "changed_lora_tensors": 192,
+  "elapsed_seconds": 148.35025354102254,
+  "preflight_failure_recovered_without_retraining": true,
+  "reload_max_abs": 0.0,
+  "reload_method": "two independent loads of the saved checkpoint scored on the same frozen action",
+  "repair_update_count": 0,
+  "seed": 42,
+  "updates": 128
+}

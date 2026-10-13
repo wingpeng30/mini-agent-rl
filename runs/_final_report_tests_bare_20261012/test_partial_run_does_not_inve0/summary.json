@@ -1,0 +1,643 @@
+{
+  "kind": "exposed fixed-data regression; no new semantic review",
+  "status": {},
+  "groups": {
+    "natural104": {
+      "branches": {
+        "am-serial": {
+          "count": 1,
+          "expected": 104,
+          "complete": false,
+          "strict_em_count": 0.0,
+          "normalized_em_count": 0.0,
+          "strict_em_rate": 0.0,
+          "normalized_em_rate": 0.0,
+          "mean_f1": 0.0,
+          "answered": 1,
+          "invalid_actions": 0.0,
+          "repeated_actions": 0.0,
+          "model_calls": 2.0,
+          "searches": 1.0,
+          "input_tokens": 100.0,
+          "output_tokens": 10.0,
+          "sum_question_seconds": 1.0,
+          "mean_question_seconds": 1.0,
+          "p95_question_seconds": 1.0,
+          "peak_allocated_gib": 0.0,
+          "peak_reserved_gib": 0.0,
+          "end_reasons": {
+            "answer": 1
+          }
+        },
+        "sft42": {
+          "count": 0,
+          "expected": 104,
+          "complete": false,
+          "strict_em_count": 0,
+          "normalized_em_count": 0,
+          "strict_em_rate": null,
+          "normalized_em_rate": null,
+          "mean_f1": null,
+          "answered": 0,
+          "invalid_actions": 0,
+          "repeated_actions": 0,
+          "model_calls": 0,
+          "searches": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "sum_question_seconds": 0,
+          "mean_question_seconds": null,
+          "p95_question_seconds": null,
+          "peak_allocated_gib": 0,
+          "peak_reserved_gib": 0,
+          "end_reasons": {}
+        },
+        "grpo42": {
+          "count": 0,
+          "expected": 104,
+          "complete": false,
+          "strict_em_count": 0,
+          "normalized_em_count": 0,
+          "strict_em_rate": null,
+          "normalized_em_rate": null,
+          "mean_f1": null,
+          "answered": 0,
+          "invalid_actions": 0,
+          "repeated_actions": 0,
+          "model_calls": 0,
+          "searches": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "sum_question_seconds": 0,
+          "mean_question_seconds": null,
+          "p95_question_seconds": null,
+          "peak_allocated_gib": 0,
+          "peak_reserved_gib": 0,
+          "end_reasons": {}
+        },
+        "grpo43": {
+          "count": 0,
+          "expected": 104,
+          "complete": false,
+          "strict_em_count": 0,
+          "normalized_em_count": 0,
+          "strict_em_rate": null,
+          "normalized_em_rate": null,
+          "mean_f1": null,
+          "answered": 0,
+          "invalid_actions": 0,
+          "repeated_actions": 0,
+          "model_calls": 0,
+          "searches": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "sum_question_seconds": 0,
+          "mean_question_seconds": null,
+          "p95_question_seconds": null,
+          "peak_allocated_gib": 0,
+          "peak_reserved_gib": 0,
+          "end_reasons": {}
+        }
+      },
+      "paired_vs_am": {
+        "sft42": {
+          "pairs": 0,
+          "identical_case_sets": false,
+          "before_only": [
+            "a"
+          ],
+          "after_only": []
+        },
+        "grpo42": {
+          "pairs": 0,
+          "identical_case_sets": false,
+          "before_only": [
+            "a"
+          ],
+          "after_only": []
+        },
+        "grpo43": {
+          "pairs": 0,
+          "identical_case_sets": false,
+          "before_only": [
+            "a"
+          ],
+          "after_only": []
+        }
+      },
+      "paired_vs_sft": {
+        "grpo42": {
+          "pairs": 0,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": []
+        },
+        "grpo43": {
+          "pairs": 0,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": []
+        }
+      }
+    },
+    "all128": {
+      "branches": {
+        "am-serial": {
+          "count": 1,
+          "expected": 128,
+          "complete": false,
+          "strict_em_count": 0.0,
+          "normalized_em_count": 0.0,
+          "strict_em_rate": 0.0,
+          "normalized_em_rate": 0.0,
+          "mean_f1": 0.0,
+          "answered": 1,
+          "invalid_actions": 0.0,
+          "repeated_actions": 0.0,
+          "model_calls": 2.0,
+          "searches": 1.0,
+          "input_tokens": 100.0,
+          "output_tokens": 10.0,
+          "sum_question_seconds": 1.0,
+          "mean_question_seconds": 1.0,
+          "p95_question_seconds": 1.0,
+          "peak_allocated_gib": 0.0,
+          "peak_reserved_gib": 0.0,
+          "end_reasons": {
+            "answer": 1
+          }
+        },
+        "sft42": {
+          "count": 0,
+          "expected": 128,
+          "complete": false,
+          "strict_em_count": 0,
+          "normalized_em_count": 0,
+          "strict_em_rate": null,
+          "normalized_em_rate": null,
+          "mean_f1": null,
+          "answered": 0,
+          "invalid_actions": 0,
+          "repeated_actions": 0,
+          "model_calls": 0,
+          "searches": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "sum_question_seconds": 0,
+          "mean_question_seconds": null,
+          "p95_question_seconds": null,
+          "peak_allocated_gib": 0,
+          "peak_reserved_gib": 0,
+          "end_reasons": {}
+        },
+        "grpo42": {
+          "count": 0,
+          "expected": 128,
+          "complete": false,
+          "strict_em_count": 0,
+          "normalized_em_count": 0,
+          "strict_em_rate": null,
+          "normalized_em_rate": null,
+          "mean_f1": null,
+          "answered": 0,
+          "invalid_actions": 0,
+          "repeated_actions": 0,
+          "model_calls": 0,
+          "searches": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "sum_question_seconds": 0,
+          "mean_question_seconds": null,
+          "p95_question_seconds": null,
+          "peak_allocated_gib": 0,
+          "peak_reserved_gib": 0,
+          "end_reasons": {}
+        },
+        "grpo43": {
+          "count": 0,
+          "expected": 128,
+          "complete": false,
+          "strict_em_count": 0,
+          "normalized_em_count": 0,
+          "strict_em_rate": null,
+          "normalized_em_rate": null,
+          "mean_f1": null,
+          "answered": 0,
+          "invalid_actions": 0,
+          "repeated_actions": 0,
+          "model_calls": 0,
+          "searches": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "sum_question_seconds": 0,
+          "mean_question_seconds": null,
+          "p95_question_seconds": null,
+          "peak_allocated_gib": 0,
+          "peak_reserved_gib": 0,
+          "end_reasons": {}
+        }
+      },
+      "paired_vs_am": {
+        "sft42": {
+          "pairs": 0,
+          "identical_case_sets": false,
+          "before_only": [
+            "a"
+          ],
+          "after_only": []
+        },
+        "grpo42": {
+          "pairs": 0,
+          "identical_case_sets": false,
+          "before_only": [
+            "a"
+          ],
+          "after_only": []
+        },
+        "grpo43": {
+          "pairs": 0,
+          "identical_case_sets": false,
+          "before_only": [
+            "a"
+          ],
+          "after_only": []
+        }
+      },
+      "paired_vs_sft": {
+        "grpo42": {
+          "pairs": 0,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": []
+        },
+        "grpo43": {
+          "pairs": 0,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": []
+        }
+      }
+    },
+    "single24": {
+      "branches": {
+        "am-serial": {
+          "count": 0,
+          "expected": 24,
+          "complete": false,
+          "strict_em_count": 0,
+          "normalized_em_count": 0,
+          "strict_em_rate": null,
+          "normalized_em_rate": null,
+          "mean_f1": null,
+          "answered": 0,
+          "invalid_actions": 0,
+          "repeated_actions": 0,
+          "model_calls": 0,
+          "searches": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "sum_question_seconds": 0,
+          "mean_question_seconds": null,
+          "p95_question_seconds": null,
+          "peak_allocated_gib": 0,
+          "peak_reserved_gib": 0,
+          "end_reasons": {}
+        },
+        "sft42": {
+          "count": 0,
+          "expected": 24,
+          "complete": false,
+          "strict_em_count": 0,
+          "normalized_em_count": 0,
+          "strict_em_rate": null,
+          "normalized_em_rate": null,
+          "mean_f1": null,
+          "answered": 0,
+          "invalid_actions": 0,
+          "repeated_actions": 0,
+          "model_calls": 0,
+          "searches": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "sum_question_seconds": 0,
+          "mean_question_seconds": null,
+          "p95_question_seconds": null,
+          "peak_allocated_gib": 0,
+          "peak_reserved_gib": 0,
+          "end_reasons": {}
+        },
+        "grpo42": {
+          "count": 0,
+          "expected": 24,
+          "complete": false,
+          "strict_em_count": 0,
+          "normalized_em_count": 0,
+          "strict_em_rate": null,
+          "normalized_em_rate": null,
+          "mean_f1": null,
+          "answered": 0,
+          "invalid_actions": 0,
+          "repeated_actions": 0,
+          "model_calls": 0,
+          "searches": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "sum_question_seconds": 0,
+          "mean_question_seconds": null,
+          "p95_question_seconds": null,
+          "peak_allocated_gib": 0,
+          "peak_reserved_gib": 0,
+          "end_reasons": {}
+        },
+        "grpo43": {
+          "count": 0,
+          "expected": 24,
+          "complete": false,
+          "strict_em_count": 0,
+          "normalized_em_count": 0,
+          "strict_em_rate": null,
+          "normalized_em_rate": null,
+          "mean_f1": null,
+          "answered": 0,
+          "invalid_actions": 0,
+          "repeated_actions": 0,
+          "model_calls": 0,
+          "searches": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "sum_question_seconds": 0,
+          "mean_question_seconds": null,
+          "p95_question_seconds": null,
+          "peak_allocated_gib": 0,
+          "peak_reserved_gib": 0,
+          "end_reasons": {}
+        }
+      },
+      "paired_vs_am": {
+        "sft42": {
+          "pairs": 0,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": []
+        },
+        "grpo42": {
+          "pairs": 0,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": []
+        },
+        "grpo43": {
+          "pairs": 0,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": []
+        }
+      },
+      "paired_vs_sft": {
+        "grpo42": {
+          "pairs": 0,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": []
+        },
+        "grpo43": {
+          "pairs": 0,
+          "identical_case_sets": true,
+          "before_only": [],
+          "after_only": []
+        }
+      }
+    }
+  },
+  "training": {
+    "sft42": {
+      "update_records": 0,
+      "group_records": 0,
+      "planned_groups": 0,
+      "planned_updates": 128,
+      "sampled_trajectories": 0,
+      "updates_per_second": null,
+      "groups_per_second": null
+    },
+    "grpo42": {
+      "update_records": 0,
+      "group_records": 0,
+      "planned_groups": 128,
+      "planned_updates": 256,
+      "sampled_trajectories": 0,
+      "updates_per_second": null,
+      "groups_per_second": null
+    },
+    "grpo43": {
+      "update_records": 0,
+      "group_records": 0,
+      "planned_groups": 128,
+      "planned_updates": 256,
+      "sampled_trajectories": 0,
+      "updates_per_second": null,
+      "groups_per_second": null
+    }
+  },
+  "warnings": [],
+  "new_semantic_review": false,
+  "bootstrap": {
+    "draws": 2000,
+    "seed": 42,
+    "method": "paired percentile"
+  },
+  "complete": false,
+  "bare_model": {
+    "branch": "base-untrained",
+    "groups": {
+      "natural104": {
+        "metrics": {
+          "count": 0,
+          "expected": 104,
+          "complete": false,
+          "strict_em_count": 0,
+          "normalized_em_count": 0,
+          "strict_em_rate": null,
+          "normalized_em_rate": null,
+          "mean_f1": null,
+          "answered": 0,
+          "invalid_actions": 0,
+          "repeated_actions": 0,
+          "model_calls": 0,
+          "searches": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "sum_question_seconds": 0,
+          "mean_question_seconds": null,
+          "p95_question_seconds": null,
+          "peak_allocated_gib": 0,
+          "peak_reserved_gib": 0,
+          "end_reasons": {}
+        },
+        "paired_to_branches": {
+          "am-serial": {
+            "pairs": 0,
+            "identical_case_sets": false,
+            "before_only": [],
+            "after_only": [
+              "a"
+            ]
+          },
+          "sft42": {
+            "pairs": 0,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": []
+          },
+          "grpo42": {
+            "pairs": 0,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": []
+          },
+          "grpo43": {
+            "pairs": 0,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": []
+          }
+        }
+      },
+      "all128": {
+        "metrics": {
+          "count": 0,
+          "expected": 128,
+          "complete": false,
+          "strict_em_count": 0,
+          "normalized_em_count": 0,
+          "strict_em_rate": null,
+          "normalized_em_rate": null,
+          "mean_f1": null,
+          "answered": 0,
+          "invalid_actions": 0,
+          "repeated_actions": 0,
+          "model_calls": 0,
+          "searches": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "sum_question_seconds": 0,
+          "mean_question_seconds": null,
+          "p95_question_seconds": null,
+          "peak_allocated_gib": 0,
+          "peak_reserved_gib": 0,
+          "end_reasons": {}
+        },
+        "paired_to_branches": {
+          "am-serial": {
+            "pairs": 0,
+            "identical_case_sets": false,
+            "before_only": [],
+            "after_only": [
+              "a"
+            ]
+          },
+          "sft42": {
+            "pairs": 0,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": []
+          },
+          "grpo42": {
+            "pairs": 0,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": []
+          },
+          "grpo43": {
+            "pairs": 0,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": []
+          }
+        }
+      },
+      "single24": {
+        "metrics": {
+          "count": 0,
+          "expected": 24,
+          "complete": false,
+          "strict_em_count": 0,
+          "normalized_em_count": 0,
+          "strict_em_rate": null,
+          "normalized_em_rate": null,
+          "mean_f1": null,
+          "answered": 0,
+          "invalid_actions": 0,
+          "repeated_actions": 0,
+          "model_calls": 0,
+          "searches": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "sum_question_seconds": 0,
+          "mean_question_seconds": null,
+          "p95_question_seconds": null,
+          "peak_allocated_gib": 0,
+          "peak_reserved_gib": 0,
+          "end_reasons": {}
+        },
+        "paired_to_branches": {
+          "am-serial": {
+            "pairs": 0,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": []
+          },
+          "sft42": {
+            "pairs": 0,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": []
+          },
+          "grpo42": {
+            "pairs": 0,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": []
+          },
+          "grpo43": {
+            "pairs": 0,
+            "identical_case_sets": true,
+            "before_only": [],
+            "after_only": []
+          }
+        }
+      }
+    }
+  },
+  "efficiency": {
+    "serial": {
+      "measured_cases": 1,
+      "wall_seconds": null,
+      "scope": "full evaluation",
+      "questions_per_minute": null,
+      "input_tokens_per_second": null,
+      "output_tokens_per_second": null,
+      "peak_allocated_gib": null,
+      "peak_reserved_gib": null
+    },
+    "batch": {
+      "measured_cases": 0,
+      "wall_seconds": null,
+      "scope": "full evaluation",
+      "questions_per_minute": null,
+      "input_tokens_per_second": null,
+      "output_tokens_per_second": null,
+      "peak_allocated_gib": null,
+      "peak_reserved_gib": null
+    },
+    "answer_comparison": {
+      "pairs": 0,
+      "identical_case_sets": false,
+      "before_only": [
+        "a"
+      ],
+      "after_only": []
+    },
+    "exact_answer_changes": [],
+    "batch_throughput_ratio": null
+  }
+}

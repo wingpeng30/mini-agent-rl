@@ -1,0 +1,24 @@
+{
+  "status": "COMPLETED",
+  "branch": "grpo42",
+  "case_count": 128,
+  "current_process_cases": 128,
+  "evaluation_wall_seconds": 515.1494100056589,
+  "batch_size": 1,
+  "questions_per_second": 0.24847160360446482,
+  "model_calls": 339,
+  "searches": 211,
+  "input_tokens": 180546,
+  "output_tokens": 5350,
+  "exact_match": 60.0,
+  "normalized_exact_match": 61.0,
+  "f1": 0.5867694805194805,
+  "adapter_sha256": "26131985a4f227700dd95772be09f71953cf302e82615d949d55cf653b80eb60",
+  "gpu_memory": {
+    "peak_allocated_gb": 2.06,
+    "peak_reserved_gb": 2.988,
+    "device_process_gb": 3.58,
+    "device_memory_source": "single_compute_process_fallback"
+  },
+  "resumed": false
+}

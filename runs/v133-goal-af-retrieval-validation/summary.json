@@ -1,0 +1,449 @@
+{
+  "arms": {
+    "A": {
+      "by_split": {
+        "aa_regression": {
+          "em": 26,
+          "invalid_actions": 0,
+          "mean_f1": 0.5308035714285714,
+          "mean_latency_seconds": 2.546450606721919,
+          "mean_searches": 2.03125,
+          "n": 64,
+          "support_title_hits": 46,
+          "unanswered": 4
+        },
+        "goal_y_regression": {
+          "em": 36,
+          "invalid_actions": 0,
+          "mean_f1": 0.8527777777777777,
+          "mean_latency_seconds": 2.0333583299070597,
+          "mean_searches": 1.5416666666666667,
+          "n": 48,
+          "support_title_hits": 48,
+          "unanswered": 0
+        },
+        "goal_z_dev": {
+          "em": 24,
+          "invalid_actions": 0,
+          "mean_f1": 0.48643353174603177,
+          "mean_latency_seconds": 2.7133094672462903,
+          "mean_searches": 2.03125,
+          "n": 64,
+          "support_title_hits": 47,
+          "unanswered": 7
+        },
+        "old_regression": {
+          "em": 21,
+          "invalid_actions": 0,
+          "mean_f1": 0.7833333333333333,
+          "mean_latency_seconds": 1.9472491584019735,
+          "mean_searches": 1.4375,
+          "n": 32,
+          "support_title_hits": 32,
+          "unanswered": 0
+        }
+      },
+      "em_total": 107,
+      "n": 208,
+      "output_sha256": "db705b63dd2ef19453cd71759d0ce83fdca6af7ceddb8aa19b9b11ad2e777ad4",
+      "status": "awaiting_semantic_review"
+    },
+    "B": {
+      "by_split": {
+        "aa_regression": {
+          "em": 6,
+          "invalid_actions": 0,
+          "mean_f1": 0.13601190476190475,
+          "mean_latency_seconds": 3.129922164021991,
+          "mean_searches": 2.15625,
+          "n": 64,
+          "support_title_hits": 32,
+          "unanswered": 14
+        },
+        "goal_y_regression": {
+          "em": 18,
+          "invalid_actions": 0,
+          "mean_f1": 0.4576388888888889,
+          "mean_latency_seconds": 2.4583731635163226,
+          "mean_searches": 1.7083333333333333,
+          "n": 48,
+          "support_title_hits": 47,
+          "unanswered": 3
+        },
+        "goal_z_dev": {
+          "em": 8,
+          "invalid_actions": 0,
+          "mean_f1": 0.170064831002331,
+          "mean_latency_seconds": 3.2225353466928937,
+          "mean_searches": 2.109375,
+          "n": 64,
+          "support_title_hits": 36,
+          "unanswered": 22
+        },
+        "old_regression": {
+          "em": 4,
+          "invalid_actions": 0,
+          "mean_f1": 0.3145833333333333,
+          "mean_latency_seconds": 2.158876948757097,
+          "mean_searches": 1.65625,
+          "n": 32,
+          "support_title_hits": 31,
+          "unanswered": 2
+        }
+      },
+      "em_total": 36,
+      "n": 208,
+      "output_sha256": "49c77f29728383408667121633fb280d8eb5c44e354feceb2fbdfa4aaa45ea73",
+      "status": "awaiting_semantic_review"
+    },
+    "C": {
+      "by_split": {
+        "aa_regression": {
+          "em": 20,
+          "invalid_actions": 0,
+          "mean_f1": 0.3919270833333333,
+          "mean_latency_seconds": 2.766626063734293,
+          "mean_searches": 2.078125,
+          "n": 64,
+          "support_title_hits": 42,
+          "unanswered": 8
+        },
+        "goal_y_regression": {
+          "em": 33,
+          "invalid_actions": 0,
+          "mean_f1": 0.8145833333333333,
+          "mean_latency_seconds": 2.1947720233195773,
+          "mean_searches": 1.5625,
+          "n": 48,
+          "support_title_hits": 47,
+          "unanswered": 0
+        },
+        "goal_z_dev": {
+          "em": 19,
+          "invalid_actions": 0,
+          "mean_f1": 0.3807291666666667,
+          "mean_latency_seconds": 2.8700801618397236,
+          "mean_searches": 2.0625,
+          "n": 64,
+          "support_title_hits": 47,
+          "unanswered": 11
+        },
+        "old_regression": {
+          "em": 16,
+          "invalid_actions": 0,
+          "mean_f1": 0.6822916666666666,
+          "mean_latency_seconds": 1.8966009783325717,
+          "mean_searches": 1.40625,
+          "n": 32,
+          "support_title_hits": 31,
+          "unanswered": 0
+        }
+      },
+      "em_total": 88,
+      "n": 208,
+      "output_sha256": "9cdde7585f8b62ef6b7f8e09f41794f2f7ee62f298215e76d0ae27513108d514",
+      "status": "awaiting_semantic_review"
+    }
+  },
+  "confirmation_accessed": false,
+  "output_count": 624,
+  "product_change_published": false,
+  "semantic": {
+    "baseline": {
+      "aa_regression": {
+        "bad_total": 24,
+        "correct_sufficient": 35,
+        "factual_error": 15,
+        "invalid": 0,
+        "n": 64,
+        "unsupported_by_visible_evidence": 9
+      },
+      "goal_y_regression": {
+        "bad_total": 8,
+        "correct_sufficient": 40,
+        "factual_error": 3,
+        "invalid": 0,
+        "n": 48,
+        "unsupported_by_visible_evidence": 5
+      },
+      "goal_z_dev": {
+        "bad_total": 21,
+        "correct_sufficient": 36,
+        "factual_error": 10,
+        "invalid": 0,
+        "n": 64,
+        "unsupported_by_visible_evidence": 11
+      },
+      "old_main": {
+        "bad_total": 1,
+        "correct_sufficient": 15,
+        "factual_error": 1,
+        "invalid": 0,
+        "n": 16,
+        "unsupported_by_visible_evidence": 0
+      },
+      "old_regression": {
+        "bad_total": 4,
+        "correct_sufficient": 12,
+        "factual_error": 3,
+        "invalid": 0,
+        "n": 16,
+        "unsupported_by_visible_evidence": 1
+      }
+    },
+    "baseline_matches_frozen_expectation": true,
+    "baseline_reference_corrections": [
+      {
+        "final_goal_aa_reviewed_value": 35,
+        "frozen_draft_value": 32,
+        "metric": "aa_regression",
+        "reason": "Goal AA final revised adjudication of the same published Goal Z seed42 output supersedes the draft count.",
+        "source": "D:\\AgentLightning\\mini-agent-rl\\runs\\v133-goal-aa-audit-confirmation\\product-decision.json"
+      },
+      {
+        "final_goal_aa_reviewed_value": 21,
+        "frozen_draft_value": 19,
+        "metric": "goal_z_dev_bad_total",
+        "reason": "Goal AA final revised adjudication of the same published Goal Z seed42 output supersedes the draft count.",
+        "source": "D:\\AgentLightning\\mini-agent-rl\\runs\\v133-goal-aa-audit-confirmation\\development-decision.json"
+      }
+    ],
+    "candidates": {
+      "B": {
+        "aa_regression": {
+          "bad_total": 20,
+          "correct_sufficient": 1,
+          "factual_error": 1,
+          "invalid": 0,
+          "n": 64,
+          "unsupported_by_visible_evidence": 19
+        },
+        "goal_y_regression": {
+          "bad_total": 19,
+          "correct_sufficient": 2,
+          "factual_error": 4,
+          "invalid": 0,
+          "n": 48,
+          "unsupported_by_visible_evidence": 15
+        },
+        "goal_z_dev": {
+          "bad_total": 27,
+          "correct_sufficient": 7,
+          "factual_error": 24,
+          "invalid": 0,
+          "n": 64,
+          "unsupported_by_visible_evidence": 3
+        },
+        "mean_searches": 1.9615384615384615,
+        "old_main": {
+          "bad_total": 8,
+          "correct_sufficient": 1,
+          "factual_error": 5,
+          "invalid": 0,
+          "n": 16,
+          "unsupported_by_visible_evidence": 3
+        },
+        "old_regression": {
+          "bad_total": 8,
+          "correct_sufficient": 1,
+          "factual_error": 5,
+          "invalid": 0,
+          "n": 16,
+          "unsupported_by_visible_evidence": 3
+        },
+        "passed": false,
+        "protected_multihop_count": 35,
+        "protected_multihop_lost": 34
+      },
+      "C": {
+        "aa_regression": {
+          "bad_total": 26,
+          "correct_sufficient": 10,
+          "factual_error": 0,
+          "invalid": 0,
+          "n": 64,
+          "unsupported_by_visible_evidence": 26
+        },
+        "goal_y_regression": {
+          "bad_total": 21,
+          "correct_sufficient": 10,
+          "factual_error": 0,
+          "invalid": 0,
+          "n": 48,
+          "unsupported_by_visible_evidence": 21
+        },
+        "goal_z_dev": {
+          "bad_total": 29,
+          "correct_sufficient": 15,
+          "factual_error": 0,
+          "invalid": 0,
+          "n": 64,
+          "unsupported_by_visible_evidence": 29
+        },
+        "mean_searches": 1.8509615384615385,
+        "old_main": {
+          "bad_total": 4,
+          "correct_sufficient": 5,
+          "factual_error": 0,
+          "invalid": 0,
+          "n": 16,
+          "unsupported_by_visible_evidence": 4
+        },
+        "old_regression": {
+          "bad_total": 4,
+          "correct_sufficient": 3,
+          "factual_error": 0,
+          "invalid": 0,
+          "n": 16,
+          "unsupported_by_visible_evidence": 4
+        },
+        "passed": false,
+        "protected_multihop_count": 35,
+        "protected_multihop_lost": 27
+      }
+    },
+    "decision": "no_candidate_passed_development_gate",
+    "eligible_arms": [],
+    "fresh_confirmation_opened": false,
+    "product_change_published": false,
+    "protected_multihop_case_ids": [
+      "2wiki:0e0c10a60bdc11eba7f7acde48001122",
+      "2wiki:1f64613a0bde11eba7f7acde48001122",
+      "2wiki:2e1a14d60bde11eba7f7acde48001122",
+      "2wiki:37c6703a0bdc11eba7f7acde48001122",
+      "2wiki:3ae059580bdb11eba7f7acde48001122",
+      "2wiki:4acbfb1c0bde11eba7f7acde48001122",
+      "2wiki:5773fdb20bdc11eba7f7acde48001122",
+      "2wiki:5c2541900bdc11eba7f7acde48001122",
+      "2wiki:764446780bde11eba7f7acde48001122",
+      "2wiki:7bc2c4340bda11eba7f7acde48001122",
+      "2wiki:892785d00bdd11eba7f7acde48001122",
+      "2wiki:b732a5e20bdb11eba7f7acde48001122",
+      "2wiki:bd80de220bdc11eba7f7acde48001122",
+      "2wiki:c1b2e3ae0bdd11eba7f7acde48001122",
+      "2wiki:c400306a0bda11eba7f7acde48001122",
+      "2wiki:c57f6be40bdb11eba7f7acde48001122",
+      "2wiki:c789d1a20bdd11eba7f7acde48001122",
+      "2wiki:dc15d27e0bdd11eba7f7acde48001122",
+      "2wiki:f21ab6980bdd11eba7f7acde48001122",
+      "2wiki:f6b058440bdc11eba7f7acde48001122",
+      "2wiki:f77e7afa0bda11eba7f7acde48001122",
+      "2wiki:fbfb55ac0bdb11eba7f7acde48001122",
+      "musique:2hop__144784_623159",
+      "musique:2hop__151455_120171",
+      "musique:2hop__157498_127908",
+      "musique:2hop__315267_277284",
+      "musique:2hop__351275_75487",
+      "musique:2hop__496961_554601",
+      "musique:2hop__53433_59035",
+      "musique:2hop__593688_292889",
+      "musique:2hop__59612_42429",
+      "musique:2hop__596188_297986",
+      "musique:2hop__631139_75487",
+      "musique:2hop__699172_141338",
+      "musique:2hop__84103_345851"
+    ],
+    "selected_arm": null,
+    "trajectory_diagnostic_counts": {
+      "A-aa_regression": {
+        "actual_input_truncation": 0,
+        "answered_before_sufficient_evidence": 0,
+        "bridge_entity_not_used": 0,
+        "continued_after_sufficient_evidence": 0,
+        "first_retrieval_failed": 0,
+        "sufficient_evidence_wrong_answer": 0
+      },
+      "A-goal_y_regression": {
+        "actual_input_truncation": 0,
+        "answered_before_sufficient_evidence": 0,
+        "bridge_entity_not_used": 0,
+        "continued_after_sufficient_evidence": 0,
+        "first_retrieval_failed": 0,
+        "sufficient_evidence_wrong_answer": 0
+      },
+      "A-goal_z_dev": {
+        "actual_input_truncation": 0,
+        "answered_before_sufficient_evidence": 0,
+        "bridge_entity_not_used": 0,
+        "continued_after_sufficient_evidence": 0,
+        "first_retrieval_failed": 0,
+        "sufficient_evidence_wrong_answer": 0
+      },
+      "A-old_regression": {
+        "actual_input_truncation": 0,
+        "answered_before_sufficient_evidence": 0,
+        "bridge_entity_not_used": 0,
+        "continued_after_sufficient_evidence": 0,
+        "first_retrieval_failed": 0,
+        "sufficient_evidence_wrong_answer": 0
+      },
+      "B-aa_regression": {
+        "actual_input_truncation": 0,
+        "answered_before_sufficient_evidence": 0,
+        "bridge_entity_not_used": 0,
+        "continued_after_sufficient_evidence": 0,
+        "first_retrieval_failed": 1,
+        "sufficient_evidence_wrong_answer": 0
+      },
+      "B-goal_y_regression": {
+        "actual_input_truncation": 0,
+        "answered_before_sufficient_evidence": 0,
+        "bridge_entity_not_used": 0,
+        "continued_after_sufficient_evidence": 0,
+        "first_retrieval_failed": 2,
+        "sufficient_evidence_wrong_answer": 0
+      },
+      "B-goal_z_dev": {
+        "actual_input_truncation": 0,
+        "answered_before_sufficient_evidence": 0,
+        "bridge_entity_not_used": 0,
+        "continued_after_sufficient_evidence": 0,
+        "first_retrieval_failed": 0,
+        "sufficient_evidence_wrong_answer": 0
+      },
+      "B-old_regression": {
+        "actual_input_truncation": 0,
+        "answered_before_sufficient_evidence": 0,
+        "bridge_entity_not_used": 0,
+        "continued_after_sufficient_evidence": 0,
+        "first_retrieval_failed": 0,
+        "sufficient_evidence_wrong_answer": 0
+      },
+      "C-aa_regression": {
+        "actual_input_truncation": 0,
+        "answered_before_sufficient_evidence": 0,
+        "bridge_entity_not_used": 0,
+        "continued_after_sufficient_evidence": 0,
+        "first_retrieval_failed": 0,
+        "sufficient_evidence_wrong_answer": 0
+      },
+      "C-goal_y_regression": {
+        "actual_input_truncation": 0,
+        "answered_before_sufficient_evidence": 0,
+        "bridge_entity_not_used": 0,
+        "continued_after_sufficient_evidence": 0,
+        "first_retrieval_failed": 0,
+        "sufficient_evidence_wrong_answer": 0
+      },
+      "C-goal_z_dev": {
+        "actual_input_truncation": 0,
+        "answered_before_sufficient_evidence": 0,
+        "bridge_entity_not_used": 0,
+        "continued_after_sufficient_evidence": 0,
+        "first_retrieval_failed": 0,
+        "sufficient_evidence_wrong_answer": 0
+      },
+      "C-old_regression": {
+        "actual_input_truncation": 0,
+        "answered_before_sufficient_evidence": 0,
+        "bridge_entity_not_used": 0,
+        "continued_after_sufficient_evidence": 0,
+        "first_retrieval_failed": 0,
+        "sufficient_evidence_wrong_answer": 0
+      }
+    }
+  },
+  "semantic_review_packet_rows": 624,
+  "status": "no_candidate_passed_development_gate",
+  "version": "goal-af-summary-v1"
+}

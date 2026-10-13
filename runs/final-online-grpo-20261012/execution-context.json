@@ -1,0 +1,39 @@
+{
+  "budget_hours": 24,
+  "started_epoch": 1791737888,
+  "hard_deadline_epoch": 1791824288,
+  "port": 41126,
+  "host": "connect.cqa1.seetacloud.com",
+  "remote_root": "/root/autodl-tmp/final-online-grpo-20261012",
+  "started_utc": "2026-10-11T16:58:08Z",
+  "max_subagents": 3,
+  "train_deadline_epoch": 1791817088,
+  "wrapper_pid": 4328,
+  "driver_sha256": "15f5e2e2e6a3ad3cf4497f9b83559417f281670954189c729f94d3e92ef5451f",
+  "code_archive_sha256": "ffa0e3d48ac904b7eaf173c8012832be488ee0ed90926b2b4b0552fee90b1947",
+  "status": "COMPLETED_ARCHIVED_ACKNOWLEDGED_REMOTE_CONNECTION_CLOSED",
+  "implementation_attempt_preserved": "results/implementation-attempt-1",
+  "necessary_cpu_checks": "38 batch/local model tests + 7 report tests + 8 metric fixtures + Linux wavefront concurrency/token/alias/finite checks passed",
+  "continuation_parent_pid": 4323,
+  "paused_original_wrapper_pid": 2651,
+  "original_driver_pid": 2658,
+  "bare_model_added": true,
+  "bare_model_driver_sha256": "f0df6a04f2ae7f60c0fe865a024752ff88eb92cd8c6f3d1c0f3a2bb90a7bdd2f",
+  "metrics_scope": "Answer precision/recall/F1, reliability, retrieval coverage on existing annotations, token/tool/model costs, latency percentiles, throughput, memory, training reward/KL/clip/gradient/ratio/loss distributions",
+  "metrics_script_sha256": "97e00b80275493cc80ae6fb79b71198cc679b0ab9dd3a1f7ac64b17f664b24d1",
+  "archive_sha256": "dd01ac20e0b46ac371552155ed246ee22d0d2386d190b5a4011a93db7be4307a",
+  "completed_evaluation_paths": 6,
+  "evaluation_rows_per_path": 128,
+  "actual_sft_updates": 128,
+  "actual_grpo_updates": [
+    108,
+    110
+  ],
+  "actual_grpo_samples": [
+    512,
+    512
+  ],
+  "archive_verified_and_acknowledged": true,
+  "shutdown_observation": "Configured /usr/bin/shutdown after matching local archive ACK; original SSH closed by remote host and new SSH connection refused. Command return receipt unavailable.",
+  "local_finished_utc": "2026-10-11T19:31:26.0939143Z"
+}

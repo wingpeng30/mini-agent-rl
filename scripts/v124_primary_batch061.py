@@ -1,0 +1,46 @@
+"""Primary examination of v122 internal candidate states 151–160."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (151, "What was the nickname of the man", "repair_candidate", ["query_omits_needed_opponent", "two_nicknames_unqualified_question", "question_grammar"],
+  "The initial Bufton source names Arthur Harris as the objector. The query instead copies only Bufton's first biographical sentence and omits Harris; retrieval still finds Harris. His biography supplies both Bomber and Butcher nicknames, so the singular unqualified question does not select one. 'Objected Sidney' also misstates the objection to the Pathfinder project.",
+  "Query Arthur Harris from the visible objection sentence; ask specifically for the press nickname if Bomber is the target, then replay.",
+  [("before_action", "Sidney Osborne Bufton", "over the objections of Arthur Harris"), ("retrieved_after_search", "Sir Arthur Harris, 1st Baronet", "commonly known as \"Bomber\" Harris by the press and often within the RAF as \"Butcher\" Harris")]),
+ (152, "What was the nickname of the man", "repair_candidate", ["paired_two_nicknames_unqualified_question", "paired_query_omits_needed_opponent"],
+  "Bomber is an attested press nickname, but Butcher is another attested nickname for the same man. Without a qualifier, the target answer is not unique, and the preceding query missed Harris's name.",
+  "Retain Bomber only with a press-specific wording and a revised replayed query.",
+  [("before_action", "Sidney Osborne Bufton", "over the objections of Arthur Harris"), ("before_action", "Sir Arthur Harris, 1st Baronet", "commonly known as \"Bomber\" Harris by the press and often within the RAF as \"Butcher\" Harris")]),
+ (153, "Rogues are a group of enemies", "repair_candidate", ["unnecessary_search_answer_already_visible", "unanchored_current_leader"],
+  "The initial Rogues snippet already names Captain Cold as current leader. The query repeats a later sentence about terminology and adds no needed leader fact. 'Currently' is a mutable comic continuity status, so the question should be anchored to the cited snapshot or rephrased to a stable association.",
+  "Use a direct answer from the initial snippet with a source-anchored question, or exclude the redundant search pair.",
+  [("before_action", "Rogues (comics)", "currently led by Captain Cold")]),
+ (154, "Rogues are a group of enemies", "repair_candidate", ["paired_unnecessary_search", "unanchored_current_leader"],
+  "Captain Cold is supported and visible before search; the added biography confirms leadership but was unnecessary. The leader status should be tied to the frozen source's period.",
+  "Use a source-anchored direct-answer item after replay and review.",
+  [("before_action", "Rogues (comics)", "currently led by Captain Cold"), ("before_action", "Captain Cold", "leader of the Rogues")]),
+ (155, "What was the nationality of the man", "repair_candidate", ["composition_adaptation_recast_as_man_based_on"],
+  "The album article says The Mass track adapts O Fortuna, a classical piece by Carl Orff. It does not say the track was based on Orff as a man. The search does retrieve Orff's German nationality, so a narrower composer question would be supported.",
+  "Ask the nationality of the composer of O Fortuna, the piece adapted for The Mass title track, and replay the pair.",
+  [("before_action", "The Mass (album)", "an adaptation of O Fortuna, a classical piece by Carl Orff"), ("retrieved_after_search", "Carl Orff", "was a German composer")]),
+ (156, "What was the nationality of the man", "repair_candidate", ["paired_composition_adaptation_recast_as_man_based_on"],
+  "German is directly supported for Carl Orff. The original question falsely transfers the adaptation relation from his composition to his person; the answer can be retained only after a composer-specific rewrite.",
+  "Use a composer-of-O-Fortuna question with revalidated paired context.",
+  [("before_action", "The Mass (album)", "an adaptation of O Fortuna, a classical piece by Carl Orff"), ("before_action", "Carl Orff", "was a German composer")]),
+ (157, "Julia Scott is a contributor", "repair_candidate", ["magazine_referent_underspecified"],
+  "Julia Scott's initial biography lists several magazine outlets, including The New York Times Magazine, Canadian Geographic and Maclean's. The question says only 'a magazine'; the query repeats the entire list and retrieval happens to bring in Canadian Geographic's Ottawa-based publisher. Nothing in the question uniquely selects that magazine.",
+  "Name Canadian Geographic in the question and target its publisher's location with a grounded search; replay the pair.",
+  [("before_action", "Julia Scott", "The New York Times Magazine, as well as National Public Radio, American Public Media, Salon, Canadian Geographic and Maclean's"), ("retrieved_after_search", "Canadian Geographic", "published by The Royal Canadian Geographical Society (RCGS) based in Ottawa, Ontario, Canada")]),
+ (158, "Julia Scott is a contributor", "repair_candidate", ["paired_magazine_referent_underspecified"],
+  "Ottawa, Ontario, Canada is supported for Canadian Geographic's publisher, but Scott contributes to multiple magazines. The original question does not distinguish Canadian Geographic from the other magazine outlets.",
+  "Retain the location only with a Canadian Geographic-specific rewritten question and replay.",
+  [("before_action", "Julia Scott", "Canadian Geographic and Maclean's"), ("before_action", "Canadian Geographic", "based in Ottawa, Ontario, Canada")]),
+ (159, "Which spiral galaxy was discovered", "retain_candidate", ["query_copies_visible_discoverer_relation"],
+  "The initial NGC 2775 article identifies it as a spiral galaxy discovered by William Herschel. The search retrieves Herschel's biography to verify the distinctive British astronomer/composer origin description.", None,
+  [("before_action", "NGC 2775", "unbarred spiral galaxy"), ("before_action", "NGC 2775", "discovered by William Herschel in 1783"), ("retrieved_after_search", "William Herschel", "British astronomer and composer of German and Czech-Jewish origin")]),
+ (160, "Which spiral galaxy was discovered", "retain_candidate", [],
+  "NGC 2775 is the visible spiral galaxy discovered by William Herschel, and his retrieved biography matches the stated description. The answer is supported; the other Herschel-discovered galaxy in context is explicitly elliptical.", None,
+  [("before_action", "NGC 2775", "unbarred spiral galaxy"), ("before_action", "NGC 2775", "discovered by William Herschel in 1783"), ("before_action", "William Herschel", "British astronomer and composer of German and Czech-Jewish origin")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-061.jsonl", cohort="v122_internal_candidates")

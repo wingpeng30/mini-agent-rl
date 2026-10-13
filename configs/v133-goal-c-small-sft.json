@@ -1,0 +1,69 @@
+{
+  "version": "v133-goal-c-answer-extraction-sft-v1",
+  "status": "data_frozen_pending_separate_user_training_authorization",
+  "hypothesis": "When the question's requested attribute/value is explicitly present in visible evidence, one answer action should return that requested value concisely rather than a related entity or partial value.",
+  "base_model": "D:/qwen_08b",
+  "base_adapter": "backups/v118/extracted/runs/v118/formal/adapter",
+  "base_adapter_sha256": "ea894d235b6779bc8d15d1327a953773f946c347dfa7fa55ee3d2c2d5bd4a0a5",
+  "tokenizer": "D:/qwen_08b",
+  "precommitted_candidate_counts": {
+    "training_from_existing_valid_dual_reviewed_pairs": 25,
+    "dev_from_new_official_train_support_items": 16,
+    "new_pool_rows_reviewed_or_used_for_training": 0,
+    "unreviewed_reserve_rows_used": 0
+  },
+  "training": {
+    "epochs": 1,
+    "max_steps": 7,
+    "batch_size": 1,
+    "gradient_accumulation_steps": 4,
+    "learning_rate": 5e-06,
+    "warmup_ratio": 0.14285714285714285,
+    "dtype": "bfloat16",
+    "gradient_checkpointing": false,
+    "max_length": 2176,
+    "seed": 42,
+    "enable_thinking": false,
+    "save_steps": 7,
+    "eval_steps": 7
+  },
+  "evaluation_design": {
+    "comparison": "same 16 frozen evidence-answer prompts on the fixed v118 adapter and the single SFT adapter",
+    "primary_metric": "SQuAD-normalized exact match, paired case table",
+    "secondary_metric": "token F1",
+    "review_changed_answers": "blinded evidence support review before any positive claim",
+    "promotion_rule": "exploratory only; continue consideration only if at least +2/16 exact matches with no confirmed evidence-support regression; otherwise stop",
+    "scope_caveat": "This tests answer extraction with official supporting evidence supplied. It is not an end-to-end search result or a generalization claim."
+  },
+  "evaluation_runner": "scripts/evaluate_v133_goal_c_sft.py",
+  "evaluation_deadline_runner": "scripts/run_v133_goal_c_eval_once.py",
+  "training_runner": "scripts/run_v133_goal_c_sft_once.py",
+  "autodl_preflight_runner": "scripts/preflight_v133_goal_c_autodl.py",
+  "package_index": "https://pypi.tuna.tsinghua.edu.cn/simple",
+  "runtime_dependencies": {
+    "torch": "2.5.1+cu124",
+    "transformers": "5.17.0",
+    "peft": "0.20.0",
+    "datasets": "5.0.1",
+    "accelerate": "1.15.0",
+    "Pillow": "12.3.0",
+    "tokenizers": "0.23.2",
+    "safetensors": "0.8.0",
+    "huggingface-hub": "1.33.0"
+  },
+  "resource_limits": {
+    "minimum_gpu_vram_gib_for_planning": 23.5,
+    "minimum_free_gpu_vram_gib_at_start": 22,
+    "wall_clock_cap_minutes": 60,
+    "one_seed_only": true,
+    "one_training_run_only": true,
+    "no_automatic_retry_or_parameter_search": true
+  },
+  "training_allowed": false,
+  "model_inference_allowed": false,
+  "external_review_calls_allowed": false,
+  "train_data": "data/evidence-sft-v133-goal-c-private/frozen/train-candidate.jsonl",
+  "dev_data": "data/evidence-sft-v133-goal-c-private/frozen/dev-candidate.jsonl",
+  "review_policy": "All 25 training answers reuse previously validated DeepSeek+Luna approvals and primary retention; no new review calls. Dev labels come from official source answers and exact source supporting facts; dev labels are never used as training labels.",
+  "new_pool_disposition": "The 32 unreviewed training candidates and 16 unreviewed reserves are not used; the prepared 48-item review packet is superseded and was never sent. Only the 16 precommitted dev items are used from the new pool."
+}

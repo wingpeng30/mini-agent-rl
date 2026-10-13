@@ -1,0 +1,20 @@
+{
+  "goal": "Goal P",
+  "status": "COMPLETED_WITH_NEGATIVE_TRAINING_GATE",
+  "plan": "docs/v133-goal-p-system-and-targeted-learning-goal.md",
+  "execution_started": true,
+  "gpu_seconds_used": 855,
+  "gpu_seconds_cap": 10800,
+  "next_stage": null,
+  "stages": {
+    "P0": "COMPLETED",
+    "P1": "COMPLETED",
+    "P2": "COMPLETED_CANDIDATE_1_RETAINED",
+    "P3-F0": "COMPLETED",
+    "P3-F1": "COMPLETED",
+    "P3-F2": "COMPLETED_NEGATIVE_DECISION_GATE",
+    "P3-F3": "COMPLETED",
+    "P4": "COMPLETED"
+  },
+  "next_action": "Goal P is complete. Keep Goal J with the retained protocol recovery as the default demo. Do not launch further tuning under this Goal. GPU accounting is a conservative ceiling: 120 seconds for P1/P2, 702.592 seconds measured for P3, and 32.408 seconds reserved for final demo and process overhead."
+}

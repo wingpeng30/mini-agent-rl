@@ -1,0 +1,61 @@
+{
+  "version": "v133-goal-d-incremental-sft-v1",
+  "model_path": "/root/autodl-tmp/qwen_08b",
+  "v118_adapter": "backups/v118/extracted/runs/v118/formal/adapter",
+  "v118_adapter_sha256": "ea894d235b6779bc8d15d1327a953773f946c347dfa7fa55ee3d2c2d5bd4a0a5",
+  "initial_adapter": "runs/v133-goal-c-sft-once/adapter",
+  "initial_adapter_sha256": "0a80d82918e301cac05f0cc2892a7ccd007138996e121549b95dbcbf7f8919c6",
+  "train_data": "data/evidence-sft-v133-goal-c-private/frozen/train-candidate.jsonl",
+  "train_sha256": "b4d38e1e99886e3a254a6e881a28b7a36194f7f185b686a64dc7dbdf449ee9df",
+  "dev_data": "data/evidence-sft-v133-goal-c-private/frozen/dev-candidate.jsonl",
+  "dev_sha256": "23cde9d8f25376d469c91128742ca647fc4d84afe04b2009e38e571198780e58",
+  "prior_aligned_eval": "runs/v133-goal-c-context-aligned-20260928/paired-evaluation.json",
+  "prior_aligned_eval_sha256": "fe8ee1c6e0a6c4633a6dcf586115277c7b352aa99a0b428b9102b9413b49d203",
+  "training": {
+    "incremental_from_existing_sft_adapter": true,
+    "epochs": 2,
+    "max_steps": 14,
+    "batch_size": 1,
+    "gradient_accumulation_steps": 4,
+    "learning_rate": 0.000005,
+    "warmup_steps": 1,
+    "dtype": "bfloat16",
+    "gradient_checkpointing": false,
+    "max_length": 2176,
+    "seed": 42,
+    "enable_thinking": false,
+    "save_steps": 14,
+    "eval_steps": 14,
+    "wall_clock_cap_seconds": 3600
+  },
+  "evaluation": {
+    "rows": 16,
+    "outputs": 32,
+    "max_new_tokens": 128,
+    "greedy": true,
+    "context_builder": "scripts/evaluate_v133_goal_c_aligned_context.py",
+    "context_builder_sha256": "1308fb0c4aaa4b7dbccaefb7c583fb277c83f543ef941ab7331825a28d8c04a3",
+    "wall_clock_cap_seconds": 3600,
+    "continue_gate_em_gain": 2
+  },
+  "resource_limits": {
+    "minimum_gpu_vram_gib_for_planning": 23.5,
+    "minimum_free_gpu_vram_gib_at_start": 22.0,
+    "one_incremental_training_run": true,
+    "no_retry": true,
+    "no_parameter_search": true,
+    "no_pool_expansion": true,
+    "no_dev_to_train_leakage": true
+  },
+  "runtime_dependencies": {
+    "torch": "2.5.1+cu124",
+    "transformers": "5.17.0",
+    "peft": "0.20.0",
+    "datasets": "5.0.1",
+    "accelerate": "1.15.0",
+    "Pillow": "12.3.0",
+    "tokenizers": "0.23.2",
+    "safetensors": "0.8.0",
+    "huggingface-hub": "1.33.0"
+  }
+}

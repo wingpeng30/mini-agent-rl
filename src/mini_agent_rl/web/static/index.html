@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mini Agent · 搜索工作台</title><link rel="stylesheet" href="/static/style.css"></head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="mark">m<span>↗</span></span><div>Mini Agent<small>0.8B · 多跳搜索</small></div></div>
+    <div class="nav active">◈ <span>搜索工作台</span></div>
+    <div class="side-section"><span class="eyebrow">LOCAL RUNTIME</span><div class="runtime"><span id="status-dot" class="dot"></span><span id="status-text">正在连接…</span></div><div id="runtime-detail" class="muted">本地 CUDA / BF16</div></div>
+    <div class="side-section"><span class="eyebrow">FIXED REPLAYS</span><div id="examples" class="example-list"></div><p class="side-note">固定历史案例。回放不调用模型，展示的耗时属于历史运行。</p></div>
+    <div class="side-bottom"><span class="version">INTERVIEW FINAL · V133</span><p>正式模型：Goal Z<br>AM：未发布研究候选</p><p class="muted">所有推理在本机完成</p></div>
+  </aside>
+  <main>
+    <header><div class="breadcrumb">实验交付 <span>/</span> 本地演示</div><div class="badge">● LOCAL ONLY</div></header>
+    <section class="intro"><div class="eyebrow green">EVIDENCE → SEARCH → ANSWER</div><h1>看见模型的搜索过程。</h1><p>提出问题，检索缺失的关系，查看模型如何利用文档作答。</p></section>
+    <section class="composer panel">
+      <div class="panel-top"><h2>新的搜索任务</h2><span class="small-label" id="retrieval-status">本地混合检索 · top-3</span></div>
+      <div class="settings"><label>模型<select id="model"><option value="goal-z">Goal Z · 已发布权重</option><option value="am-research" selected>AM · 当前实测最佳研究候选</option></select></label><label>搜索语料<select id="corpus"></select></label><label class="upload">＋ 导入 JSON 语料<input type="file" id="file" accept=".json,application/json"></label></div>
+      <label class="question-label" for="question">问题</label><textarea id="question" rows="3" placeholder="例如：What did MV Rapana's owner announce it was the process of doing in April 2010?"></textarea>
+      <div class="settings"><label>检索方式<select id="retriever"><option value="hybrid-rrf-v1" selected>混合检索 · BM25 + 向量 / RRF</option><option value="bm25-v2">BM25 · 关键词</option><option value="dense-v1">向量检索 · MiniLM</option></select></label><button id="search-only" type="button">仅检索文档</button><span class="small-label">英文查询 · 无需加载 Agent</span></div>
+      <div class="composer-bottom"><span>最多 4 次模型调用 / 3 次搜索 <span class="sep">·</span> 输入 16384 / 输出 2048</span><button id="run" class="primary" disabled>运行搜索 <span>↗</span></button></div>
+      <div id="error" class="error" hidden></div>
+    </section>
+    <div class="scope-note"><span>ⓘ</span><p>模型只检索选定的本地文档，不访问互联网。新问题需有对应语料；当前使用宽窗演示配置，历史产品默认配置不变。</p></div>
+    <section id="output" class="output panel"><div class="empty"><div class="empty-icon">⌕</div><h3>从一个问题开始</h3><p>运行实时搜索，或点击左侧案例查看完整历史轨迹。</p><div class="path"><span>QUESTION</span><i>→</i><span>EVIDENCE</span><i>→</i><span>ANSWER</span></div></div></section>
+    <footer><span>证据支持与答案命中分开核查</span><span>Goal Z · Qwen3.5-0.8B + LoRA</span></footer>
+  </main><script src="/static/app.js"></script>
+</body></html>

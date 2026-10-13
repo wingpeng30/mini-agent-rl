@@ -1,0 +1,45 @@
+"""Primary examination of v122 internal candidate states 311–320."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (311, "What era was the show, in which Peter Sellers", "repair_candidate", ["film_called_show", "popularity_subject_confused", "era_not_unique"],
+  "The initial text says actress Claudine Longet was popular during both the 1960s and 1970s. Retrieval links her and Peter Sellers to The Party, a 1968 film set in the 1960s. The question calls that film a show and asks when it was popular; no source states the film's popularity era. The 1960s can refer to release or setting, not the asked popularity relation.",
+  "Ask when the film The Party was released, or which decade it depicts, with the intended relation explicit; replay both states.",
+  [("before_action", "Claudine Longet", "popular during the 1960s and 1970s"), ("retrieved_after_search", "The Party (film)", "1968 American comedy film"), ("retrieved_after_search", "The Party (film)", "set in the 1960s")]),
+ (312, "What era was the show, in which Peter Sellers", "repair_candidate", ["paired_popularity_relation_unsupported", "film_called_show"],
+  "The Party article supplies a 1968 release and 1960s setting, while the actress article says Longet was popular in the 1960s and 1970s. Neither proves that the show/film itself was popular during only the 1960s.",
+  "Use a release-decade or setting-decade question after replay; do not treat the original answer as supported for popularity.",
+  [("before_action", "Claudine Longet", "popular during the 1960s and 1970s"), ("before_action", "The Party (film)", "1968 American comedy film")]),
+ (313, "When was the company, which Antonio Clarence Mobley", "quarantine_pending_repair", ["singer_brand_company_conflation", "wrong_entity_birth_year"],
+  "Antonio Mobley produced for Nivea the singer, but retrieval switches to Nivea the skin-care brand and its parent Beiersdorf. The 1882 founding date belongs to the company named in that brand article, not to the singer. The purported company relation is absent and the answer chain is invalid.",
+  "Isolate both states; a different company-specific question requires independent source evidence, not mere retitling.",
+  [("before_action", "Antonio Mobley", "produced for Ray-J, Brisco, Nivea"), ("retrieved_after_search", "Nivea", "German personal care brand"), ("retrieved_after_search", "Nivea", "company was founded on March 28, 1882")]),
+ (314, "When was the company, which Antonio Clarence Mobley", "quarantine_pending_repair", ["paired_singer_brand_entity_switch"],
+  "The answer 1882 comes from the Beiersdorf/Nivea brand article, whereas Antonio Mobley's production credit refers to the singer Nivea. No valid shared-company entity chain connects the question to 1882.",
+  "Do not promote this pair. Reconstruct only from an explicit artist or company relation and independent evidence.",
+  [("before_action", "Antonio Mobley", "produced for Ray-J, Brisco, Nivea"), ("before_action", "Nivea", "German personal care brand")]),
+ (315, "Who was the winner of the 2016 Superbike", "repair_candidate", ["answer_visible_before_search", "redundant_search"],
+  "The initial championship article already says Jonathan Rea won the 2016 title. Searching the same sentence repeats the answer rather than filling a missing fact.",
+  "Use a direct-answer state if this fact is retained; omit the redundant search target.",
+  [("before_action", "2016 Superbike World Championship", "Jonathan Rea won his second consecutive Superbike World Championship title"), ("retrieved_after_search", "Jonathan Rea", "champion in 2015, 2016")]),
+ (316, "Who was the winner of the 2016 Superbike", "retain_candidate", ["answer_visible_before_paired_search"],
+  "Jonathan Rea is explicitly identified as winner in the initial championship article, with a biographical cross-check after retrieval. The answer is supported independently of the unnecessary search.", None,
+  [("before_action", "2016 Superbike World Championship", "Jonathan Rea won his second consecutive Superbike World Championship title"), ("before_action", "Jonathan Rea", "champion in 2015, 2016")]),
+ (317, "Which department store was founded in Birmingham", "repair_candidate", ["operator_vs_store_type_mismatch", "answer_visible_before_search"],
+  "The initial source calls Saks, Inc. an operator of department stores, not itself a department store; it also already says the corporation was founded in Birmingham. The query repeats the corporation title and adds no needed relation.",
+  "Ask which department-store operator was founded in Birmingham, Alabama and answer directly; replay the pair.",
+  [("before_action", "Saks, Inc.", "operator of high-end department stores"), ("before_action", "Saks, Inc.", "It was founded in Birmingham, Alabama")]),
+ (318, "Which department store was founded in Birmingham", "repair_candidate", ["paired_operator_vs_store_type_mismatch"],
+  "The Birmingham founding claim is about Saks, Inc., an operator under the Saks Fifth Avenue nameplate. The original question labels the operator a store, so the answer is not an exact match to its requested entity type.",
+  "Use a department-store operator question in a new replayed record.",
+  [("before_action", "Saks, Inc.", "operator of high-end department stores"), ("before_action", "Saks, Inc.", "founded in Birmingham, Alabama")]),
+ (319, "When was the American actress born who acted as Lola Cain", "retain_candidate", ["query_uses_visible_actor_role"],
+  "The film article identifies Sean Young as Lola Cain. Searching that actor-role sentence retrieves Sean Young's biography and full birth date; Sharon Thomas is a different actress in the initial results, so the role link is essential and correctly used.", None,
+  [("before_action", "Fatal Instinct", "Lola Cain played by Sean Young"), ("retrieved_after_search", "Sean Young", "born November 20, 1959")]),
+ (320, "When was the American actress born who acted as Lola Cain", "retain_candidate", [],
+  "The film source maps Lola Cain to Sean Young and her biography states November 20, 1959. The answer is supported at the answer action's evidence boundary.", None,
+  [("before_action", "Fatal Instinct", "Lola Cain played by Sean Young"), ("before_action", "Sean Young", "born November 20, 1959")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-077.jsonl", cohort="v122_internal_candidates")

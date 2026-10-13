@@ -1,0 +1,46 @@
+"""Primary examination of v122 training-supplement candidate states 181–190."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (181, "Who appointed the justice who Judge Sonia Sotomayor replaced", "repair_candidate", ["query_targets_sotomayor_commission_not_souter_appointment", "retrieval_incidentally_adds_answer"],
+  "The initial nomination article already identifies David Souter as the justice replaced by Sotomayor. The query copies the sentence about Sotomayor's Senate confirmation and Obama commissioning her, not the missing Souter appointment. Retrieval nevertheless supplies Souter's appointing president.",
+  "Search David Souter appointing president from the already visible identity, then replay the pair.",
+  [("before_action", "Sonia Sotomayor Supreme Court nomination", "to replace retiring Justice David Souter"), ("before_action", "Sonia Sotomayor Supreme Court nomination", "commissioned by President Obama the same day"), ("retrieved_after_search", "David Souter", "Appointed by President George H. W. Bush")]),
+ (182, "Who appointed the justice who Judge Sonia Sotomayor replaced", "repair_candidate", ["paired_query_targets_wrong_appointment", "answer_supported"],
+  "Sotomayor replaced Souter, and Souter's retrieved biography directly names George H. W. Bush as his appointing president. The answer is supported, but the paired query followed Obama's commissioning of Sotomayor instead of the asked appointment.",
+  "Preserve the answer only after relation-targeted search replay.",
+  [("before_action", "Sonia Sotomayor Supreme Court nomination", "to replace retiring Justice David Souter"), ("before_action", "David Souter", "Appointed by President George H. W. Bush")]),
+ (183, "Stargate SG-1 includes a character played", "repair_candidate", ["answer_visible_before_search", "redundant_name_query"],
+  "The initial Claudia Black biography already states she is an Australian actress and voice actress and played Vala Mal Doran in Stargate SG-1. A query consisting of her name only retrieves a corroborating season page but does not supply a missing answer relation.",
+  "Use this as a direct-answer state or change the question to require the season-page fact before replay.",
+  [("before_action", "Claudia Black", "an Australian actress and voice actress"), ("before_action", "Claudia Black", 'Vala Mal Doran in the science fiction series "Stargate SG-1"')]),
+ (184, "Stargate SG-1 includes a character played", "repair_candidate", ["paired_redundant_search", "answer_supported_before_search"],
+  "Claudia Lee Black and her Australian actress/voice-actress role and Stargate character are already present before the search. The answer itself is supported, but the paired search adds no necessary relation.",
+  "Retain only as a direct-answer example after pair-level export review.",
+  [("before_action", "Claudia Black", "Claudia Lee Black"), ("before_action", "Claudia Black", "Australian actress and voice actress"), ("before_action", "Claudia Black", 'Vala Mal Doran in the science fiction series "Stargate SG-1"')]),
+ (185, "Kenn Scott was a writer for a show", "retain_candidate", ["answer_visible_before_search", "search_adds_writer_show_link"],
+  "The initial Pelswick article identifies John Callahan as creator of the source books, but does not identify Kenn Scott as a writer. Searching the visible show title retrieves Scott's program list, closing the qualifier link. The answer string was present earlier, but the query verifies that this is the show asked about.", None,
+  [("before_action", "Pelswick", "based on the books created by John Callahan"), ("retrieved_after_search", "Kenn Scott", '"Pelswick"')]),
+ (186, "Kenn Scott was a writer for a show", "retain_candidate", [],
+  "Pelswick is linked to source books created by John Callahan, and Kenn Scott's retrieved biography lists Pelswick among shows he wrote for. The two-document relation supports the answer.", None,
+  [("before_action", "Pelswick", "based on the books created by John Callahan"), ("before_action", "Kenn Scott", '"Pelswick"')]),
+ (187, "The Battle of Nedao involved a group of people", "quarantine_pending_repair", ["time_range_collapsed_to_start_century", "question_when_underspecified"],
+  "The initial Huns article states that they lived between the 4th and 6th centuries AD. The Battle of Nedao page retrieved after a Huns query confirms they were a combatant in 454. The question's 'lived when' does not request the start of their attested range, so a lone 4th century is incomplete and could be confused with the 5th-century battle date.",
+  "Clarify whether the question asks the full 4th–6th-century range or the battle's 454 date, then create a fresh grounded pair; do not silently change the answer.",
+  [("before_action", "Huns", "between the 4th century AD and the 6th century AD"), ("retrieved_after_search", "Battle of Nedao", "in 454, between Huns and their former vassals")]),
+ (188, "The Battle of Nedao involved a group of people", "quarantine_pending_repair", ["paired_incomplete_time_answer", "ambiguous_temporal_target"],
+  "The answer '4th century AD' is only the lower edge of the Huns' stated 4th–6th-century span, while the battle itself is dated 454. Neither the wording nor the evidence licenses collapsing the whole span to its first century.",
+  "Require an explicit temporal target and full-range or battle-year answer before any revised label is considered.",
+  [("before_action", "Huns", "between the 4th century AD and the 6th century AD"), ("before_action", "Battle of Nedao", "in 454, between Huns and their former vassals")]),
+ (189, "Who runs the park where King Arthur Carrousel", "repair_candidate", ["specific_park_operator_not_directly_bound", "retrieval_uses_fantasyland_generalization"],
+  "The initial carousel article places it at Disneyland in Anaheim. Retrieval says Fantasyland is a themed land at Magic Kingdom-style parks run by The Walt Disney Company, but does not directly state that Disneyland's park operator is that company. The conclusion is plausible yet rests on a park-class generalization rather than a direct specific-park citation.",
+  "Retrieve an action-time source directly naming Disneyland's operator, then replay.",
+  [("before_action", "King Arthur Carrousel", "located in Fantasyland at Disneyland in Anaheim, California"), ("retrieved_after_search", "Fantasyland", 'parks run by The Walt Disney Company around the world')]),
+ (190, "Who runs the park where King Arthur Carrousel", "repair_candidate", ["paired_specific_operator_source_missing"],
+  "The Walt Disney Company is named as operator of Magic Kingdom-style parks generally, while the carousel is placed at Disneyland. The current excerpts do not explicitly tie that operator assertion to the named Disneyland park, so this pair needs direct corroboration before approval.",
+  "Bind Disneyland itself to its operator in a new retrieval replay; keep the frozen answer provisional.",
+  [("before_action", "King Arthur Carrousel", "at Disneyland in Anaheim, California"), ("before_action", "Fantasyland", 'parks run by The Walt Disney Company around the world')]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-097.jsonl", cohort="v122_train_candidates")

@@ -1,0 +1,24 @@
+{
+  "affiliation_maximum_possible_pairs": 4,
+  "affiliation_minimum": 16,
+  "gpu_trace_elapsed_seconds": 571.2788827419281,
+  "not_usable_reason_counts": {
+    "answer": 7
+  },
+  "pair_status": "not_constructed_because_affiliation_upper_bound_fails_predeclared_quota",
+  "question_and_source_eligible": 342,
+  "search_trace_sha256": "077b45ecf09cd41e4420d4363ccefe92df369e17f0bd9aa08563181b7ed565ba",
+  "search_traces": 342,
+  "selected_product": "goal_t_seed42_update32",
+  "source_candidates": 512,
+  "status": "data_shortfall",
+  "training_started": false,
+  "usable_real_contexts": 335,
+  "usable_real_contexts_by_category": {
+    "affiliation": 4,
+    "entity_type": 107,
+    "occupation": 172,
+    "origin": 52
+  },
+  "validated_chosen_rejected_pairs": 0
+}

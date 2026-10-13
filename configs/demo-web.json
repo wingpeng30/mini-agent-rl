@@ -1,0 +1,43 @@
+{
+  "default_model": "am-research",
+  "base_model": "D:/qwen_08b",
+  "base_weights_sha256": "04b1c301231dd422b8860db31311ab2721511346a32cb1e079c4c4e5f1fe4696",
+  "models": {
+    "goal-z": {
+      "label": "Goal Z · 已发布权重",
+      "adapter": "runs/v133-goal-z-multihop-sft/seed42-trajectory/adapter-final",
+      "sha256": "d15d3864c1ccb810a6be7e5719d7b5d0ac87c353408ed85d973bb6393ff16b52"
+    },
+    "am-research": {
+      "label": "AM · 未发布研究候选",
+      "adapter": "runs/v133-goal-am-action-sft-v2/seed42-A/adapter-final",
+      "sha256": "3bcd1f85382c1d7775fa674c1a6e1e68c80911a69b86de209d20f2ab6269280c"
+    }
+  },
+  "corpora": {
+    "goal-z-dev": {
+      "label": "Goal Z 开发语料 · 2048篇",
+      "path": "runs/v133-goal-z-multihop-sft/corpus-dev.json",
+      "sha256": "dc2a2f843ad04bb2c38ce839e1959034b7c63f1cbbc24971de2557ce3cf62d37"
+    }
+  },
+  "product": {
+    "max_input_tokens": 16384,
+    "max_new_tokens": 2048,
+    "max_model_calls_per_case": 4,
+    "max_searches_per_case": 3,
+    "system_prompt": "direct-v090",
+    "thinking": false,
+    "action_completion": "first-json-v1",
+    "observation_encoding": "legacy",
+    "observation_presentation": "legacy-json",
+    "action_constraint": "none",
+    "context_aware_decoding": null,
+    "retriever": "bm25-v2",
+    "top_k": 3,
+    "device": "cuda",
+    "dtype": "bfloat16",
+    "load_in_4bit": false,
+    "timeout": null
+  }
+}

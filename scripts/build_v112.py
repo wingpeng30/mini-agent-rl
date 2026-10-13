@@ -5,23 +5,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'data/evidence-sft-v112'
-
-def normalize_prompt_tokens(value):
-    """Unbatch one prompt without accepting malformed token IDs or shapes."""
-    if isinstance(value, dict):
-        value = value.get('input_ids')
-    if not isinstance(value, list) or not value:
-        raise ValueError('invalid_prompt_token_shape')
-    if len(value) == 1 and isinstance(value[0], list):
-        value = value[0]
-    if not value or any(type(token) is not int or token < 0 for token in value):
-        raise ValueError('invalid_prompt_token_type_or_shape')
-    return value
-
-def render_prompt(processor, messages):
-    data = [{'role': m.role, 'content': m.content} for m in messages]
-    return normalize_prompt_tokens(processor.apply_chat_template(
-        data, tokenize=True, add_generation_prompt=True, enable_thinking=False))
 def digest(value):
     return hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
 def read(path):
@@ -106,7 +89,8 @@ def build(model_path):
     corpus=list(corpus.values());save(OUT/'train-corpus.json',corpus);index=_BM25Index(corpus)
     processor=AutoProcessor.from_pretrained(model_path,local_files_only=True)
     def render(msgs):
-        return render_prompt(processor, msgs)
+        data=[{'role':m.role,'content':m.content} for m in msgs]
+        return processor.apply_chat_template(data,tokenize=True,add_generation_prompt=True,enable_thinking=False)
     candidates=[];rejected=[]
     selected=training+[r for r in rows if r['metadata']['task_id'] in internal]
     for row in selected:
@@ -126,7 +110,7 @@ def build(model_path):
         for kind,prefix,action in variants:
             try:
                 prefix=[dict(m) for m in prefix];prefix[0]={'role':'system','content':DIRECT_SYSTEM}
-                result=budget_messages([Message(**m) for m in prefix],2048,lambda ms:len(render(ms)),lambda s:len(processor.tokenizer.encode(s,add_special_tokens=False)),observation_encoding='compact-v3')
+                result=budget_messages([Message(**m) for m in prefix],2048,lambda ms:len(render(ms)),lambda s:len(processor.tokenizer.encode(s)),observation_encoding='compact-v3')
                 actual=[{'role':m.role,'content':m.content} for m in result.messages]
                 evidence=visible_documents(actual)
                 target={'role':'assistant','content':json.dumps(action,ensure_ascii=False,separators=(',',':'))}

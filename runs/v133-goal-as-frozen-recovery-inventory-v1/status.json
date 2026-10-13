@@ -1,0 +1,37 @@
+{
+  "goal": "AS",
+  "status": "completed_skipped_existing_material_shortage",
+  "skipped": true,
+  "counts": {
+    "diagnostic_recoverable": 1,
+    "diagnostic_total": 24,
+    "branches": 53,
+    "recovery_pairs": 10,
+    "real_goal_z_model_failure_prefixes": 10,
+    "old_pool_failure_pairs": 8,
+    "answer_only": 4,
+    "supported_positives": 10,
+    "coverage": {
+      "entity_mismatch": 5,
+      "missing_edge": 10,
+      "relation_mismatch": 3
+    },
+    "rejected": 8
+  },
+  "checks": {
+    "diagnostic_min8": false,
+    "pairs_min16": false,
+    "real_failures_min8": true,
+    "entity_min4": true,
+    "relation_min4": false,
+    "missing_min4": true
+  },
+  "source": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-ai-evidence-feasibility/closure-v3/gate-decision-v4.json",
+  "source_sha256": "8826f5590be76491cabcde28e1b07bcc8362e37f51b6a169c38ed9e63adf3dfd",
+  "new_generations": 0,
+  "new_searches": 0,
+  "updates": 0,
+  "new_data": 0,
+  "research_parent": "AM42A",
+  "decision": "continue_AT_no_data_expansion"
+}

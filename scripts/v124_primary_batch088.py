@@ -1,0 +1,46 @@
+"""Primary examination of v122 training-supplement candidate states 91–100."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (91, "Which graduate of BRIT School", "repair_candidate", ["represented_director_confused_with_production_company_credit", "query_uses_visible_adele_link"],
+  "The Rogue Films article says it represents director Sam Brown and parenthetically mentions his music videos for Adele; it does not explicitly say Rogue Films itself directed or produced Adele's videos. Retrieval confirms Adele graduated from BRIT School. The person link is plausible, but the question assigns Sam Brown's work to the company without a direct company production credit.",
+  "Ask which BRIT graduate had music videos attributed to Rogue-represented director Sam Brown, or find a direct Rogue production credit; replay.",
+  [("before_action", "Rogue Films", "Sam Brown (music videos for Adele, Jay-Z and Foo Fighters)"), ("retrieved_after_search", "Adele", "graduating from the BRIT School for Performing Arts and Technology in 2006")]),
+ (92, "Which graduate of BRIT School", "repair_candidate", ["paired_company_director_role_inflation"],
+  "Adele is documented as a BRIT School graduate and is named in Rogue's Sam Brown director examples. The current citations prove Brown's videos and Rogue's representation, not that Rogue Films directed and produced the videos itself.",
+  "Use a director-representation-faithful question or secure specific company credits before retaining Adele.",
+  [("before_action", "Rogue Films", "Sam Brown (music videos for Adele, Jay-Z and Foo Fighters)"), ("before_action", "Adele", "graduating from the BRIT School for Performing Arts and Technology in 2006")]),
+ (93, "What album was also the name of a tour and film", "retain_candidate", ["title_visible_before_search", "search_checks_film_director"],
+  "The initial Purple Rain Tour article directly names Prince's sixth album and 1984 film Purple Rain. Searching the tour retrieves the film article confirming Albert Magnoli as director, so the search checks the question's director qualifier.", None,
+  [("before_action", "Purple Rain Tour", "sixth studio album \"Purple Rain\" and his 1984 film \"Purple Rain\""), ("retrieved_after_search", "Purple Rain (film)", "directed by Albert Magnoli")]),
+ (94, "What album was also the name of a tour and film", "retain_candidate", ["answer_visible_before_paired_search"],
+  "Purple Rain is named for the album, tour and film, and the film source names Albert Magnoli. The answer is supported; the paired search verifies the film director, not the title.", None,
+  [("before_action", "Purple Rain Tour", "studio album \"Purple Rain\" and his 1984 film \"Purple Rain\""), ("before_action", "Purple Rain (film)", "directed by Albert Magnoli")]),
+ (95, "Rimantas Taraškevičius was born in what foothills", "quarantine_pending_repair", ["nearby_city_location_transferred_to_birth_village", "answer_scope_mismatch"],
+  "Taraškevičius's source places his birth in the village of Biliūnai near Raseiniai. The retrieved Raseiniai city article places that city on the foothills of the Samogitian highland. Proximity to a city does not prove the village lies on those same foothills, and the question asks directly where the man was born.",
+  "Isolate the pair until an explicit Biliūnai location source exists; otherwise ask for the nearby city rather than transfer its terrain to the birth village.",
+  [("before_action", "Rimantas Taraškevičius", "village of Biliūnai near Raseiniai, Lithuania"), ("retrieved_after_search", "Raseiniai", "located on the south eastern foothills of the Samogitians highland")]),
+ (96, "Rimantas Taraškevičius was born in what foothills", "quarantine_pending_repair", ["paired_nearby_city_terrain_transfer"],
+  "The answer Samogitians highland is supported for Raseiniai city, not explicitly for Biliūnai village where Taraškevičius was born. The two sources only establish 'near Raseiniai', insufficient for this location inheritance.",
+  "Do not use the frozen foothills answer without a village-specific source or a changed question and replay.",
+  [("before_action", "Rimantas Taraškevičius", "village of Biliūnai near Raseiniai"), ("before_action", "Raseiniai", "foothills of the Samogitians highland")]),
+ (97, "What was the name of the U.S. state named after", "quarantine_pending_repair", ["named_after_penn_premise_unproved", "founder_vs_eponym_conflation", "answer_visible_before_search"],
+  "The initial William Penn article calls him founder of the Province of Pennsylvania and already names the state. It does not establish the question's stronger claim that the state was named after this Quaker. The retrieved commissioner article confirms Penn appointed William Crispin, but provides no etymology; founder/appointment cannot prove the named-after predicate.",
+  "Isolate the original. Verify the precise state-name eponym independently, or remove 'named after' and ask about the colony Penn founded, with full replay.",
+  [("before_action", "William Penn", "founder of the Province of Pennsylvania"), ("retrieved_after_search", "William Crispin", "one of five Commissioners appointed by William Penn")]),
+ (98, "What was the name of the U.S. state named after", "quarantine_pending_repair", ["paired_eponym_premise_unproved"],
+  "Pennsylvania is the province/state associated with William Penn's founding and commissioner appointments, but none of the cited documents proves that the state's name honored him personally. The question asserts an unverified naming relation.",
+  "Retain Pennsylvania only under a source-faithful founder/colony question or independently verified eponym, then replay.",
+  [("before_action", "William Penn", "founder of the Province of Pennsylvania"), ("before_action", "William Crispin", "Commissioners appointed by William Penn")]),
+ (99, "Who is the scholar of medieval English literature", "repair_candidate", ["emeritus_miscast_as_current_teaching", "query_uses_visible_institution"],
+  "The initial University of Adelaide article gives its 1874 establishment. Retrieval finds T. L. Burton, described as an emeritus professor there and scholar of medieval English literature. Emeritus status supports an affiliation, not the question's present-tense 'teaching' claim.",
+  "Ask which emeritus professor at the university is a medieval-English-literature scholar, then replay.",
+  [("before_action", "University of Adelaide", "Established in 1874"), ("retrieved_after_search", "T. L. Burton", "emeritus professor at the University of Adelaide and a reputed scholar of medieval English literature")]),
+ (100, "Who is the scholar of medieval English literature", "repair_candidate", ["paired_emeritus_vs_current_teaching"],
+  "T. L. Burton's scholarly field and emeritus affiliation are supported, and the university's 1874 founding is explicit. The evidence does not show he is currently teaching there, as the original question says.",
+  "Keep his name only in a revised emeritus/affiliation question after replay.",
+  [("before_action", "University of Adelaide", "Established in 1874"), ("before_action", "T. L. Burton", "emeritus professor at the University of Adelaide")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-088.jsonl", cohort="v122_train_candidates")

@@ -1,0 +1,46 @@
+"""Primary examination of v122 training-supplement candidate states 141–150."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (141, "The Alphabet Killer was directed", "repair_candidate", ["answer_visible_before_search", "query_copies_unrelated_cast"],
+  "The initial Alphabet Killer article already identifies Rob Schmidt and calls him director of Wrong Turn. The submitted query copies a cast sentence with neither Rob Schmidt nor Wrong Turn; the later retrieval does not justify this search action.",
+  "Drop the redundant search and answer from the initial evidence, or rewrite and replay as a genuinely missing-relation case.",
+  [("before_action", "The Alphabet Killer", 'directed by Rob Schmidt, director of "Wrong Turn"'), ("before_action", "The Alphabet Killer", "Eliza Dushku stars as the main character")]),
+ (142, "The Alphabet Killer was directed", "repair_candidate", ["paired_redundant_search", "answer_supported"],
+  "Wrong Turn is a supported answer: the initial film article links its director Rob Schmidt to that title, and the later Wrong Turn document supplies 2003. The paired search still models an unnecessary, poorly targeted action.",
+  "Keep the answer only after a revised action-time replay or use this as a direct-answer case.",
+  [("before_action", "The Alphabet Killer", 'directed by Rob Schmidt, director of "Wrong Turn"'), ("before_action", "Wrong Turn", "2003 American horror film directed by Rob Schmidt")]),
+ (143, "Who is the head coach of the baseball team", "repair_candidate", ["query_copies_subject_sentence", "missing_relation_not_targeted"],
+  "The initial document identifies Steven Gingery's team as Texas Tech Red Raiders, but the query copies the whole pitcher sentence rather than targeting that team's coach. The returned team article happens to supply Tim Tadlock.",
+  "Use an action-time query for Texas Tech Red Raiders baseball head coach, then replay retrieval and the paired answer.",
+  [("before_action", "Steven Gingery", "pitcher for the Texas Tech Red Raiders of Texas Tech University"), ("retrieved_after_search", "Texas Tech Red Raiders baseball", "Their head coach is Tim Tadlock")]),
+ (144, "Who is the head coach of the baseball team", "repair_candidate", ["paired_query_target_mismatch", "answer_supported"],
+  "The joined evidence supports Tim Tadlock as coach of Gingery's team. This answer belongs to a pair whose query copied the subject sentence instead of the missing coach relation.",
+  "Retain the answer only after replay with a relation-targeted search.",
+  [("before_action", "Steven Gingery", "pitcher for the Texas Tech Red Raiders"), ("before_action", "Texas Tech Red Raiders baseball", "Their head coach is Tim Tadlock")]),
+ (145, "The person who composed Den Pobedy", "quarantine_pending_repair", ["commentator_mistaken_for_composer", "wrong_entity_chain"],
+  "The Den Pobedy excerpt quotes Vladimir Shainsky as a veteran composer commenting on the song; it never states that he composed Den Pobedy. The query lifts his quotation, and retrieval finds Shainsky's biography, making an unsupported commentator-to-author jump.",
+  "Find an action-time source explicitly naming the song's composer, establish that person's nationality, and reconstruct a new pair only if both links are supported.",
+  [("before_action", "Den Pobedy", "In the words of Vladimir Shainsky, a veteran composer"), ("retrieved_after_search", "Vladimir Shainsky", "Soviet and Russian composer")]),
+ (146, "The person who composed Den Pobedy", "quarantine_pending_repair", ["paired_wrong_entity_chain", "nationality_does_not_repair_attribution"],
+  "Russia is inferred from Shainsky's biography, but the available Den Pobedy evidence only quotes him about the song and does not identify him as its composer. The central authorship relation is absent; the frozen answer is unsupported by this chain.",
+  "Do not admit this pair without an explicit composer source and a fresh action-time replay.",
+  [("before_action", "Den Pobedy", "In the words of Vladimir Shainsky, a veteran composer"), ("before_action", "Vladimir Shainsky", "Soviet and Russian composer")]),
+ (147, "Which goalie played for Manchester CIty", "repair_candidate", ["answer_visible_before_search", "query_copies_answer_sentence"],
+  "The initial Birmingham City season excerpt explicitly names Bert Trautmann as City's goalkeeper playing with a broken neck. The query copies that complete answer sentence; no missing relation motivates retrieval.",
+  "Make this a direct-answer example or exclude the redundant search action; preserve the named answer.",
+  [("before_action", "1955–56 Birmingham City F.C. season", "goalkeeper Bert Trautmann playing the last 25 minutes with a broken neck")]),
+ (148, "Which goalie played for Manchester CIty", "repair_candidate", ["paired_redundant_search", "answer_includes_extraneous_clause"],
+  "Bert Trautmann is directly supported, but the frozen answer includes the fragment 'goalkeeper ... playing the last 25 minutes' instead of a concise person name. Its paired search repeats the initial answer-bearing sentence.",
+  "Use 'Bert Trautmann' as the direct answer if the original target permits it; verify the target before any new label is admitted.",
+  [("before_action", "1955–56 Birmingham City F.C. season", "goalkeeper Bert Trautmann playing the last 25 minutes with a broken neck"), ("before_action", "Bert Trautmann", "goalkeeper for Manchester City")]),
+ (149, "Which German actress played a character", "retain_candidate", ["query_uses_visible_actress_name", "retrieval_resolves_starship_link"],
+  "The initial Jeri Ryan excerpt identifies her as a German actress and Seven of Nine, but omits the series title. Searching her name retrieves the Voyager season description linking Ryan's role to the stranded USS Voyager in the Delta Quadrant.", None,
+  [("before_action", "Jeri Ryan", "German actress best known for her role as the Borg Seven of Nine"), ("retrieved_after_search", "Star Trek: Voyager (season 4)", "Jeri Ryan as Seven of Nine")]),
+ (150, "Which German actress played a character", "retain_candidate", [],
+  "Jeri Lynn Ryan is named in the initial actress excerpt, and the retrieved Voyager season document ties her character Seven of Nine to the starship stranded in the Delta Quadrant. The answer has an action-time evidence chain.", None,
+  [("before_action", "Jeri Ryan", "Jeri Lynn Ryan"), ("before_action", "Star Trek: Voyager (season 4)", "stranded in the Delta Quadrant"), ("before_action", "Star Trek: Voyager (season 4)", "Jeri Ryan as Seven of Nine")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-093.jsonl", cohort="v122_train_candidates")

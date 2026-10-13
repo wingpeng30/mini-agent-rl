@@ -1,0 +1,84 @@
+{
+  "status": "completed_experimental_only_gate_failed",
+  "experiment_complete": true,
+  "experiment_directory": "E:/AgentLightningAssets/runs/retrieval-v1/hybrid-adaptation-20261006",
+  "local_completed": {
+    "frozen_evaluation_cases": 128,
+    "wrong_natural_cases_body_action_first_pass": 64,
+    "original_input_token_checks_passed": 193,
+    "frozen_diagnostic_variants": 54,
+    "independent_retrieval_audit_queries_passed": 22,
+    "view_replay_and_gate_tests_passed": 7,
+    "goal_z_adapter_backup_hash_matches": true,
+    "local_web_model": "am-research",
+    "local_web_ready": true
+  },
+  "first_pass_findings": {
+    "answer_granularity_or_alias_cases": 15,
+    "labeled_support_body_evidence_gaps": 5,
+    "relation_object_errors": 14,
+    "bridge_entity_errors": 15,
+    "complete_evidence_relation_or_repeat_candidates": 16,
+    "causal_audit_complete": false,
+    "scores_or_gold_labels_modified": false,
+    "weight_damage_established": false
+  },
+  "remote": {
+    "endpoint": "connect.cqa1.seetacloud.com:41126",
+    "gpu": "RTX 4090 D",
+    "idle_confirmed": true,
+    "password_required": false,
+    "baseline_runs_completed": 256,
+    "state_generations_completed": 54,
+    "primary_104_correct": {
+      "bm25": 41,
+      "hybrid": 40
+    },
+    "score_free_state_gate": {
+      "repairs": 1,
+      "protection_losses": 1,
+      "passed": false
+    },
+    "score_free_full_evaluation_started": false,
+    "training_trigger_audited_persistent_errors": 13,
+    "training_trigger_passed": true,
+    "approved_training_pairs": {
+      "answer": 32,
+      "search": 32,
+      "distinct_questions": 32
+    },
+    "training_updates_completed": {
+      "A": 128,
+      "B": 128
+    },
+    "A_base_unchanged": true,
+    "A_lora_changed_parameter_tensors": 192,
+    "A_reload_max_difference": 0,
+    "gpu_experiment_budget_consumed_seconds": 1940.6786913350224,
+    "package_bytes": 102191475,
+    "package_sha256": "9e2b139e8640dbf826b7416693f7bbeddc61809842817c1c22c6fe8e84ae0fea",
+    "initial_package_transfer_approved_and_completed": true,
+    "derived_package_bytes": 3246314,
+    "derived_package_sha256": "3540b472d46039cd34b1f616029b7d2373f93de959c0bf56451975ad40c697f0",
+    "derived_transfer_initial_attempt_rejected": true,
+    "derived_transfer_explicitly_approved_and_completed": true,
+    "approval_pending": false,
+    "final_training_results": {
+      "local_AM_ready": true,
+      "B_base_unchanged": true,
+      "A_hybrid_runs": 128,
+      "gpu_idle_confirmed": true,
+      "reason": "B exceeds A by only 1 natural answer; required 2",
+      "natural_correct": {
+        "A": 42,
+        "baseline": 40,
+        "B": 43
+      },
+      "bm25_regression_started": false,
+      "B_hybrid_runs": 128,
+      "training_gate_passed": false,
+      "B_reload_max_difference": 0
+    }
+  },
+  "remaining": []
+}

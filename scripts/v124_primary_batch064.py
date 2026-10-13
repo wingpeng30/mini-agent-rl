@@ -1,0 +1,46 @@
+"""Primary examination of v122 internal candidate states 181–190."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (181, "What network had a character", "retain_candidate", ["query_uses_visible_character"],
+  "George Costanza's initial article includes his Lord of the Idiots self-description and names Seinfeld. Searching the character retrieves the programme article, which states that Seinfeld ran on NBC.", None,
+  [("before_action", "George Costanza", "\"Lord of the Idiots\" (by Costanza himself)"), ("retrieved_after_search", "Seinfeld", "ran for nine seasons on NBC")]),
+ (182, "What network had a character", "retain_candidate", [],
+  "The described character is George Costanza of Seinfeld; Seinfeld's article names NBC. The answer is supported.", None,
+  [("before_action", "George Costanza", "\"Seinfeld\""), ("before_action", "Seinfeld", "ran for nine seasons on NBC")]),
+ (183, "Jon B. Kutler serves", "repair_candidate", ["subcommittee_location_inferred_from_lab_location", "unanchored_current_role"],
+  "Kutler's snippet says he chairs the Jet Propulsion Laboratory Subcommittee; the retrieved article locates JPL in La Cañada Flintridge and Pasadena. It does not state that the subcommittee itself is located in those cities. The present-tense chair role is also tied only to an undated snapshot.",
+  "Ask where JPL, whose subcommittee Kutler chaired in the source snapshot, is located; replay with a time-anchored role if needed.",
+  [("before_action", "Jon B. Kutler", "Chairman of the Jet Propulsion Laboratory Subcommittee"), ("retrieved_after_search", "Jet Propulsion Laboratory", "in La Cañada Flintridge, California and Pasadena, California")]),
+ (184, "Jon B. Kutler serves", "repair_candidate", ["paired_subcommittee_lab_location_conflation", "unanchored_current_role"],
+  "The listed cities are supported for the Jet Propulsion Laboratory, not explicitly for its subcommittee. The frozen answer can only follow a revised question about the laboratory and a source-anchored Kutler relation.",
+  "Retain the place string only after rewording and paired replay.",
+  [("before_action", "Jon B. Kutler", "Chairman of the Jet Propulsion Laboratory Subcommittee"), ("before_action", "Jet Propulsion Laboratory", "in La Cañada Flintridge, California and Pasadena, California")]),
+ (185, "Where is the airline whose chairman", "repair_candidate", ["unanchored_current_airline_and_chairman", "query_copies_visible_airline_history"],
+  "The initial Goyal article names him founder chairman of Jet Airways; retrieval identifies the airline as based in Mumbai in a source snapshot containing July 2017 operations. The question uses an unanchored present-tense airline/chairman relation that may not persist.",
+  "Ask where Jet Airways was based according to the dated historical snapshot, with Goyal identified as founder chairman; replay.",
+  [("before_action", "Naresh Goyal", "founder Chairman of Jet Airways"), ("retrieved_after_search", "Jet Airways", "airline based in Mumbai"), ("retrieved_after_search", "Jet Airways", "In July 2017")]),
+ (186, "Where is the airline whose chairman", "repair_candidate", ["paired_unanchored_current_airline_status"],
+  "Mumbai is supported by the retrieved Jet Airways article, but its operating and chair descriptions are historically contingent. The question needs a source-period anchor before the answer is a stable label.",
+  "Retain Mumbai in a historically phrased, replayed question.",
+  [("before_action", "Naresh Goyal", "founder Chairman of Jet Airways"), ("before_action", "Jet Airways", "airline based in Mumbai")]),
+ (187, "What military organization featured", "repair_candidate", ["unnecessary_search_answer_already_visible", "vague_featured_relation"],
+  "The initial Buffalo Soldier snippet already says the soldiers were members of the 10th Cavalry Regiment of the United States Army and identifies the Negro Cavalry nickname. Searching Buffalo Soldier repeats the answer context without filling a missing fact. 'Featured' is also looser than the documented membership relation.",
+  "Ask which army contained the 10th Cavalry Regiment known as Buffalo Soldiers and answer directly, or exclude this search pair.",
+  [("before_action", "Buffalo Soldier", "10th Cavalry Regiment of the United States Army"), ("before_action", "Buffalo Soldier", "nickname was given to the \"Negro Cavalry\"")]),
+ (188, "What military organization featured", "repair_candidate", ["paired_unnecessary_search", "vague_featured_relation"],
+  "United States Army is supported directly by the initial article, but the paired search was unnecessary and the question's 'featured' relation is imprecise.",
+  "Retain only as a revised direct-answer item after replay and review.",
+  [("before_action", "Buffalo Soldier", "10th Cavalry Regiment of the United States Army"), ("before_action", "Buffalo Soldier", "nickname was given to the \"Negro Cavalry\"")]),
+ (189, "War and Peace and Tamerlano", "repair_candidate", ["opera_called_play", "war_and_peace_work_disambiguated_only_after_search"],
+  "Tamerlano is an opera seria, and search retrieves War and Peace explicitly as an opera. The answer 'opera' is supported for those works, but the question calls both a 'type of play' and does not distinguish the opera War and Peace from Tolstoy's novel until retrieval.",
+  "Ask what musical genre Tamerlano and Prokofiev's War and Peace share; replay the search and paired answer.",
+  [("before_action", "Tamerlano", "is an opera seria in three acts"), ("retrieved_after_search", "War and Peace (opera)", "is an opera in two parts")]),
+ (190, "War and Peace and Tamerlano", "repair_candidate", ["paired_opera_called_play", "ambiguous_war_and_peace_title"],
+  "Both retrieved works are operas, but the original question's 'play' category and ambiguous War and Peace title make the answer relation poorly specified.",
+  "Retain opera only with the work-specific rewritten question and replay.",
+  [("before_action", "Tamerlano", "is an opera seria in three acts"), ("before_action", "War and Peace (opera)", "is an opera in two parts")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-064.jsonl", cohort="v122_internal_candidates")

@@ -11,6 +11,26 @@ def flatten_visible(value):
     if isinstance(value,list):return '\n'.join(flatten_visible(x) for x in value)
     if isinstance(value,dict):return '\n'.join(flatten_visible(v) for v in value.values())
     return ''
+def evidence_text(packet):
+    pieces=[]
+    histories=[]
+    if isinstance(packet.get('visible_history_and_evidence'),list):
+        histories.extend(packet['visible_history_and_evidence'])
+    for output in packet.get('anonymous_outputs',{}).values():
+        for transition in output.get('trajectory',[]):
+            histories.extend(transition.get('visible_messages',[]))
+            observation=transition.get('observation') or {}
+            pieces.append(flatten_visible(observation.get('result',[])))
+    for message in histories:
+        if message.get('role') not in {'user','tool'}: continue
+        content=message.get('content','')
+        if message.get('role')=='tool':
+            try:
+                parsed=json.loads(content)
+                content=flatten_visible(parsed.get('result',parsed))
+            except Exception: pass
+        pieces.append(content)
+    return '\n'.join(pieces)
 def decisions(review,field):return {r['audit_id']:r for r in review.get(field,[])}
 def validate_reviewer(review,name,manifest,state_ids,task_ids,packet_hash):
     if review.get('reviewer')!=name or review.get('independent') is not True or review.get('packet_manifest_sha256')!=packet_hash:
@@ -44,7 +64,7 @@ def merge(packet_dir,a_path,b_path,mapping_path,comparison_path,out_path):
         ('changed_tasks',a_tasks,b_tasks,task_packets,mapping['tasks'])):
         for aid,packet in source.items():
             ma=mappings[aid]['anonymous_to_model'];votes=[]
-            visible=flatten_visible(packet)
+            visible=evidence_text(packet)
             for alias in 'ABC':
                 da=pa_rows[aid]['candidates'][alias];db=pb_rows[aid]['candidates'][alias]
                 legal=[]

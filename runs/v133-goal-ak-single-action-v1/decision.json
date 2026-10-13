@@ -1,0 +1,187 @@
+{
+  "admitted_cases": 29,
+  "admitted_error_plus_unsupported": {
+    "A": 9,
+    "B": 8
+  },
+  "admitted_semantic_categories_A": {
+    "factual_error": 4,
+    "incomplete_required_qualifier": 2,
+    "missing_required_information": 1,
+    "success": 17,
+    "unsupported_by_visible_evidence": 5
+  },
+  "admitted_semantic_categories_B": {
+    "factual_error": 6,
+    "incomplete_required_qualifier": 1,
+    "no_answer_budget_exhausted": 2,
+    "no_answer_invalid_action": 1,
+    "no_answer_repeated_action": 2,
+    "success": 15,
+    "unsupported_by_visible_evidence": 2
+  },
+  "admitted_supported_success": {
+    "A": 17,
+    "B": 15,
+    "gained": [
+      "musique:2hop__864101_135373"
+    ],
+    "lost": [
+      "2wiki:1dd33f080bde11eba7f7acde48001122",
+      "2wiki:3a3d60020bdd11eba7f7acde48001122",
+      "musique:2hop__418360_67370"
+    ],
+    "net": -2
+  },
+  "all64_em_gained": [
+    "2wiki:a703e1160bdd11eba7f7acde48001122",
+    "2wiki:d94d1d720bdd11eba7f7acde48001122",
+    "musique:2hop__864101_135373"
+  ],
+  "all64_em_lost": [
+    "2wiki:1b911ab00bdb11eba7f7acde48001122",
+    "2wiki:1dd33f080bde11eba7f7acde48001122",
+    "2wiki:3a3d60020bdd11eba7f7acde48001122",
+    "2wiki:8a77eae20bdd11eba7f7acde48001122",
+    "2wiki:d52aa2a20bdb11eba7f7acde48001122",
+    "2wiki:f27e01300bdd11eba7f7acde48001122",
+    "musique:2hop__418360_67370"
+  ],
+  "answer_with_complete_chain_visible": {
+    "A": 21,
+    "B": 21,
+    "definition": "one-pass source review of the actual Goal AK evidence chain; unanswered cases are not counted as answered",
+    "denominator": 29
+  },
+  "completed_utc": "2026-10-04T16:17:05Z",
+  "context_budget": {
+    "A": {
+      "calls": 194,
+      "documents_deleted": 0,
+      "input_prompt_truncated_calls": 4,
+      "lossy_body_trimmed_calls": 4,
+      "max_input_tokens": 1997
+    },
+    "B": {
+      "calls": 231,
+      "documents_deleted": 9,
+      "input_prompt_truncated_calls": 13,
+      "lossy_body_trimmed_calls": 10,
+      "max_input_tokens": 2045
+    }
+  },
+  "counts": {
+    "A_trajectory_generations": 194,
+    "B_trajectory_generations": 231,
+    "engineering_generations": 16,
+    "new_confirmation_calls": 0,
+    "searches": 297,
+    "total_generations": 441,
+    "training_updates": 0
+  },
+  "entity_relation_mismatch_cases": [
+    "musique:2hop__506035_325512",
+    "musique:2hop__789565_416401",
+    "musique:2hop__862994_69048",
+    "musique:2hop__829358_754719",
+    "musique:2hop__96194_78303",
+    "2wiki:f299dd600bdd11eba7f7acde48001122",
+    "musique:2hop__498251_126089"
+  ],
+  "explicit_review_revisions": [
+    {
+      "case_id": "musique:2hop__506035_325512",
+      "prior_A_category": "success",
+      "reason": "The answer 'Pearl River' omits the required county entity type; the question asks which county, and the source names Pearl River County.",
+      "revised_A_category": "incomplete_required_qualifier"
+    },
+    {
+      "case_id": "musique:2hop__703493_162341",
+      "prior_A_category": "success",
+      "reason": "The answer 'Academy Award' omits nomination status and Best Supporting Actor, which are needed to identify the reported recognition.",
+      "revised_A_category": "incomplete_required_qualifier"
+    }
+  ],
+  "exploration_gate": {
+    "admitted_supported_net_plus_two": false,
+    "factual_plus_unsupported_not_higher": true,
+    "invalid_or_repeated_not_higher": false,
+    "passed": false,
+    "protected_losses_at_most_one": true,
+    "two_new_supported_cases": false
+  },
+  "finalizer_sha256": "84cdc3644e6d6a831204aa22fa6171f7e849b3cb62c0994c55aaeaf44d9b6ee4",
+  "first_action_protocol": {
+    "B_parse_invalid_cases": 2,
+    "engineering_generations": 16,
+    "engineering_reconciliation": {
+      "cause": "checker compared Python tuples to JSON-decoded lists",
+      "engineering_results_sha256": "b1722dc5114f1831f18ee933b0d644d1124f1661c4e429e69a0c287eaa053def",
+      "first_actions_matching": 16,
+      "first_json_boundaries": 16,
+      "gpu_generations_repeated": 0,
+      "original_failure_preserved": "ce9f38b54df9ca9b9e22b2ac1da721e6e49eb19d62bc818d034f352c6502dee4",
+      "parse_errors": 0,
+      "prompt_replays_matching": 16,
+      "reconciled_utc": "2026-10-04T15:46:38Z",
+      "reconciler_sha256": "28a6caf6f6873c58f5d22702a7d8ff5e867cfff48f3b13510924d94a497a7a53",
+      "reconciliation_scope": "read-only validation of the existing 16 outputs; no model call, retry, parameter or gate change",
+      "saved_gpu_generations": 16,
+      "status": "pass_from_saved_outputs"
+    },
+    "offline_generations_reviewed": 305
+  },
+  "goal": "AK",
+  "metrics": {
+    "A": {
+      "EM": 24,
+      "cases": 64,
+      "invalid_or_repeated_cases": 4,
+      "mean_F1": 0.48643353174603177,
+      "mean_generation_seconds": 0.6611662550838953,
+      "mean_question_seconds": 2.047335128823761,
+      "mean_searches_per_case": 2.03125,
+      "model_calls": 194,
+      "parse_invalid_cases": 0,
+      "repeated_action_cases": 4,
+      "searches": 130
+    },
+    "B": {
+      "EM": 20,
+      "cases": 64,
+      "invalid_or_repeated_cases": 6,
+      "mean_F1": 0.38958333333333334,
+      "mean_generation_seconds": 0.6052760656487632,
+      "mean_question_seconds": 2.2396432423847727,
+      "mean_searches_per_case": 2.609375,
+      "model_calls": 231,
+      "parse_invalid_cases": 2,
+      "repeated_action_cases": 4,
+      "searches": 167
+    }
+  },
+  "model_sha256": "d15d3864c1ccb810a6be7e5719d7b5d0ac87c353408ed85d973bb6393ff16b52",
+  "next_route": "Stop relation-prompt route. Prepare a separate Goal Z evidence-retention comparison; this run does not begin it.",
+  "prior_A_review_categories_before_explicit_corrections": {
+    "factual_error": 4,
+    "missing_required_information": 1,
+    "success": 19,
+    "unsupported_by_visible_evidence": 5
+  },
+  "protected_EM_losses": [
+    "musique:2hop__418360_67370"
+  ],
+  "protected_cases": [
+    "2wiki:67ecf3100bdc11eba7f7acde48001122",
+    "2wiki:982f8e440bdb11eba7f7acde48001122",
+    "2wiki:ee3233920bda11eba7f7acde48001122",
+    "musique:2hop__109242_113442",
+    "musique:2hop__418360_67370",
+    "musique:2hop__478978_124498",
+    "musique:2hop__530579_13529"
+  ],
+  "scope": "Goal Z seed42 fixed 64-question development behavior experiment; no model release",
+  "semantic_review_limits": "All 29 admitted questions reviewed once by case ID; all 35 unconfirmed cases remain excluded. The source ledger has one known narrow-quote defect in the Bering Sea edge; the actual retrieved Bering Sea body directly supports the corrected relation.",
+  "status": "complete",
+  "unconfirmed_cases": 35
+}

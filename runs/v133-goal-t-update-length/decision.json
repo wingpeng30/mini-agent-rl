@@ -1,0 +1,64 @@
+{
+  "adapter": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-t-update-length/seed42/update32/adapter-final",
+  "baseline": {
+    "f1": 0.7345982142857143,
+    "invalid": 0,
+    "main": 12,
+    "mean_latency": 1.5012923545436934,
+    "model": "incumbent",
+    "regression": 7,
+    "searches": 32,
+    "support": 32,
+    "total": 19
+  },
+  "long": {
+    "42": {
+      "f1": 0.7208333333333333,
+      "invalid": 0,
+      "main": 12,
+      "mean_latency": 1.5352395983645692,
+      "model": "42-64",
+      "regression": 6,
+      "searches": 32,
+      "support": 32,
+      "total": 18
+    },
+    "43": {
+      "f1": 0.8020833333333334,
+      "invalid": 0,
+      "main": 13,
+      "mean_latency": 1.5696916290326044,
+      "model": "43-64",
+      "regression": 8,
+      "searches": 32,
+      "support": 32,
+      "total": 21
+    }
+  },
+  "reason": "both_short_models_qualified",
+  "selected": "42-32",
+  "short": {
+    "42": {
+      "f1": 0.7786458333333334,
+      "invalid": 0,
+      "main": 13,
+      "mean_latency": 1.5713972651865333,
+      "model": "42-32",
+      "regression": 7,
+      "searches": 32,
+      "support": 32,
+      "total": 20
+    },
+    "43": {
+      "f1": 0.7890625,
+      "invalid": 0,
+      "main": 13,
+      "mean_latency": 1.5505531592061743,
+      "model": "43-32",
+      "regression": 8,
+      "searches": 32,
+      "support": 32,
+      "total": 21
+    }
+  }
+}

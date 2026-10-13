@@ -1,0 +1,14 @@
+{
+  "config_sha256": "56fb4cf6999aaec64036864471863c8747817539bd214eaa2d12fb52b43ad764",
+  "gpu_seconds_used": 225.774,
+  "gpu_started_unix": 1790599840.702828,
+  "input_hashes": {
+    "goal_G_regression": "f689f94b598a1c0d89f1b87f0b008c8a03158a7ab479028368285564244aad69",
+    "goal_J_sft": "21b24dc960c3915e9db89626358b2271d8e37ff8b6e0205d3ab40ddb5eca0fc2",
+    "new_eval": "42531fc1dbd2c3cb1fbec12e85523483c1c0b40546c55a0a6d622474d9648d29",
+    "train": "d4b41cb3413c9fca736d26b30e6d5e5292c1b47308d21c01f174f8957e0b263b",
+    "v118": "ea894d235b6779bc8d15d1327a953773f946c347dfa7fa55ee3d2c2d5bd4a0a5"
+  },
+  "stage": "N5",
+  "status": "COMPLETED_EXPERIMENT"
+}

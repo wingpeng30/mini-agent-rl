@@ -1,0 +1,286 @@
+{
+  "elapsed_seconds": 214.66,
+  "sets": {
+    "goal_J_sft": {
+      "goal_G_regression": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 9,
+        "f1": 0.7125,
+        "generation_seconds": 7.571,
+        "n": 16
+      },
+      "new_eval": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 10,
+        "f1": 0.78125,
+        "generation_seconds": 7.767,
+        "n": 16
+      },
+      "train": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 16,
+        "f1": 1.0,
+        "generation_seconds": 7.485,
+        "n": 16
+      }
+    },
+    "seed-42-pass-1": {
+      "goal_G_regression": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 3,
+        "f1": 0.39137477106227103,
+        "generation_seconds": 9.127,
+        "n": 16
+      },
+      "new_eval": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 10,
+        "f1": 0.7708333333333334,
+        "generation_seconds": 6.519,
+        "n": 16
+      },
+      "train": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 6,
+        "f1": 0.5555555555555556,
+        "generation_seconds": 8.2,
+        "n": 16
+      }
+    },
+    "seed-42-pass-4": {
+      "goal_G_regression": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 4,
+        "f1": 0.48723958333333334,
+        "generation_seconds": 8.458,
+        "n": 16
+      },
+      "new_eval": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 11,
+        "f1": 0.8177083333333334,
+        "generation_seconds": 6.476,
+        "n": 16
+      },
+      "train": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 8,
+        "f1": 0.6805555555555556,
+        "generation_seconds": 7.085,
+        "n": 16
+      }
+    },
+    "seed-43-pass-1": {
+      "goal_G_regression": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 3,
+        "f1": 0.3735176282051282,
+        "generation_seconds": 10.303,
+        "n": 16
+      },
+      "new_eval": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 11,
+        "f1": 0.7796474358974359,
+        "generation_seconds": 6.755,
+        "n": 16
+      },
+      "train": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 6,
+        "f1": 0.5049603174603174,
+        "generation_seconds": 9.696,
+        "n": 16
+      }
+    },
+    "seed-43-pass-4": {
+      "goal_G_regression": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 3,
+        "f1": 0.3978125,
+        "generation_seconds": 10.121,
+        "n": 16
+      },
+      "new_eval": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 11,
+        "f1": 0.8072916666666666,
+        "generation_seconds": 6.563,
+        "n": 16
+      },
+      "train": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 6,
+        "f1": 0.5912698412698413,
+        "generation_seconds": 8.924,
+        "n": 16
+      }
+    },
+    "seed-44-pass-1": {
+      "goal_G_regression": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 4,
+        "f1": 0.4649238782051282,
+        "generation_seconds": 10.69,
+        "n": 16
+      },
+      "new_eval": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 11,
+        "f1": 0.8072916666666666,
+        "generation_seconds": 6.759,
+        "n": 16
+      },
+      "train": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 6,
+        "f1": 0.5868055555555556,
+        "generation_seconds": 7.653,
+        "n": 16
+      }
+    },
+    "seed-44-pass-4": {
+      "goal_G_regression": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 5,
+        "f1": 0.5309895833333333,
+        "generation_seconds": 9.016,
+        "n": 16
+      },
+      "new_eval": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 10,
+        "f1": 0.7864583333333334,
+        "generation_seconds": 6.49,
+        "n": 16
+      },
+      "train": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 7,
+        "f1": 0.6493055555555556,
+        "generation_seconds": 7.081,
+        "n": 16
+      }
+    },
+    "v118": {
+      "goal_G_regression": {
+        "actions": {
+          "answer": 14,
+          "invalid": 0,
+          "search": 2
+        },
+        "em": 3,
+        "f1": 0.3497081043956044,
+        "generation_seconds": 11.329,
+        "n": 16
+      },
+      "new_eval": {
+        "actions": {
+          "answer": 13,
+          "invalid": 0,
+          "search": 3
+        },
+        "em": 9,
+        "f1": 0.609375,
+        "generation_seconds": 9.968,
+        "n": 16
+      },
+      "train": {
+        "actions": {
+          "answer": 13,
+          "invalid": 0,
+          "search": 3
+        },
+        "em": 4,
+        "f1": 0.37996031746031744,
+        "generation_seconds": 10.843,
+        "n": 16
+      }
+    }
+  },
+  "status": "PASSED"
+}

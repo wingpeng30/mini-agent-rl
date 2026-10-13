@@ -1,0 +1,24 @@
+{
+  "status": "COMPLETED",
+  "branch": "sft42",
+  "case_count": 128,
+  "current_process_cases": 128,
+  "evaluation_wall_seconds": 616.3340141139925,
+  "batch_size": 1,
+  "questions_per_second": 0.20767959753771775,
+  "model_calls": 375,
+  "searches": 247,
+  "input_tokens": 228424,
+  "output_tokens": 6575,
+  "exact_match": 67.0,
+  "normalized_exact_match": 68.0,
+  "f1": 0.6447110615079366,
+  "adapter_sha256": "0846e7915bb472015c90fc7e0ad021ee99b9b55c4df69b29c5a0ccf3f7eb0444",
+  "gpu_memory": {
+    "peak_allocated_gb": 1.966,
+    "peak_reserved_gb": 2.15,
+    "device_process_gb": 2.648,
+    "device_memory_source": "single_compute_process_fallback"
+  },
+  "resumed": false
+}

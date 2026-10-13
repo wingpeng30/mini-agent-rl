@@ -1,0 +1,51 @@
+{
+  "cpu": {
+    "cases": 24,
+    "branches": 48,
+    "coverage_edges": 48,
+    "new_queries": 36,
+    "cached_queries": 12,
+    "historical_ranking_rows": 105,
+    "ranking_cache": 137,
+    "gpu_calls": 0,
+    "updates": 0
+  },
+  "assessment": {
+    "cases": 24,
+    "source_chain_supported": 4,
+    "coverage_unconfirmed_or_ambiguous": 22,
+    "new_edge_cases": 5,
+    "complete_raw_cases": 2,
+    "complete_retained_cases": 1,
+    "gpu_list": 1,
+    "semantic_decisions_hash": "254c55a2999b3ffd25608f3792e13c79ff32152ef4f445105eedbea7e626f467",
+    "gpu_list_hash": "f97de3a15e1a65def81942e2280d932f23a384e3856db5f1dbf22f84687da506"
+  },
+  "gpu": {
+    "calls": 1,
+    "searches": 0,
+    "updates": 0,
+    "adapter_sha256": "d15d3864c1ccb810a6be7e5719d7b5d0ac87c353408ed85d973bb6393ff16b52",
+    "device": "NVIDIA GeForce RTX 4090 D"
+  },
+  "primary_blocks": {
+    "coverage_or_question_basis": 22,
+    "context_retention": 1,
+    "conditional_repaired": 1
+  },
+  "verified_mechanism_cases": {
+    "context_retention": 1,
+    "retrieval": 0,
+    "query_generation": 1,
+    "answer_decision": 0
+  },
+  "gpu_outcomes": {
+    "sufficient_correct_answer": 1
+  },
+  "historical_legal": 52,
+  "historical_branches": 53,
+  "unique_next_route": "evidence_coverage_and_question_basis",
+  "training_authorized_or_started": false,
+  "absence_claim": false,
+  "review_limit": "Full primary and targeted relevant bodies; other candidate titles only. No exhaustive corpus absence audit."
+}

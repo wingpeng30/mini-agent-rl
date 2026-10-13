@@ -1,0 +1,24 @@
+{
+  "cases": 24,
+  "official_bodies": 48,
+  "body_exactly_preserved": 48,
+  "assembly_loss_cases": 0,
+  "full_read_unique_pending_documents": 224,
+  "full_read_edge_document_pairs": 240,
+  "unconfirmed_edges_full_read": 20,
+  "direct_unconfirmed_edges_upgraded": 0,
+  "classifications": {
+    "qualification_required": 8,
+    "source_insufficient": 14,
+    "original_chain_supported": 2
+  },
+  "new_queries": 0,
+  "gpu_calls": 0,
+  "training_updates": 0,
+  "corpus_modified": false,
+  "questions_modified": false,
+  "old_scores_modified": false,
+  "corpus_absence_proven": false,
+  "unique_next_route": "prepare_source_grounded_evaluation_and_material_admission_gate",
+  "scope_caveat": "24 cases selected from prior failures, not a random sample; cannot infer dataset-wide prevalence."
+}

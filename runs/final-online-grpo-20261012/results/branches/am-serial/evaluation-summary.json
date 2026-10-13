@@ -1,0 +1,24 @@
+{
+  "status": "COMPLETED",
+  "branch": "am-serial",
+  "case_count": 128,
+  "current_process_cases": 128,
+  "evaluation_wall_seconds": 604.1108012646437,
+  "batch_size": 1,
+  "questions_per_second": 0.2118816610000106,
+  "model_calls": 371,
+  "searches": 243,
+  "input_tokens": 220530,
+  "output_tokens": 6501,
+  "exact_match": 66.0,
+  "normalized_exact_match": 67.0,
+  "f1": 0.6466318791771094,
+  "adapter_sha256": "3bcd1f85382c1d7775fa674c1a6e1e68c80911a69b86de209d20f2ab6269280c",
+  "gpu_memory": {
+    "peak_allocated_gb": 1.916,
+    "peak_reserved_gb": 2.035,
+    "device_process_gb": 2.469,
+    "device_memory_source": "single_compute_process_fallback"
+  },
+  "resumed": false
+}

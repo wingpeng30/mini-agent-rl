@@ -7,6 +7,12 @@ THINK_SYSTEM = (
     "Your output begins inside <think>. Write one or two short sentences, close </think>, then output one JSON search or answer action."
 )
 DIRECT_SYSTEM = "You are an evidence-driven retrieval agent. Output one JSON search or answer action, using visible evidence only."
+DIRECT_RELATION_V1 = DIRECT_SYSTEM + "\nSearch for a known entity and the missing relation. Keep the entity's requested role, relation direction, time, and scope. Related people and matching names do not establish a missing link. Answer only when the needed links are visible. Use at most three searches."
+DIRECT_GROUNDED_ACTION_V1 = """You are an evidence-driven retrieval agent. Output exactly one JSON object.
+Before the final action, list the necessary links supported by visible document bodies. For each link, give subject, relation, object, document_id, and an exact quote. Keep entity roles, relation direction, time, and scope. Related people or matching names do not prove a link.
+Use "links" for zero to two supported links and "missing_relation" for what remains unproved.
+Then output "action":"search" with "query", or "action":"answer" with "answer".
+Answer only when the necessary links are supported; otherwise search for a known entity and the missing relation. Use visible evidence only and at most three searches."""
 
 # Fixed before v106 evaluation. These compact demonstrations come only from
 # the training split and contain no development answers or support labels.
@@ -29,7 +35,16 @@ Action: {"action":"answer","answer":"the Desert Fox"}
 For the current question, search when evidence is missing; otherwise output exactly one supported JSON answer action."""
 
 DIRECT_PROMPTS = {
+    "direct-v090-evidence-address-v1": DIRECT_SYSTEM + (
+        ' Select zero to four EVIDENCE addresses whose document body spans support the necessary links. '
+        'Keep entity roles, relation direction, time and scope. In the same JSON object, '
+        'put "evidence":[addresses] before "action" and "query" or "answer". '
+        'If a link is missing, search for the known entity and missing relation. '
+        'Answer only when the necessary links are supported; an existing address alone does not prove a relation.'
+    ),
     "direct-v090": DIRECT_SYSTEM,
+    "direct-v090-relation-v1": DIRECT_RELATION_V1,
+    "direct-v090-grounded-action-v1": DIRECT_GROUNDED_ACTION_V1,
     "precise-answer-v1": DIRECT_SYSTEM + (
         " For an answer action, return only the shortest span that directly answers the question. "
         "Preserve necessary qualifiers such as dates, locations, and full names. "

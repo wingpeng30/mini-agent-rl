@@ -1,0 +1,46 @@
+"""Primary examination of v123 internal candidate states 221–230."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (221, "Who owned the American music publishing company", "repair_candidate", ["query_preselects_publisher", "time_sensitive_ownership"],
+  "The initial Sony/ATV passage already says Sony owns the publisher, but no initial passage ties Extreme Music/Bleeding Fingers to it. Querying Sony/ATV preselects the missing production-arm target; retrieval later establishes that link. Ownership also needs a source date or historical framing.",
+  "Search Extreme Music/Bleeding Fingers parent publisher first; time-bound the ownership question and replay.",
+  [("before_action", "Sony/ATV Music Publishing", "owned by Sony through Sony Entertainment"), ("retrieved_after_search", "Extreme Music/Bleeding Fingers", "production arm of Sony/ATV Music Publishing")]),
+ (222, "Who owned the American music publishing company", "repair_candidate", ["paired_publisher_preselection", "unanchored_ownership"],
+  "The retrieved production-arm passage and initial ownership passage jointly support Sony through Sony Entertainment at the source snapshot. The question's past-tense owner and paired preselected query need a dated, arm-first replay.",
+  "Rebuild with explicit source-time ownership and independently review.",
+  [("before_action", "Sony/ATV Music Publishing", "owned by Sony through Sony Entertainment"), ("before_action", "Extreme Music/Bleeding Fingers", "production arm of Sony/ATV Music Publishing")]),
+ (223, "When was the University founded", "repair_candidate", ["university_preselected_without_jamal_link", "answer_visible_before_search", "question_grammar"],
+  "The initial Lincoln University article gives 1854, but no initial Jamal Gray degree link is visible. Search directly selects Lincoln University and later retrieves the Jamal Gray relation. The university was selected before that relation was grounded in the action input.",
+  "Query Jamal Gray's university first, then use the dated founding passage; repair the question grammar.",
+  [("before_action", "Lincoln University (Pennsylvania)", "Founded as a private university in 1854"), ("retrieved_after_search", "The Last Emperor (rapper)", "degree in Political Science/International Relations from Lincoln University")]),
+ (224, "When was the University founded", "repair_candidate", ["paired_university_preselection", "answer_supported"],
+  "1854 is the documented founding year, and the retrieved Jamal Gray passage identifies the same Lincoln University. The paired query preselected the university before that identity link appeared.",
+  "Review after a Jamal-first search replay.",
+  [("before_action", "Lincoln University (Pennsylvania)", "Founded as a private university in 1854"), ("before_action", "The Last Emperor (rapper)", "from Lincoln University")]),
+ (225, "Who operates the shopping centre", "repair_candidate", ["question_location_grammar", "time_sensitive_operator", "query_uses_visible_hotel"],
+  "The Arcadia Hotel article states that Westfield Sydney now occupies its former site; retrieval says Scentre Group operates Westfield Sydney. The phrase 'shopping centre on the city formerly occupied by' confuses site and city, though the intended property link is recoverable. The operator statement is time-sensitive.",
+  "Ask who operated the shopping centre on the former Arcadia Hotel site at the source date, then replay.",
+  [("before_action", "Arcadia Hotel, Sydney", "site occupied today by Westfield Sydney"), ("retrieved_after_search", "Westfield Sydney", "operated by Scentre Group")]),
+ (226, "Who operates the shopping centre", "repair_candidate", ["paired_malformed_location_relation", "unanchored_operator"],
+  "Scentre Group is explicitly named as Westfield Sydney's operator, and Westfield Sydney occupies the hotel's former site. The original question calls the city formerly occupied, which the evidence does not say; the operator needs temporal scope.",
+  "Use a corrected site-based, dated question and independently review.",
+  [("before_action", "Arcadia Hotel, Sydney", "site occupied today by Westfield Sydney"), ("before_action", "Westfield Sydney", "operated by Scentre Group")]),
+ (227, "Habibia High School educated the pop singer", "retain_candidate", ["query_uses_visible_musician", "retrieval_adds_comparison"],
+  "The school passage names Ahmad Zahir among its alumni. His retrieved biography explicitly compares his style to Elvis Presley, supplying the requested American pop star.", None,
+  [("before_action", "Habibia High School", "musician Ahmad Zahir"), ("retrieved_after_search", "Ahmad Zahir", "similar style to Elvis Presl")]),
+ (228, "Habibia High School educated the pop singer", "retain_candidate", [],
+  "Habibia High School and Ahmad Zahir are linked in the initial school article, and his biography states the Elvis Presley comparison. The answer is supported by the intended relation.", None,
+  [("before_action", "Habibia High School", "musician Ahmad Zahir"), ("before_action", "Ahmad Zahir", "similar style to Elvis Presl")]),
+ (229, "What is the actual first name of the director", "quarantine_pending_repair", ["actual_first_name_ambiguous", "stage_name_vs_birth_name"],
+  "Hollywood Ending is directed by Woody Allen. His retrieved biography begins Heywood 'Woody' Allen but separately says he was born Allan Stewart Konigsberg. 'Actual first name' could mean present legal first name Heywood or birth first name Allan; the question does not specify which.",
+  "Ask explicitly for his current formal first name or first name at birth, with a source for the intended legal status, then rebuild.",
+  [("before_action", "Hollywood Ending", "directed by Woody Allen"), ("retrieved_after_search", "Woody Allen", "Heywood \"Woody\" Allen (born Allan Stewart Konigsberg")]),
+ (230, "What is the actual first name of the director", "quarantine_pending_repair", ["paired_first_name_ambiguity"],
+  "Heywood appears as the biography's head name, while Allan appears as the birth first name. The bare word 'actual' does not choose between them, so the frozen answer lacks a unique target.",
+  "Use an unambiguous first-name-at-birth or present-name question.",
+  [("before_action", "Hollywood Ending", "directed by Woody Allen"), ("before_action", "Woody Allen", "Heywood \"Woody\" Allen (born Allan Stewart Konigsberg")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-123.jsonl", cohort="v123_internal_candidates")

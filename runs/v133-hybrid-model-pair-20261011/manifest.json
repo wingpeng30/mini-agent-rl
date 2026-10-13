@@ -1,0 +1,133 @@
+{
+  "adapters": {
+    "am-research": {
+      "label": "B",
+      "relative": "runs/v133-goal-am-action-sft-v2/seed42-A/adapter-final",
+      "sha256": "3bcd1f85382c1d7775fa674c1a6e1e68c80911a69b86de209d20f2ab6269280c"
+    },
+    "goal-z": {
+      "label": "A",
+      "relative": "runs/v133-goal-z-multihop-sft/seed42-trajectory/adapter-final",
+      "sha256": "d15d3864c1ccb810a6be7e5719d7b5d0ac87c353408ed85d973bb6393ff16b52"
+    }
+  },
+  "arms_order": [
+    "goal-z",
+    "am-research"
+  ],
+  "base_model_path": "/root/autodl-tmp/models/qwen_08b",
+  "base_weights_sha256": "04b1c301231dd422b8860db31311ab2721511346a32cb1e079c4c4e5f1fe4696",
+  "case_count": 128,
+  "cases_sha256": "7e603a7b2eff16cb11ffb26e6ac719869944f09758ab39b797309b1b81b0677f",
+  "chinese_report_sha256": "18b0fcc51acff4daf4b30d9c8c1cff1569ce85019dad98c0bedc6ec8e114fdf2",
+  "code_hashes": {
+    "scripts/evaluate_v133_hybrid_model_pair.py": "4a620e4747cdd6eb3a4c8e4a9a0fc0169a550fd76ba480ad5a835f28d850c936",
+    "scripts/run_v133_goal_p_variant.py": "cc20a563e7db6fb8bc6c2f54620fcc3ebdb285629a4c977a27ca64f0d07f781c",
+    "scripts/run_v133_goal_q_search.py": "5bff840ced34d835eff41ba31cadca63f093242e7a195a7bb2a4a965c4a8ead4",
+    "src/mini_agent_rl/evaluation.py": "c29436acaf5cfaba0065620a4de6344c727cd089ac958dca964efabb1c98be2f",
+    "src/mini_agent_rl/model/local.py": "79486c4b27490838da2e11cacb4275aefd3913ca16e534896e5d53da6cf9c40c",
+    "src/mini_agent_rl/retrieval/local.py": "6e028d1e6bbb99d03d8394b5961ee992766e26034fbed84b28c6ba8fb1f2d1b0",
+    "src/mini_agent_rl/tools/search.py": "21f66bd4f1fcb7c77378a505aa1b5323434914138c02b08d9d35721878d9907a"
+  },
+  "corpus_documents": 2048,
+  "corpus_sha256": "dc2a2f843ad04bb2c38ce839e1959034b7c63f1cbbc24971de2557ce3cf62d37",
+  "external_confirmation": false,
+  "generation_attempt_cap": 1024,
+  "gpu_seconds_cap": 10800,
+  "inference_code_hashes": {
+    "scripts/evaluate_v133_hybrid_model_pair.py": "893dc84d1f0b90e6e56443b060a2669113317b4d09b6770625dedcbafd633691",
+    "scripts/run_v133_goal_p_variant.py": "cc20a563e7db6fb8bc6c2f54620fcc3ebdb285629a4c977a27ca64f0d07f781c",
+    "scripts/run_v133_goal_q_search.py": "5bff840ced34d835eff41ba31cadca63f093242e7a195a7bb2a4a965c4a8ead4",
+    "src/mini_agent_rl/evaluation.py": "c29436acaf5cfaba0065620a4de6344c727cd089ac958dca964efabb1c98be2f",
+    "src/mini_agent_rl/model/local.py": "79486c4b27490838da2e11cacb4275aefd3913ca16e534896e5d53da6cf9c40c",
+    "src/mini_agent_rl/retrieval/local.py": "6e028d1e6bbb99d03d8394b5961ee992766e26034fbed84b28c6ba8fb1f2d1b0",
+    "src/mini_agent_rl/tools/search.py": "21f66bd4f1fcb7c77378a505aa1b5323434914138c02b08d9d35721878d9907a"
+  },
+  "inference_reproducibility_note": "Greedy decoding and seed42 were fixed for both arms, but run.log records CUDA nondeterminism warnings for cuBLAS and cumsum_cuda; bitwise repeatability is therefore not guaranteed.",
+  "inference_runner_sha256": "893dc84d1f0b90e6e56443b060a2669113317b4d09b6770625dedcbafd633691",
+  "kind": "exposed frozen paired diagnostic; not independent generalization",
+  "paired_results_sha256": "5e97be88b5ba34a8877e34a86971a8ee467d98864bd6574221b1016c5f453a9a",
+  "postprocessing_code_hashes": {
+    "scripts/evaluate_v133_hybrid_model_pair.py": "4a620e4747cdd6eb3a4c8e4a9a0fc0169a550fd76ba480ad5a835f28d850c936",
+    "scripts/run_v133_goal_p_variant.py": "cc20a563e7db6fb8bc6c2f54620fcc3ebdb285629a4c977a27ca64f0d07f781c",
+    "scripts/run_v133_goal_q_search.py": "5bff840ced34d835eff41ba31cadca63f093242e7a195a7bb2a4a965c4a8ead4",
+    "src/mini_agent_rl/evaluation.py": "c29436acaf5cfaba0065620a4de6344c727cd089ac958dca964efabb1c98be2f",
+    "src/mini_agent_rl/model/local.py": "79486c4b27490838da2e11cacb4275aefd3913ca16e534896e5d53da6cf9c40c",
+    "src/mini_agent_rl/retrieval/local.py": "6e028d1e6bbb99d03d8394b5961ee992766e26034fbed84b28c6ba8fb1f2d1b0",
+    "src/mini_agent_rl/tools/search.py": "21f66bd4f1fcb7c77378a505aa1b5323434914138c02b08d9d35721878d9907a"
+  },
+  "postprocessing_freeze_reason": "Use the same AutoProcessor chat template as inference, exclude non-rendered random tool-call IDs from blind-packet deduplication, and report completion, budget, latency, and GPU-memory diagnostics.",
+  "postprocessing_runner_sha256": "4a620e4747cdd6eb3a4c8e4a9a0fc0169a550fd76ba480ad5a835f28d850c936",
+  "preflight_attempts": [
+    {
+      "reason": "Preflight expected PEFT 0.20.0; the instance actually has PEFT 0.21.0. No model inference or dependency changes occurred; the installed environment is now frozen as-is.",
+      "status": "stopped_before_inference"
+    }
+  ],
+  "product": {
+    "action_completion": "first-json-v1",
+    "action_constraint": "none",
+    "context_aware_decoding": null,
+    "device": "cuda",
+    "dtype": "bfloat16",
+    "load_in_4bit": false,
+    "max_input_tokens": 16384,
+    "max_model_calls_per_case": 4,
+    "max_new_tokens": 2048,
+    "max_searches_per_case": 3,
+    "observation_encoding": "legacy",
+    "observation_presentation": "legacy-json",
+    "retriever": "hybrid-rrf-v1",
+    "system_prompt": "direct-v090",
+    "thinking": false,
+    "timeout": null,
+    "top_k": 3
+  },
+  "report_sha256": "af0acadc5021a7071edd26a943f881877caa0ffb2cc9c1b2768774b5b50fa890",
+  "retrieval": {
+    "candidate_k": 20,
+    "index_manifest_sha256": "d5ee71f576892e343fe4cc87d9d8d091ae61dfd5f3c1bca72fafc0bbdc687963",
+    "mode": "hybrid-rrf-v1",
+    "model_revision": "fa97f6e7cb1a59073dff9e6b13e2715cf7475ac9",
+    "rrf_k": 60,
+    "top_k": 3
+  },
+  "retrieval_config_sha256": "a13f24525a2b966f7f541ed4678e73f61241c9f10de9c0e8f058fb168929db22",
+  "retrieval_index_sha256": "d5ee71f576892e343fe4cc87d9d8d091ae61dfd5f3c1bca72fafc0bbdc687963",
+  "review_map_sha256": "3ad7c930c367b9667a09734bec6431d1f79b3481784620659dc5bcc67ca9a71d",
+  "review_packet_count": 196,
+  "review_packet_sha256": "ff77390491e240cd5eacfe3630d66e25024eac19c9ef830666ee23f2dde47123",
+  "root_review_packet_count": 144,
+  "root_review_packet_sha256": "0947f23d8c3796a8b763f65b1f85395107ca8862726559242271906e240e848c",
+  "run_id": "v133-hybrid-model-pair-20261011",
+  "run_log_sha256": "36b6255fc882dc8b7b065cc7c7835f73405d5d43f05c79642b6aea71cefd1725",
+  "runner_sha256": "4a620e4747cdd6eb3a4c8e4a9a0fc0169a550fd76ba480ad5a835f28d850c936",
+  "runtime_lock_sha256": "073bdcc344325a42a978adca4299797d03243a9ac8fce55ab9e3b69977643ea5",
+  "runtime_versions": {
+    "peft": "0.21.0",
+    "torch": "2.5.1+cu124",
+    "transformers": "5.17.0"
+  },
+  "seeds": {
+    "per_call": "42 + step",
+    "policy": 42
+  },
+  "source_audit_sha256": "46ccb2bb70221621959007dc9a10d3ac8ce822e4d025551c19839a4591b1e8e3",
+  "source_provenance": {
+    "development_admission_ledger_sha256": "bfbe5e956414e485fc794b95d9671f3ed05404af52ef2c02ccf07a8c02c429b7",
+    "development_edge_evidence_ledger_sha256": "85cee7b49b4348a87d310026a69c8cf57e291408b3e2048f91aa536fde89d99c",
+    "frozen_index_manifest_sha256": "d5ee71f576892e343fe4cc87d9d8d091ae61dfd5f3c1bca72fafc0bbdc687963",
+    "natural_question_review_sha256": "5172eada9b8012ef26dd3e975d4acc6d03f00ae5324ffc8828a8ab5df67aa4e6"
+  },
+  "source_status_counts": {
+    "confirmed": 93,
+    "unresolved": 35
+  },
+  "status": "complete",
+  "strata": {
+    "constructed_singlehop": 24,
+    "development": 64,
+    "natural_supplement": 40
+  },
+  "training": false
+}

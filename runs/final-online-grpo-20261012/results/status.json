@@ -1,0 +1,35 @@
+{
+  "status": "COMPLETED",
+  "started_at": 1791738906.0335784,
+  "deadline_epoch": 1791823088.0,
+  "train_deadline_epoch": 1791817088.0,
+  "stages": {
+    "baseline": {
+      "status": "COMPLETED",
+      "elapsed_seconds": 612.157753881067,
+      "completed_at": 1791739518.9663706
+    },
+    "efficiency": {
+      "status": "COMPLETED",
+      "elapsed_seconds": 219.87911319360137,
+      "completed_at": 1791739738.8469803
+    },
+    "sft": {
+      "status": "COMPLETED",
+      "elapsed_seconds": 882.6227721683681,
+      "completed_at": 1791740621.4708223
+    },
+    "grpo42": {
+      "status": "COMPLETED",
+      "elapsed_seconds": 2431.8519710041583,
+      "completed_at": 1791743053.324856
+    },
+    "grpo43": {
+      "status": "COMPLETED",
+      "elapsed_seconds": 2499.2409344650805,
+      "completed_at": 1791745552.5679145
+    }
+  },
+  "current_stage": null,
+  "completed_at": 1791745552.5694125
+}

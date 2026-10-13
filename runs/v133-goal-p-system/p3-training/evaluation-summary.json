@@ -1,0 +1,167 @@
+{
+  "elapsed_seconds": 133.483,
+  "rows": 240,
+  "sets": {
+    "goal_J_sft": {
+      "goal_G_regression": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 9,
+        "f1": 0.7125,
+        "n": 16
+      },
+      "new_eval": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 10,
+        "f1": 0.78125,
+        "n": 16
+      },
+      "train": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 16,
+        "f1": 1.0,
+        "n": 16
+      }
+    },
+    "joint": {
+      "goal_G_regression": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 6,
+        "f1": 0.5833333333333334,
+        "n": 16
+      },
+      "new_eval": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 12,
+        "f1": 0.8333333333333334,
+        "n": 16
+      },
+      "train": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 11,
+        "f1": 0.84375,
+        "n": 16
+      }
+    },
+    "rl": {
+      "goal_G_regression": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 7,
+        "f1": 0.625,
+        "n": 16
+      },
+      "new_eval": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 12,
+        "f1": 0.8385416666666666,
+        "n": 16
+      },
+      "train": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 6,
+        "f1": 0.6388888888888888,
+        "n": 16
+      }
+    },
+    "sft": {
+      "goal_G_regression": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 6,
+        "f1": 0.525,
+        "n": 16
+      },
+      "new_eval": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 10,
+        "f1": 0.8,
+        "n": 16
+      },
+      "train": {
+        "actions": {
+          "answer": 16,
+          "invalid": 0,
+          "search": 0
+        },
+        "em": 14,
+        "f1": 0.90625,
+        "n": 16
+      }
+    },
+    "v118": {
+      "goal_G_regression": {
+        "actions": {
+          "answer": 14,
+          "invalid": 0,
+          "search": 2
+        },
+        "em": 3,
+        "f1": 0.3497081043956044,
+        "n": 16
+      },
+      "new_eval": {
+        "actions": {
+          "answer": 13,
+          "invalid": 0,
+          "search": 3
+        },
+        "em": 9,
+        "f1": 0.609375,
+        "n": 16
+      },
+      "train": {
+        "actions": {
+          "answer": 13,
+          "invalid": 0,
+          "search": 3
+        },
+        "em": 4,
+        "f1": 0.37996031746031744,
+        "n": 16
+      }
+    }
+  },
+  "status": "PASSED"
+}

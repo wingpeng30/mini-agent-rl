@@ -1,0 +1,83 @@
+{
+  "arms": {
+    "A": {
+      "sha256": "0116111ce0fba74895bf8c86dab605abd6476842ddef39e52da801c6b8d5e30c",
+      "system_prompt": "You are an evidence-driven retrieval agent. Output one JSON search or answer action, using visible evidence only."
+    },
+    "B": {
+      "sha256": "1652cf9c49286eb08106440d6311226e0947f63449a68ba1275f4c636e5703a3",
+      "system_prompt": "You are an evidence-driven retrieval agent. Output one JSON search or answer action, using visible evidence only.\nSearch for a known entity and the missing relation. Keep the entity's requested role, relation direction, time, and scope. Related people and matching names do not establish a missing link. Answer only when the needed links are visible. Use at most three searches."
+    }
+  },
+  "created_utc": "2026-10-04T15:44:12Z",
+  "data": {
+    "admitted_source_cases": 29,
+    "cases": 64,
+    "corpus": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-z-multihop-sft/corpus-dev.json",
+    "probes": 16,
+    "unconfirmed_or_not_admitted": 35
+  },
+  "goal": "AK",
+  "gpu_preflight": {
+    "bf16_supported": true,
+    "name": "NVIDIA GeForce RTX 4090 D",
+    "total_memory": 25250627584
+  },
+  "hashes": {
+    "adapter": "d15d3864c1ccb810a6be7e5719d7b5d0ac87c353408ed85d973bb6393ff16b52",
+    "aj_A": "bd003e267f7413340cc70fef76f09cb783a23218708ee605f9f2493cfed69105",
+    "aj_B": "f91c8037b27abaa4f252252d173d4101efcb629de9971bc1f70ef572e33bcae7",
+    "aj_manifest": "e57be799b822dafe24c2687ccf130c45cc5f6eff4d3a3462f02e796c1d816994",
+    "aj_probes": "d24a058c087cf3f00227b11e90fa5ac640535905027722cc00b69106c3d2384d",
+    "aj_runner": "537dafdf18620c39557a3762ec6d5bf3156b99df64ca8c03ed2c1ae4aff40d82",
+    "cases": "8c7fe268441632d38102f1eead4ae7ea5cbf90c5e0289cbddca0b7e106fde9e6",
+    "corpus": "dc2a2f843ad04bb2c38ce839e1959034b7c63f1cbbc24971de2557ce3cf62d37",
+    "local_model": "c3ae62767389d9d4d30217b686a17b120d9287e31bcf9b9527deadd4d7fbafbe",
+    "prompt_source": "e001f9127eadad01331af7983a5a5fa1b11e27ea1e0d078bc6d98bb8284b9b85",
+    "q_runner": "03a2940a6514fd08e08e24c345d8e6be982b2d61ac666483b3ddf8f4b0de150a",
+    "runner": "d96945e885ed5cf8f9735998c6ba882ab7aa91670cc5fae25da43825662b17ce"
+  },
+  "historical_first_action_audit": {
+    "A_first_action_valid": 194,
+    "A_generations": 194,
+    "B_first_action_valid": 78,
+    "B_generations": 79,
+    "paired_probe_generations": 32,
+    "probe_first_action_valid": 32,
+    "total_generations_reviewed": 305
+  },
+  "limits": {
+    "automatic_retry": false,
+    "engineering_generations": 16,
+    "generation_max_total": 528,
+    "new_confirmation_calls": 0,
+    "search_max": 384,
+    "training_updates": 0,
+    "trajectory_cases": 128,
+    "trajectory_generation_max": 512
+  },
+  "model": {
+    "adapter": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-z-multihop-sft/seed42-trajectory/adapter-final",
+    "adapter_sha256": "d15d3864c1ccb810a6be7e5719d7b5d0ac87c353408ed85d973bb6393ff16b52",
+    "base": "/root/autodl-tmp/qwen_08b",
+    "published_goal": "AA / Goal Z complete-trajectory SFT seed 42"
+  },
+  "product": {
+    "action_completion": "first-json-v1",
+    "device": "cuda:0",
+    "dtype": "bfloat16",
+    "max_input_tokens": 2048,
+    "max_model_calls_per_case": 4,
+    "max_new_tokens": 128,
+    "max_searches_per_case": 3,
+    "observation_encoding": "legacy",
+    "quantization": false,
+    "retriever": "bm25-v2",
+    "seed": 42,
+    "system_prompt": "direct-v090",
+    "temperature": 0.0,
+    "thinking": false,
+    "top_k": 3
+  },
+  "scope": "development-only; behavior experiment; no model release"
+}

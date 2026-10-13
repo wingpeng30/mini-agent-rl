@@ -1,0 +1,68 @@
+{
+  "identity": {
+    "base_model": "/root/autodl-tmp/models/qwen_08b",
+    "parent_adapter": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-am-action-sft-v2/seed42-A/adapter-final",
+    "train_cases": "/root/autodl-tmp/hybrid-adaptation-20261006/experiment/selected-train.jsonl",
+    "train_inputs": "/root/autodl-tmp/hybrid-adaptation-20261006/experiment/training-inputs.jsonl",
+    "eval_cases": "/root/autodl-tmp/hybrid-adaptation-20261006/results/v133-hybrid-model-pair-20261011/cases.jsonl",
+    "eval_retrieval_config": "/root/autodl-tmp/hybrid-adaptation-20261006/experiment/retrieval-remote.json",
+    "hashes": {
+      "train_cases": "37e840059a0aca66ba8c9fc17346de205ea528ea05f1d0de5403e3314bf191e7",
+      "train_inputs": "fce8339beb6c0fa02ad173ca4a72bd3eb8a9a0089fb2ce0aa69fa9e7167f1219",
+      "eval_cases": "7e603a7b2eff16cb11ffb26e6ac719869944f09758ab39b797309b1b81b0677f",
+      "eval_retrieval_config": "c3d18f33c96da3d09e36de5f07f7a516c3a1b791526d60475f8929dc25a6501f"
+    },
+    "parent_sha256": "3bcd1f85382c1d7775fa674c1a6e1e68c80911a69b86de209d20f2ab6269280c"
+  },
+  "product": {
+    "max_input_tokens": 16384,
+    "max_new_tokens": 2048,
+    "max_model_calls_per_case": 4,
+    "max_searches_per_case": 3,
+    "system_prompt": "direct-v090",
+    "thinking": false,
+    "action_completion": "first-json-v1",
+    "observation_encoding": "legacy",
+    "observation_presentation": "legacy-json",
+    "action_constraint": "none",
+    "context_aware_decoding": null,
+    "retriever": "hybrid-rrf-v1",
+    "top_k": 3,
+    "device": "cuda",
+    "dtype": "bfloat16",
+    "load_in_4bit": false,
+    "timeout": null
+  },
+  "group_size": 4,
+  "policy_epochs": 2,
+  "train_passes": 1,
+  "seeds": [
+    42,
+    43
+  ],
+  "sft_updates": 128,
+  "grpo_groups_per_seed": 128,
+  "grpo_max_updates_per_seed": 256,
+  "reward": "existing aliases normalized_exact_match; terminal binary",
+  "temperature": 1.0,
+  "top_p": 1.0,
+  "top_k": 0,
+  "learning_rate": 5e-06,
+  "clip_epsilon": 0.2,
+  "kl_beta": 0.02,
+  "adam_betas": [
+    0.9,
+    0.999
+  ],
+  "adam_eps": 1e-08,
+  "weight_decay": 0.0,
+  "max_grad_norm": 1.0,
+  "reference": "fixed initial AM LoRA snapshot",
+  "batch_size": 4,
+  "final_evaluation_batch_size": 1,
+  "train_deadline_epoch": 1791817088.0,
+  "deadline_epoch": 1791823088.0,
+  "no_new_quality_gate": true,
+  "evaluation_identity": "already exposed 128 cases; no independent generalization claim",
+  "runner_sha256": "092d65da1f13588157469128dedd825316c7ac0d04c5f49b32e6ad364034721d"
+}

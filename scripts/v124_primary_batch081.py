@@ -1,0 +1,46 @@
+"""Primary examination of v122 training-supplement candidate states 21–30."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (21, "What residential suburb of Adelaide was founded in 1914", "quarantine_pending_repair", ["unsupported_1914_founding", "answer_visible_before_search"],
+  "The Mile End article already identifies the suburb and explicitly dates its population to the 2011 census, but says nothing about a 1914 founding. Retrieval adds Mile End South, whose name was used by 1913 and formalized in 1944, neither proving Mile End was founded in 1914. The premise remains unsupported and the search repeats the answer title.",
+  "Isolate the pair until an authoritative, correctly scoped 1914 source exists; do not infer it from the adjacent suburb.",
+  [("before_action", "Mile End, South Australia", "census area population of 4,413 people (2011)"), ("retrieved_after_search", "Mile End South, South Australia", "formally adopted by the state's nomenclature committee in 1944")]),
+ (22, "What residential suburb of Adelaide was founded in 1914", "quarantine_pending_repair", ["paired_unsupported_1914_founding"],
+  "Mile End fits the residential Adelaide suburb and 2011 population facts, but no visible document supports its asserted 1914 founding. The nearby Mile End South entry concerns a different suburb.",
+  "Do not qualify the original question; a revised question must remove or independently verify the founding-year premise and be replayed.",
+  [("before_action", "Mile End, South Australia", "population of 4,413 people (2011)"), ("before_action", "Mile End South, South Australia", "Mile End South is a suburb of Adelaide")]),
+ (23, "How long was the reign of the king whose court Paon de Roet", "retain_candidate", ["query_uses_visible_king_link"],
+  "Paon de Roet's article identifies Edward III as the king of the court. Searching that sentence retrieves Edward III's biography with an explicit 50-year reign; the query is grounded in the missing reign relation.", None,
+  [("before_action", "Paon de Roet", "court of King Edward III of England"), ("retrieved_after_search", "Edward III of England", "long reign of 50 years")]),
+ (24, "How long was the reign of the king whose court Paon de Roet", "retain_candidate", [],
+  "Paon de Roet is tied to Edward III's court and Edward's biography explicitly states a reign of 50 years. The answer is supported at the answer state.", None,
+  [("before_action", "Paon de Roet", "court of King Edward III of England"), ("before_action", "Edward III of England", "long reign of 50 years")]),
+ (25, "Jens Risager is a footballer", "repair_candidate", ["query_preselects_club_before_jens_link"],
+  "Brøndby IF's location west of Copenhagen is initially visible, but the initial snippets do not connect Jens Risager to that club. The query selects Brøndby IF before the missing player-club relation is established; retrieval later finds Risager's biography, which cannot justify the earlier selection.",
+  "Search Jens Risager and the five championships first, then use the resulting club-city relation; replay the pair.",
+  [("before_action", "Brøndby IF", "western outskirts of Copenhagen"), ("retrieved_after_search", "Jens Risager", "won five Danish football championships with Brøndby IF")]),
+ (26, "Jens Risager is a footballer", "repair_candidate", ["paired_query_preselects_unlinked_club"],
+  "Jens Risager's retrieved biography ties him to Brøndby IF and that club's article gives the western outskirts of Copenhagen, supporting the final city. The paired query still selected the club before the original action had the player-club link.",
+  "Keep Copenhagen only in a replayed pair that establishes Jens Risager's club before querying its city.",
+  [("before_action", "Jens Risager", "won five Danish football championships with Brøndby IF"), ("before_action", "Brøndby IF", "western outskirts of Copenhagen")]),
+ (27, "The 2010 FA Community Shield was won by Manchester United, led by who", "quarantine_pending_repair", ["scorer_miscast_as_leader", "unsupported_leadership_relation"],
+  "The visible match article says Manchester United won and lists Antonio Valencia among three scorers. It does not say he led the team, captained it, managed it, or was its leading scorer. Retrieval only supplies Valencia's player identity. The question's leadership predicate is not supported.",
+  "Isolate the pair. A different question about one of several scorers must uniquely specify Valencia and be independently checked.",
+  [("before_action", "2010 FA Community Shield", "goals from Antonio Valencia, Javier Hernández and Dimitar Berbatov"), ("retrieved_after_search", "Antonio Valencia", "right winger and right-back for Manchester United")]),
+ (28, "The 2010 FA Community Shield was won by Manchester United, led by who", "quarantine_pending_repair", ["paired_scorer_miscast_as_leader"],
+  "Antonio Valencia is documented as a scorer, not the leader of the 2010 Community Shield winning side. The original question cannot be answered with this evidence, and three goal scorers appear in the same source.",
+  "Do not use the frozen answer as a leadership label; create a differently worded, uniquely specified item only with new evidence and review.",
+  [("before_action", "2010 FA Community Shield", "goals from Antonio Valencia, Javier Hernández and Dimitar Berbatov"), ("before_action", "Antonio Valencia", "right winger and right-back for Manchester United")]),
+ (29, "Who authored the book series whose movie version starred Shefali Chowdhury", "repair_candidate", ["retrieved_film_explicitly_excludes_actress", "series_authorship_indirect"],
+  "The initial actress biography identifies Shefali Chowdhury with the Harry Potter film series but explicitly excludes Prisoner of Azkaban. The query copies that caveat, and retrieval uses the excluded film's novel to obtain J. K. Rowling. Shared series membership suggests the answer but this path does not establish an adaptation starring Chowdhury and authored by Rowling.",
+  "Retrieve a Potter film installment in which Chowdhury appears or a direct source about the books' author; replay the pair without relying on the expressly excluded film.",
+  [("before_action", "Shefali Chowdhury", "except for \"Harry Potter and the Prisoner of Azkaban\""), ("retrieved_after_search", "Harry Potter and the Prisoner of Azkaban (film)", "based on the novel of the same name by J. K. Rowling")]),
+ (30, "Who authored the book series whose movie version starred Shefali Chowdhury", "repair_candidate", ["paired_excluded_film_support_path"],
+  "J. K. Rowling is the author of the retrieved Prisoner of Azkaban novel, and Chowdhury is linked to the Potter film series. But the actress source expressly says another actor played her character in that specific retrieved film, so the film-level evidence chain is mismatched.",
+  "Use a direct Harry Potter series authorship source or a film with Chowdhury's cast credit before retaining the answer.",
+  [("before_action", "Shefali Chowdhury", "except for \"Harry Potter and the Prisoner of Azkaban\""), ("before_action", "Harry Potter and the Prisoner of Azkaban (film)", "based on the novel of the same name by J. K. Rowling")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-081.jsonl", cohort="v122_train_candidates")

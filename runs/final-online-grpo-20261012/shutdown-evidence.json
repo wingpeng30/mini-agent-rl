@@ -1,0 +1,10 @@
+{
+  "archive_sha256": "dd01ac20e0b46ac371552155ed246ee22d0d2386d190b5a4011a93db7be4307a",
+  "local_archive_verified": true,
+  "local_ack_sent": true,
+  "configured_command": "/usr/bin/shutdown",
+  "original_ssh": "closed by remote host",
+  "subsequent_ssh": "banner exchange: Connection refused",
+  "command_return_receipt": null,
+  "observed_at_utc": "2026-10-11T19:31:26.1213305Z"
+}

@@ -1,0 +1,44 @@
+{
+  "admitted_case_count": 37,
+  "fixed_cases": 64,
+  "gate_counts": {
+    "admission": {
+      "admitted": 37,
+      "not_admitted": 27
+    },
+    "chain_supported": {
+      "pass": 39,
+      "unconfirmed": 25
+    },
+    "label_compatible": {
+      "pass": 37,
+      "unconfirmed": 27
+    },
+    "question_resolvable": {
+      "pass": 37,
+      "unconfirmed": 27
+    }
+  },
+  "gpu_calls": 0,
+  "limits": {
+    "candidate_docs_per_edge": 12,
+    "edge_document_pairs_max": 1536
+  },
+  "mechanism_direct_counts": {
+    "answer": 3,
+    "context": 1,
+    "query": 0,
+    "retrieval": 0
+  },
+  "minimum_route_cases": 4,
+  "new_model_calls": 0,
+  "new_searches": 0,
+  "official_records_located": 64,
+  "official_support_bodies": 128,
+  "prior_cases_reused": 12,
+  "scope_note": "Support-body reading is one bounded pass; unresolved edges remain unconfirmed and do not prove corpus-wide absence or factual error.",
+  "support_bodies_exact_in_frozen_corpus": 128,
+  "support_cases_with_all_bodies_exact_in_frozen_corpus": 64,
+  "unique_next_route": "mechanism_evidence_insufficient",
+  "updates": 0
+}

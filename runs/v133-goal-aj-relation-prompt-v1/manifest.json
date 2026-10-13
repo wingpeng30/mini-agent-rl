@@ -1,0 +1,78 @@
+{
+  "arms": {
+    "A": {
+      "sha256": "0116111ce0fba74895bf8c86dab605abd6476842ddef39e52da801c6b8d5e30c",
+      "system_prompt": "You are an evidence-driven retrieval agent. Output one JSON search or answer action, using visible evidence only."
+    },
+    "B": {
+      "sha256": "1652cf9c49286eb08106440d6311226e0947f63449a68ba1275f4c636e5703a3",
+      "system_prompt": "You are an evidence-driven retrieval agent. Output one JSON search or answer action, using visible evidence only.\nSearch for a known entity and the missing relation. Keep the entity's requested role, relation direction, time, and scope. Related people and matching names do not establish a missing link. Answer only when the needed links are visible. Use at most three searches."
+    }
+  },
+  "created_utc": "2026-10-04T14:52:56Z",
+  "data": {
+    "admitted_source_cases": 29,
+    "cases": 64,
+    "corpus": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-z-multihop-sft/corpus-dev.json",
+    "probes": 16,
+    "unconfirmed_or_not_admitted": 35
+  },
+  "goal": "AJ",
+  "gpu_preflight": {
+    "bf16_supported": true,
+    "name": "NVIDIA GeForce RTX 4090 D",
+    "total_memory": 25250627584
+  },
+  "hashes": {
+    "adapter": "d15d3864c1ccb810a6be7e5719d7b5d0ac87c353408ed85d973bb6393ff16b52",
+    "admission": "bfbe5e956414e485fc794b95d9671f3ed05404af52ef2c02ccf07a8c02c429b7",
+    "ai_verification": "d50ca5d1ec48b1ee941700811d248361370a8d1ca6ac24f1c4c646721615788d",
+    "cases": "8c7fe268441632d38102f1eead4ae7ea5cbf90c5e0289cbddca0b7e106fde9e6",
+    "corpus": "dc2a2f843ad04bb2c38ce839e1959034b7c63f1cbbc24971de2557ce3cf62d37",
+    "history": "51230498285bfdb92dfeea45a727d178aba8ceb485851616819bffaf0b07f3b8",
+    "probes": "8f67c0b0b65076763c13ba683268109f7e7041de7664ea0deda8d926a0a01a82",
+    "prompts": "e001f9127eadad01331af7983a5a5fa1b11e27ea1e0d078bc6d98bb8284b9b85",
+    "q_runner": "03a2940a6514fd08e08e24c345d8e6be982b2d61ac666483b3ddf8f4b0de150a",
+    "runner": "a1b446d934c3a70c5e07a63a4e62f292e4762c09d880c1990ea14ef800d092f5"
+  },
+  "historical_replay": {
+    "calls": 194,
+    "cases": 64,
+    "status": "reused verified Goal AI v7 exact replay"
+  },
+  "limits": {
+    "automatic_retry": false,
+    "probe_generations": 32,
+    "real_trajectories": 128,
+    "searches": 384,
+    "total_generations": 544,
+    "training_updates": 0
+  },
+  "model": {
+    "adapter": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-z-multihop-sft/seed42-trajectory/adapter-final",
+    "adapter_sha256": "d15d3864c1ccb810a6be7e5719d7b5d0ac87c353408ed85d973bb6393ff16b52",
+    "base": "/root/autodl-tmp/qwen_08b",
+    "published_goal": "AA / Goal Z complete-trajectory SFT seed 42"
+  },
+  "product": {
+    "device": "cuda:0",
+    "dtype": "bfloat16",
+    "max_input_tokens": 2048,
+    "max_model_calls_per_case": 4,
+    "max_new_tokens": 128,
+    "max_searches_per_case": 3,
+    "observation_encoding": "legacy",
+    "quantization": false,
+    "retriever": "bm25-v2",
+    "seed": 42,
+    "system_prompt": "direct-v090",
+    "temperature": 0.0,
+    "thinking": false,
+    "top_k": 3
+  },
+  "scope": "development-only; no new confirmation or model release",
+  "system_prompt_tokens": {
+    "A": 21,
+    "B": 74
+  }
+}

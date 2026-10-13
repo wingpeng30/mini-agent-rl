@@ -1,0 +1,47 @@
+"""Primary examination of v122 training-supplement candidate states 111–120."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (111, "Deuce Bigalow is a character", "repair_candidate", ["question_typo_alumn", "query_uses_visible_actor_link"],
+  "The Deuce Bigalow article identifies Rob Schneider as the actor and retrieval describes him as a Saturday Night Live veteran. The query follows the visible actor link, but the question misspells alumnus as 'alumn' and requires a corrected input replay.",
+  "Correct the question to say alumnus of the NBC sketch series, then replay the pair.",
+  [("before_action", "Deuce Bigalow", "played by Rob Schneider"), ("retrieved_after_search", "Rob Schneider", "veteran of the NBC sketch comedy series \"Saturday Night Live\"")]),
+ (112, "Deuce Bigalow is a character", "repair_candidate", ["paired_question_typo_alumn"],
+  "Saturday Night Live is explicitly identified for Rob Schneider, who played Deuce Bigalow. The answer is supported, but the frozen question contains a malformed alumnus word.",
+  "Keep the answer only in a corrected and replayed question/action pair.",
+  [("before_action", "Deuce Bigalow", "played by Rob Schneider"), ("before_action", "Rob Schneider", "NBC sketch comedy series \"Saturday Night Live\"")]),
+ (113, "The Loner was recorded by the singer", "repair_candidate", ["answer_visible_before_search", "redundant_search"],
+  "The initial The Loner album article already says Maurice Gibb was of the Bee Gees, answering the group question. The search copies that very sentence and adds biography evidence but no missing group fact.",
+  "Use a direct-answer state if retained; do not treat the search as necessary.",
+  [("before_action", "The Loner (album)", "Maurice Gibb of the Bee Gees"), ("retrieved_after_search", "Maurice Gibb", "achieved fame as a member of the pop group the Bee Gees")]),
+ (114, "The Loner was recorded by the singer", "retain_candidate", ["answer_visible_before_paired_search"],
+  "The album article directly names Maurice Gibb of the Bee Gees, and his biography repeats his membership. Bee Gees is supported, while the paired search is redundant.", None,
+  [("before_action", "The Loner (album)", "Maurice Gibb of the Bee Gees"), ("before_action", "Maurice Gibb", "member of the pop group the Bee Gees")]),
+ (115, "The Eagle's Brood starred", "repair_candidate", ["query_inserts_wrong_actor", "accidental_retrieval"],
+  "The initial William Boyd biography says he portrayed Hopalong Cassidy. The query injects Rob Morgan, another visible but unrelated actor, then retrieval happens to find The Eagle's Brood cast naming William Boyd. The query is not grounded in the missing film-cast relation.",
+  "Search The Eagle's Brood cast or William Boyd's 1935 film credits, then replay.",
+  [("before_action", "William Boyd (actor)", "known for portraying the cowboy hero Hopalong Cassidy"), ("before_action", "Rob Morgan (actor)", "Rob Morgan is an American actor"), ("retrieved_after_search", "The Eagle's Brood", "film stars William Boyd")]),
+ (116, "The Eagle's Brood starred", "repair_candidate", ["paired_query_inserts_wrong_actor"],
+  "William Lawrence Boyd is the Hopalong Cassidy actor and The Eagle's Brood cast includes William Boyd. The answer is supported after retrieval, but the paired search used unrelated Rob Morgan.",
+  "Retain Boyd only with a question-grounded, replayed cast query.",
+  [("before_action", "William Boyd (actor)", "William Lawrence Boyd"), ("before_action", "The Eagle's Brood", "film stars William Boyd")]),
+ (117, "Whose 2001 album was influence by a coal miner's records", "quarantine_pending_repair", ["album_influence_not_proved", "song_title_and_artist_influence_conflated", "question_grammar"],
+  "The initial Dock Boggs article identifies his 1920s recordings and coal-mining occupation. Retrieval finds a Bob Dylan song called Sugar Baby on a 2001 album, saying Dylan treasured Boggs's same-titled recording as a young folksinger. This does not prove that the 2001 album as a whole was influenced by the coal miner's records, as the question asserts; it also says 'influence' instead of 'influenced' and 'from the 1920'.",
+  "Isolate the original pair. A new song-title relationship question can be built from the explicit source, without asserting an album-level influence.",
+  [("before_action", "Dock Boggs", "worked primarily as a coal miner"), ("before_action", "Dock Boggs", "recordings from the 1920s, \"Sugar Baby\""), ("retrieved_after_search", "Sugar Baby (Bob Dylan song)", "recording Dylan is said to have treasured as a young folksinger")]),
+ (118, "Whose 2001 album was influence by a coal miner's records", "quarantine_pending_repair", ["paired_album_level_influence_unsupported"],
+  "Bob Dylan owns the 2001 Love and Theft album containing a song named Sugar Baby. A biographical note about his earlier appreciation of Dock Boggs's recording is not direct evidence that this album was influenced by the miner's records. The target relation is overstated.",
+  "Do not use the frozen album-influence label; reformulate to the explicitly supported song/recording relation only after replay.",
+  [("before_action", "Dock Boggs", "worked primarily as a coal miner"), ("before_action", "Sugar Baby (Bob Dylan song)", "final song on Bob Dylan's 2001 album"), ("before_action", "Sugar Baby (Bob Dylan song)", "recording Dylan is said to have treasured")]),
+ (119, "For which university was the the coact", "repair_candidate", ["question_typos", "answer_visible_before_search", "redundant_search"],
+  "The frozen question says 'the the coact'. The initial Larry Brown biography already says he was most recently head men's basketball coach at Southern Methodist University. Searching Brown retrieves the 2012–13 team article confirming he coached SMU, but the target university was already visible.",
+  "Correct the question and use a direct answer or a query genuinely checking the team-coach link; replay.",
+  [("before_action", "Larry Brown (basketball)", "most recently head men's basketball coach at Southern Methodist University"), ("retrieved_after_search", "2012–13 SMU Mustangs men's basketball team", "led by first year head coach Larry Brown")]),
+ (120, "For which university was the the coact", "repair_candidate", ["paired_question_typos", "paired_redundant_search"],
+  "The 2012–13 team source names Larry Brown and Southern Methodist University, and Brown's biography gives the same institution. The answer is supported, but the question is malformed and the paired search adds no answer fact.",
+  "Use a corrected, replayed question with suitable action choice.",
+  [("before_action", "Larry Brown (basketball)", "Southern Methodist University"), ("before_action", "2012–13 SMU Mustangs men's basketball team", "represented Southern Methodist University")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-090.jsonl", cohort="v122_train_candidates")

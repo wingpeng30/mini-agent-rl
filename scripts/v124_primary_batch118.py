@@ -1,0 +1,46 @@
+"""Primary examination of v123 internal candidate states 171–180."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (171, "Florey electoral district takes in", "quarantine_pending_repair", ["multiple_suburb_candidates", "query_repeats_known_district"],
+  "The initial Florey article lists Modbury, Modbury Heights, and Modbury North as included suburbs. Retrieval establishes Modbury in the City of Tea Tree Gully, but the question gives no condition excluding the other listed Modbury suburbs. A single answer is not shown unique by the supplied documents.",
+  "Check all listed suburbs' municipality membership and rewrite to uniquely identify one; then rebuild the pair.",
+  [("before_action", "Electoral district of Florey", "Modbury, Modbury Heights and Modbury North"), ("retrieved_after_search", "Modbury, South Australia", "in the City of Tea Tree Gully")]),
+ (172, "Florey electoral district takes in", "quarantine_pending_repair", ["paired_uniqueness_unproved"],
+  "Modbury satisfies the two visible relations, but Florey also takes in similarly named suburbs and the present evidence does not exclude them from Tea Tree Gully. The singular question may admit multiple answers.",
+  "Resolve uniqueness before any answer is approved.",
+  [("before_action", "Electoral district of Florey", "Modbury, Modbury Heights and Modbury North"), ("before_action", "Modbury, South Australia", "in the City of Tea Tree Gully")]),
+ (173, "The Discovery is an album", "retain_candidate", ["query_uses_visible_band", "retrieval_adds_formation_suburb"],
+  "The Discovery article names Born of Osiris as its band. The retrieved band article explicitly says it formed in Palatine, a Chicago suburb. The query quotes the album-band relation and retrieves the missing formation place.", None,
+  [("before_action", "The Discovery (album)", "band Born of Osiris"), ("retrieved_after_search", "Born of Osiris", "formed in 2003 in Palatine, a suburb of Chicago")]),
+ (174, "The Discovery is an album", "retain_candidate", [],
+  "The album-to-band and band-to-Palatine links are both explicit at answer time; Palatine is the requested Chicago suburb.", None,
+  [("before_action", "The Discovery (album)", "band Born of Osiris"), ("before_action", "Born of Osiris", "Palatine, a suburb of Chicago")]),
+ (175, "Die Sexualität im Kulturkampf", "repair_candidate", ["answer_visible_before_search", "query_copies_author"],
+  "The first-pass work article already states the author Wilhelm Reich. The query copies this answer-bearing sentence; the retrieval only adds his Austrian psychoanalyst qualification. This can confirm the question's qualifier but should not be trained as a necessary author search.",
+  "Answer directly from the work article if the qualifier is not required for identity, or query Reich's profession explicitly for qualification checking.",
+  [("before_action", "Die Sexualität im Kulturkampf", "work by Wilhelm Reich"), ("retrieved_after_search", "Wilhelm Reich", "Austrian psychoanalyst")]),
+ (176, "Die Sexualität im Kulturkampf", "repair_candidate", ["paired_redundant_author_search"],
+  "Wilhelm Reich is explicitly named as author in initial context and independently identified as an Austrian psychoanalyst after search. The answer is sound, but its search half duplicates the answer-bearing sentence.",
+  "Rebuild the pair as direct answer or occupation check rather than author discovery.",
+  [("before_action", "Die Sexualität im Kulturkampf", "work by Wilhelm Reich"), ("before_action", "Wilhelm Reich", "Austrian psychoanalyst")]),
+ (177, "Which artist does Thank You Baby!", "repair_candidate", ["answer_visible_before_search", "query_repeats_album_link"],
+  "The initial Thank You Baby! article already identifies Shania Twain as singer and says it is a single from her album Up!. Search repeats the album sentence and does not supply a needed fact.",
+  "Use direct-answer supervision from the initial song passage; remove the search state.",
+  [("before_action", "Thank You Baby! (For Makin' Someday Come So Soon)", "song by Canadian singer Shania Twain"), ("before_action", "Thank You Baby! (For Makin' Someday Come So Soon)", "from her 2002 album \"Up!")]),
+ (178, "Which artist does Thank You Baby!", "repair_candidate", ["paired_unnecessary_search"],
+  "The initial song source supplies both Shania Twain and Up!, while the retrieved album confirms the same singer. The answer is correct but the paired search is unnecessary.",
+  "Rebuild as a direct-answer example if desired.",
+  [("before_action", "Thank You Baby! (For Makin' Someday Come So Soon)", "song by Canadian singer Shania Twain"), ("before_action", "Up! (album)", "album by Canadian singer Shania Twain")]),
+ (179, "Aukštaitija Stadium is a multi-purpose stadium", "repair_candidate", ["population_time_missing", "query_uses_visible_city"],
+  "The stadium article locates it in Panevėžys, and retrieval supplies a population of 113,653 explicitly as of 2011. The question asks how many inhabitants without a date, turning a dated census-like figure into an unanchored current claim.",
+  "Add 'as of 2011' to the question and replay; retain the observed city-targeted search only under that dated target.",
+  [("before_action", "Aukštaitija Stadium", "in Panevėžys, Lithuania"), ("retrieved_after_search", "Panevėžys", "As of 2011, it occupied 52 km2 with 113,653 inhabitants")]),
+ (180, "Aukštaitija Stadium is a multi-purpose stadium", "repair_candidate", ["paired_population_time_missing"],
+  "113,653 is explicitly the city's 2011 population in the supplied source. The original answer omits that temporal scope because the question has no date; it should not be treated as a timeless figure.",
+  "Use a 2011-anchored question and independently review the resulting pair.",
+  [("before_action", "Aukštaitija Stadium", "in Panevėžys, Lithuania"), ("before_action", "Panevėžys", "As of 2011, it occupied 52 km2 with 113,653 inhabitants")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-118.jsonl", cohort="v123_internal_candidates")

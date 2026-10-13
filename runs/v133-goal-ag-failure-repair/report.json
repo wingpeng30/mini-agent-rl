@@ -1,0 +1,25 @@
+{
+  "scope": "Goal Z selected-dev.jsonl indices 32–63 (1-based lines 33–64), only AF-A same-policy start rows not marked correct_sufficient in frozen correction-ledger.",
+  "cases_reviewed": 14,
+  "failures_by_primary_cause": {
+    "1": 6,
+    "2": 4,
+    "5": 2,
+    "6": 2
+  },
+  "repairability_counts": {
+    "no": 6,
+    "yes": 5,
+    "not_a_true_semantic_failure": 2,
+    "uncertain": 1
+  },
+  "cpu_diagnostic_queries_executed": 0,
+  "confirmation_set_accessed": false,
+  "ambiguities": [
+    "Rows 40, 45, 49 and 50 have frozen answers not fully supported by the candidate corpus excerpts; do not treat these labels as established target truth without source review.",
+    "Rows 52 and 58 were ledger false positives under the actual-visible-evidence rule.",
+    "Row 59 has a plausible corpus bridge to ATS-6, but “forerunner” wording is not explicit; classify as uncertain.",
+    "Remaining call counts are from recorded AF-A product trajectory; repairability means a fresh corrected run within the original total budget, not calls left in the completed run."
+  ],
+  "output_file": "D:\\AgentLightning\\mini-agent-rl\\runs\\v133-goal-ag-failure-repair\\ag1-dev-second32.jsonl"
+}

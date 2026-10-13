@@ -1,0 +1,46 @@
+"""Primary examination of v122 training-supplement candidate states 81–90."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (81, "What was opened by a member of the Minnesota Timberwolves", "repair_candidate", ["query_preselects_court_before_team_link", "unanchored_team_membership"],
+  "The initial Crawford Court article says Jamal Crawford opened it in 2005, but does not connect him to the Timberwolves. The query preselects the court before that team relation is retrieved. The later Crawford biography uses a snapshot-dependent 'player for the Minnesota Timberwolves' statement, while the question omits a membership date.",
+  "Specify Jamal Crawford or the period of Timberwolves membership and search player-to-court in a replayed pair; do not imply he played for the team when the court opened.",
+  [("before_action", "Crawford Court", "opened on 6 December 2005 by Jamal Crawford"), ("retrieved_after_search", "Jamal Crawford", "player for the Minnesota Timberwolves")]),
+ (82, "What was opened by a member of the Minnesota Timberwolves", "repair_candidate", ["paired_unanchored_team_membership", "paired_query_preselects_court"],
+  "Crawford Court was opened by Jamal Crawford, and a later biography describes him as a Timberwolves player. The original question treats that changing affiliation as timeless and the preceding query had already selected the court before team membership was visible.",
+  "Use a dated/player-qualified question and replay rather than keeping the original team-based label.",
+  [("before_action", "Crawford Court", "opened on 6 December 2005 by Jamal Crawford"), ("before_action", "Jamal Crawford", "player for the Minnesota Timberwolves")]),
+ (83, "What year did the bassist, who was a member of the band", "repair_candidate", ["bassist_not_unique", "query_follows_album_not_deceased_bassist"],
+  "The initial video album identifies Metallica but not a bassist. Retrieval of a different Metallica album says Jason Newsted became its bassist after Cliff Burton's death in 1986. The question's generic 'the bassist' does not identify Burton among Metallica bassists; the selected 1986 death comes only from the later contrast.",
+  "Name Cliff Burton, or identify him as the bassist whose death preceded ...And Justice for All, and replay the pair with direct Burton evidence.",
+  [("before_action", "2 of One", "video album by the American thrash metal band Metallica"), ("retrieved_after_search", "...And Justice for All (album)", "bassist Jason Newsted after the death of Cliff Burton in 1986")]),
+ (84, "What year did the bassist, who was a member of the band", "repair_candidate", ["paired_bassist_not_unique"],
+  "The evidence supports Cliff Burton's death in 1986 but also identifies Jason Newsted as another Metallica bassist. The original question never specifies Burton or the transition, so its person referent is underdetermined.",
+  "Use a Burton-specific question with an explicitly tied source and replay.",
+  [("before_action", "2 of One", "band Metallica"), ("before_action", "...And Justice for All (album)", "bassist Jason Newsted after the death of Cliff Burton in 1986")]),
+ (85, "The singer featured in Eminem's \"Stan\"", "quarantine_pending_repair", ["studio_song_vs_live_version_conflation", "query_selects_live_guest_over_studio_feature"],
+  "The initial Stan song article identifies British singer Dido as the feature on Eminem's 2000 single. A separate Curtain Call article describes a live version featuring Elton John. The question omits 'live version'; the query copies only the live-version clause and returns Elton's 1947 birth. It silently switches recordings and answers for the wrong featured singer.",
+  "Isolate both original states. A new live-performance question may ask Elton John's birth year; the original single question requires Dido's birth year and its own evidence.",
+  [("before_action", "Stan (song)", "featuring British singer Dido"), ("before_action", "Curtain Call: The Hits", "a live version of \"Stan\", featuring English singer and songwriter Elton John"), ("retrieved_after_search", "Elton John", "25 March 1947")]),
+ (86, "The singer featured in Eminem's \"Stan\"", "quarantine_pending_repair", ["paired_studio_song_vs_live_guest_conflation"],
+  "1947 is Elton John's birth year for a live rendition. The original Stan song source names Dido as featured singer, so the frozen answer does not follow from the unqualified question and primary recording.",
+  "Do not qualify this pair. Repair only with a recording-specific question and independent re-review.",
+  [("before_action", "Stan (song)", "featuring British singer Dido"), ("before_action", "Curtain Call: The Hits", "a live version of \"Stan\", featuring English singer and songwriter Elton John"), ("before_action", "Elton John", "25 March 1947")]),
+ (87, "Who starred in the Netflix series \"Stranger Things\"", "retain_candidate", ["query_uses_visible_proof_cast"],
+  "The Proof article names Matthew Modine in its cast and says TNT canceled the series. Searching that cast sentence retrieves Modine's biography, which explicitly lists his Stranger Things role. The overlap is evidenced at the correct stages.", None,
+  [("before_action", "Proof (2015 TV series)", "starred Jennifer Beals, Matthew Modine, and Joe Morton"), ("before_action", "Proof (2015 TV series)", "TNT canceled the series"), ("retrieved_after_search", "Matthew Modine", "Dr. Martin Brenner in \"Stranger Things\"")]),
+ (88, "Who starred in the Netflix series \"Stranger Things\"", "retain_candidate", [],
+  "Matthew Modine is in the Proof cast and his biography names Dr. Martin Brenner in Stranger Things. The two-series answer is supported by separate citations.", None,
+  [("before_action", "Proof (2015 TV series)", "Matthew Modine"), ("before_action", "Matthew Modine", "Dr. Martin Brenner in \"Stranger Things\"")]),
+ (89, "Vibulenus Agrippa was accused of treason", "repair_candidate", ["uncertain_charge_stated_as_fact", "query_uses_visible_emperor"],
+  "The Agrippa article says he was accused of some crime, 'probably treason', during Tiberius's reign. The question states treason categorically. The query correctly identifies Tiberius and retrieves his 14–37 AD reign, but the charge premise must preserve the source's uncertainty.",
+  "Ask for the reign of the emperor during whose final years Vibulenus Agrippa was accused before the senate, omitting the uncertain charge; replay.",
+  [("before_action", "Vibulenus Agrippa", "some crime, probably treason"), ("before_action", "Vibulenus Agrippa", "reign of Tiberius"), ("retrieved_after_search", "Tiberius", "Roman emperor from 14 AD to 37 AD")]),
+ (90, "Vibulenus Agrippa was accused of treason", "repair_candidate", ["paired_uncertain_charge_as_fact"],
+  "The Tiberius article gives 14 AD to 37 AD, and the Agrippa source places his case in Tiberius's final years. The question incorrectly upgrades 'probably treason' to a certain charge, so the supported dates do not cure the premise.",
+  "Keep the date span only with the source-faithful question and replay.",
+  [("before_action", "Vibulenus Agrippa", "some crime, probably treason"), ("before_action", "Tiberius", "Roman emperor from 14 AD to 37 AD")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-087.jsonl", cohort="v122_train_candidates")

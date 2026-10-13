@@ -1,0 +1,13 @@
+{
+  "arm": "joint",
+  "base_unchanged": true,
+  "changed_lora_tensors": 192,
+  "checkpoint_sha256": "98bf60b629fe9ecf386027a6289923eb19b8f874dc89c8b43c2afe53563a502e",
+  "elapsed_seconds": 257.294,
+  "groups": 64,
+  "reference_unchanged": true,
+  "reload_max_abs": 0.0,
+  "sample_count": 256,
+  "status": "PASSED",
+  "updates": 64
+}

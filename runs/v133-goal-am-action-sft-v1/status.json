@@ -1,0 +1,9 @@
+{
+  "status": "failed_stopped",
+  "gpu_generations": 0,
+  "successful_optimizer_updates": 0,
+  "optimizer_step_attempts": 1,
+  "searches": 0,
+  "failure_latch": "experiment-failure.json",
+  "reason": "missing guarded_optimizer_step import; stopped before optimizer update"
+}

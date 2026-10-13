@@ -1,0 +1,7 @@
+{
+  "adapter_sha256": "4e4571bb6019334bd0dbf367fb6c4776188fcd737360eb03f887298299cc0159",
+  "base_unchanged": true,
+  "changed_lora_tensors": 192,
+  "reload_max_abs": 0.0,
+  "updates": 128
+}

@@ -1,0 +1,9 @@
+{
+  "status": "not_triggered_no_new_accepted_candidate",
+  "generations": 0,
+  "searches": 0,
+  "updates": 0,
+  "regression_pass_claim": false,
+  "new_confirmation": 0,
+  "published": false
+}

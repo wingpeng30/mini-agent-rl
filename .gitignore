@@ -28,6 +28,7 @@ data/evidence-sft-v114/
 data/evidence-sft-v114-clean/
 data/evidence-sft-v114-review/
 data/evidence-sft-v115/
+data/evidence-sft-v116/
 data/hybrid-v110/
 data/thinking-sft-v090*/
 data/answer-repair-v105/
@@ -42,3 +43,34 @@ models/
 .env
 .env.*
 !.env.example
+
+# Final local demo and publication staging (never publish user queries or backups)
+.demo-runtime/
+.release-stage/
+deliveries/*/incoming/
+deliveries/*/local-before-sync/
+deliveries/*/release-assets/
+deliveries/*/publication-worktree/
+assets/models/
+assets/custom-corpora/
+*.log
+
+# Local archives, optimizer state, and disposable test directories
+*.tar
+*.tar.gz
+*.zip
+*.pt
+*.bin
+*.sqlite-shm
+*.sqlite-wal
+/.pytest-*/
+/.test-*/
+/pytest-*/
+/test-temp*/
+/test-run-tmp/
+/tmp*/
+/v*-pytest*/
+/v*-test-temp*/
+/goal-*-test-*/
+/backups/
+/deliveries/.interview_build/

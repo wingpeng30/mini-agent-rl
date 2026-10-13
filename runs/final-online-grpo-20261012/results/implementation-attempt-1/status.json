@@ -1,0 +1,8 @@
+{
+  "status": "RUNNING",
+  "started_at": 1791738640.636056,
+  "deadline_epoch": 1791823088.0,
+  "train_deadline_epoch": 1791817088.0,
+  "stages": {},
+  "current_stage": "baseline"
+}

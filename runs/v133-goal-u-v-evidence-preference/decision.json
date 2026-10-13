@@ -1,0 +1,97 @@
+{
+  "adapter": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-t-update-length/seed42/update32/adapter-final",
+  "fresh": {
+    "42-b": {
+      "f1": 0.8479166666666667,
+      "invalid": 0,
+      "mean_latency": 1.5030360326636583,
+      "model": "42-b",
+      "one_sided": 11,
+      "ordinary": 9,
+      "searches": 32,
+      "support": 32,
+      "total": 20
+    },
+    "43-b": {
+      "f1": 0.8479166666666667,
+      "invalid": 0,
+      "mean_latency": 1.4672286559361964,
+      "model": "43-b",
+      "one_sided": 11,
+      "ordinary": 9,
+      "searches": 32,
+      "support": 32,
+      "total": 20
+    },
+    "incumbent": {
+      "f1": 0.8635416666666667,
+      "invalid": 0,
+      "mean_latency": 1.4896942138439044,
+      "model": "incumbent",
+      "one_sided": 11,
+      "ordinary": 10,
+      "searches": 32,
+      "support": 32,
+      "total": 21
+    }
+  },
+  "old": {
+    "42-a": {
+      "f1": 0.78125,
+      "invalid": 0,
+      "main": 13,
+      "mean_latency": 1.5764083426911384,
+      "model": "42-a",
+      "regression": 8,
+      "searches": 32,
+      "support": 32,
+      "total": 21
+    },
+    "42-b": {
+      "f1": 0.8015625,
+      "invalid": 0,
+      "main": 13,
+      "mean_latency": 1.587746387347579,
+      "model": "42-b",
+      "regression": 8,
+      "searches": 32,
+      "support": 32,
+      "total": 21
+    },
+    "43-a": {
+      "f1": 0.7729166666666667,
+      "invalid": 0,
+      "main": 13,
+      "mean_latency": 1.5746066614519805,
+      "model": "43-a",
+      "regression": 8,
+      "searches": 32,
+      "support": 32,
+      "total": 21
+    },
+    "43-b": {
+      "f1": 0.79375,
+      "invalid": 0,
+      "main": 13,
+      "mean_latency": 1.5794830420054495,
+      "model": "43-b",
+      "regression": 8,
+      "searches": 32,
+      "support": 32,
+      "total": 21
+    },
+    "incumbent": {
+      "f1": 0.7786458333333334,
+      "invalid": 0,
+      "main": 13,
+      "mean_latency": 1.6545412922278047,
+      "model": "incumbent",
+      "regression": 7,
+      "searches": 32,
+      "support": 32,
+      "total": 20
+    }
+  },
+  "reason": "fresh_gate_failed",
+  "selected": "incumbent"
+}

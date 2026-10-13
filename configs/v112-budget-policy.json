@@ -1,0 +1,10 @@
+{
+  "version": "v112",
+  "mode": "uncapped",
+  "authorization": "User: 取消预算限制，继续任务",
+  "cumulative_cap_cny": null,
+  "new_cap_cny": null,
+  "accounting_required": true,
+  "unknown_calls_stop_dispatch": true,
+  "stop_condition": "sufficient qualified data or exhausted authorized training material; do not weaken semantic gates"
+}

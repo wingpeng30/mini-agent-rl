@@ -1,0 +1,48 @@
+"""Primary examination of v122 training-supplement candidate states 201–210."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (201, "Which Australian cricketer was born in a town", "quarantine_pending_repair", ["deathplace_mistaken_for_birthplace", "question_premise_false"],
+  "The time-zone town is Tweed Heads, but the retrieved Ernie McCormick biography gives North Carlton, Victoria as his birth place and Tweed Heads as his death place. The question swaps birth and death, so the proposed answer cannot satisfy it.",
+  "If the source question can be legitimately revised, ask which Australian cricketer died in Tweed Heads and replay; never relabel death as birth.",
+  [("before_action", "Tweed Heads, New South Wales", "change time zones"), ("retrieved_after_search", "Ernie McCormick", "16 May 1906 in North Carlton, Victoria – 28 June 1991 in Tweed Heads")]),
+ (202, "Which Australian cricketer was born in a town", "quarantine_pending_repair", ["paired_birth_death_inversion"],
+  "Ernest Leslie McCormick was an Australian cricketer, but his biography says he was born in North Carlton and died in Tweed Heads. The frozen answer is false for the original birth-place question.",
+  "Only a newly worded death-place question may use this person after full replay and independent review.",
+  [("before_action", "Tweed Heads, New South Wales", "change time zones"), ("before_action", "Ernie McCormick", "16 May 1906 in North Carlton, Victoria – 28 June 1991 in Tweed Heads")]),
+ (203, "Where were the band formed for which bassist Steve Garvey", "quarantine_pending_repair", ["band_reference_not_unique", "query_follows_buzzcocks_diggle"],
+  "The initial sources associate Steve Garvey with Motivation, Buzzcocks, and The Teardrops, formed in Manchester, Bolton, and Prestwich respectively. 'The band ... normally played' lacks a discriminator. The query copies a Steve Diggle EP sentence, selecting Buzzcocks without establishing why that is the requested band.",
+  "Name Buzzcocks explicitly if its formation place is the target; otherwise define the intended band and replay.",
+  [("before_action", "Motivation (band)", "formed in Manchester, England by bassist and probably leader Steve Garvey"), ("before_action", "The Teardrops (UK band)", "formed in Prestwich, Greater Manchester"), ("retrieved_after_search", "Buzzcocks", "formed in Bolton, England")]),
+ (204, "Where were the band formed for which bassist Steve Garvey", "quarantine_pending_repair", ["paired_nonunique_band", "answer_only_for_selected_buzzcocks"],
+  "Bolton is supported as the formation place of Buzzcocks, but the question does not uniquely specify Buzzcocks among Garvey-linked bands. Other visible candidates have different formation places.",
+  "Use a uniquely specified Buzzcocks question and replay; do not count the current answer as resolved.",
+  [("before_action", "Motivation (band)", "formed in Manchester, England"), ("before_action", "The Teardrops (UK band)", "formed in Prestwich, Greater Manchester"), ("before_action", "Buzzcocks", "formed in Bolton, England")]),
+ (205, "What nationality is the actress who won awards", "quarantine_pending_repair", ["nomination_mistaken_for_award_win", "wrong_premise"],
+  "The retrieved Ludivine Sagnier biography calls her a French actress and says she was nominated for a César supporting-actress award for Swimming Pool. It does not state she won an award for that film. The question changes a nomination into a win.",
+  "Ask about the actress nominated for the César for Swimming Pool, and replay only if the revised target remains unambiguous.",
+  [("before_action", "Swimming Pool (film)", "Sarah Morton"), ("retrieved_after_search", "Ludivine Sagnier", "nominated for two César Awards for Best Supporting Actress in \"Swimming Pool\"")]),
+ (206, "What nationality is the actress who won awards", "quarantine_pending_repair", ["paired_award_win_unsupported", "nationality_fact_alone_insufficient"],
+  "French is a supported attribute of Ludivine Sagnier, who appears in Swimming Pool. However, the evidence states a nomination, not the award win asserted in the question; a true nationality does not repair the false premise.",
+  "Revise the award relation to nomination and perform a new paired audit.",
+  [("before_action", "Swimming Pool (film)", "Sarah Morton"), ("before_action", "Ludivine Sagnier", "French actress and model"), ("before_action", "Ludivine Sagnier", "nominated for two César Awards")]),
+ (207, "Who acquired the publisher of some of Ben Raab's stories", "repair_candidate", ["parent_company_acquired_not_publisher_directly", "publisher_choice_not_unique"],
+  "Ben Raab wrote for several publishers. The retrieved Marvel article identifies Marvel Comics as an imprint of Marvel Worldwide and says Disney acquired Marvel Entertainment, Marvel Worldwide's parent, in 2009. Calling that a direct acquisition of the publisher compresses the corporate chain, and the question leaves the publisher unspecified.",
+  "Specify Marvel Comics or its parent hierarchy and ask which company acquired Marvel Entertainment; replay.",
+  [("before_action", "Ben Raab", "Marvel Comics, DC Comics, WildStorm, Moonstone Books, Malibu Comics"), ("retrieved_after_search", "Marvel Comics", "The Walt Disney Company acquired Marvel Entertainment, Marvel Worldwide's parent company")]),
+ (208, "Who acquired the publisher of some of Ben Raab's stories", "repair_candidate", ["paired_parent_acquisition_compression"],
+  "The Walt Disney Company is directly named as acquirer of Marvel Entertainment, but the question calls the acquired entity Ben Raab's publisher without distinguishing the Marvel Comics imprint and Marvel Worldwide intermediary. The answer is plausible under an indirect corporate reading; the original relation needs precision.",
+  "Retain Disney only under a question that names the acquired parent and the publisher chain.",
+  [("before_action", "Ben Raab", "Marvel Comics"), ("before_action", "Marvel Comics", "The Walt Disney Company acquired Marvel Entertainment, Marvel Worldwide's parent company")]),
+ (209, "Who guest starred in Cooperative Escapism", "repair_candidate", ["multiple_guest_stars", "answer_visible_before_search"],
+  "The initial episode article names both James Brolin and Adam DeVine as guest stars. The query copies the Brolin sentence, selecting one of two valid people even though the question asks singularly without a distinguishing role. Retrieval of Brolin's biography does not resolve that ambiguity.",
+  "Ask specifically who portrayed William Winger Sr., or request both guest stars; replay accordingly.",
+  [("before_action", "Cooperative Escapism in Familial Relations", "James Brolin guest-stars as William Winger Sr."), ("before_action", "Cooperative Escapism in Familial Relations", "Adam DeVine also guest-stars as William Winger Jr.")]),
+ (210, "Who guest starred in Cooperative Escapism", "repair_candidate", ["paired_nonunique_guest_star"],
+  "James Brolin is indeed a guest star, but Adam DeVine is also explicitly identified as one. A singular question without a role qualifier has multiple supported answers.",
+  "Specify the father role or change the target to the complete guest-star pair before replay.",
+  [("before_action", "Cooperative Escapism in Familial Relations", "James Brolin guest-stars as William Winger Sr."), ("before_action", "Cooperative Escapism in Familial Relations", "Adam DeVine also guest-stars as William Winger Jr.")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-099.jsonl", cohort="v122_train_candidates")

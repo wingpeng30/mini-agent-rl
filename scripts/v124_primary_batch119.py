@@ -1,0 +1,48 @@
+"""Primary examination of v123 internal candidate states 181–190."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (181, "What nationality was the author of The Emperor", "repair_candidate", ["query_uses_swedish_as_answer_hint", "retrieval_adds_author_nationality"],
+  "The initial novel article names Selma Lagerlöf as author, but 'Swedish King Lear' describes her comparison of the novel, not directly her nationality. Search copies that phrase rather than querying the named author's background; retrieval does independently identify her as Swedish.",
+  "Query Selma Lagerlöf nationality directly from the visible author name and replay.",
+  [("before_action", "The Emperor of Portugallia", "novel by Nobel-laureate Selma Lagerlöf"), ("before_action", "The Emperor of Portugallia", "Swedish King Lear"), ("retrieved_after_search", "Selma Lagerlöf", "Swedish author and teacher")]),
+ (182, "What nationality was the author of The Emperor", "repair_candidate", ["paired_query_uses_answer_hint", "answer_supported"],
+  "Swedish is supported by Lagerlöf's biography, and she is the named novel author. The paired query uses a 'Swedish King Lear' analogy rather than the author-nationality link and needs replacement as a search target.",
+  "Retain only after a targeted query replay and independent review.",
+  [("before_action", "The Emperor of Portugallia", "novel by Nobel-laureate Selma Lagerlöf"), ("before_action", "Selma Lagerlöf", "Swedish author and teacher")]),
+ (183, "Where was the creator of Falstaff born", "quarantine_pending_repair", ["falstaff_work_ambiguous", "creator_role_ambiguous"],
+  "The question names Falstaff without specifying Salieri's opera, Verdi's opera, or the Shakespeare character; the initial input itself mentions different Falstaff works. The query arbitrarily selects Falstaff (Salieri), and the retrieved Salieri birthplace only answers that version's composer identity.",
+  "Name Falstaff, ossia Le tre burle and ask for composer Salieri's birthplace; rebuild and review.",
+  [("before_action", "Falstaff (Salieri)", "two acts by Antonio Salieri"), ("before_action", "Carlos Álvarez (baritone)", "Giuseppe Verdi's \"Falstaff\""), ("retrieved_after_search", "Antonio Salieri", "born in Legnago")]),
+ (184, "Where was the creator of Falstaff born", "quarantine_pending_repair", ["paired_ambiguous_work_and_creator"],
+  "The birthplace is documented for Antonio Salieri, but the bare Falstaff title and 'creator' do not uniquely select him. The answer cannot be approved for this question wording.",
+  "Review a Salieri-specific question and answer pair.",
+  [("before_action", "Falstaff (Salieri)", "two acts by Antonio Salieri"), ("before_action", "Antonio Salieri", "born in Legnago, south of Verona, in the Republic of Venice")]),
+ (185, "What Entertainment company based in Burbank", "repair_candidate", ["query_preselects_company", "question_typo"],
+  "The initial Warner Bros. article proves a Burbank headquarters, but the initial context also lists another Burbank entertainment company and does not yet link Warner to Quest for Camelot. Searching 'Warner Bros.' preselects the target before the release relation is visible; retrieval later supplies a Warner Bros. film link. The question repeats 'the'.",
+  "Search Quest for Camelot distributor/release company from the film title, then replay and repair the typo.",
+  [("before_action", "Warner Bros.", "headquartered in Burbank, California"), ("before_action", "42 Entertainment", "company based in Burbank"), ("retrieved_after_search", "The King's Damosel", "1998 Warner Bros. film \"Quest for Camelot\"")]),
+ (186, "What Entertainment company based in Burbank", "repair_candidate", ["paired_preselected_query", "answer_supported_after_search"],
+  "Warner Bros. is Burbank-based and the retrieved source calls Quest for Camelot a Warner Bros. film. The company was supplied in the query before that film-company relation was established, so the pair is not a sound grounded-search target as-is.",
+  "Review after a film-first query replay.",
+  [("before_action", "Warner Bros.", "headquartered in Burbank, California"), ("before_action", "The King's Damosel", "Warner Bros. film \"Quest for Camelot\"")]),
+ (187, "The city of Telmessos was called Telebehi", "repair_candidate", ["source_markup_corruption", "query_uses_visible_language"],
+  "The initial article explicitly says Telebehi is in the Lycian language. Retrieval points toward the ancient Lycians and Iron Age but the source passage contains broken HTML markup. The semantic chain is plausible, yet a clean people-name evidence span is needed.",
+  "Repair/replace the malformed language passage and replay the pair before export.",
+  [("before_action", "Telmessos (Caria)", "Telebehi in the Lycian language"), ("retrieved_after_search", "Lycian language", "ancient <a href=\"Lycians\">Lycians")]),
+ (188, "The city of Telmessos was called Telebehi", "repair_candidate", ["answer_contains_html_fragment", "paired_source_markup_corruption"],
+  "The frozen answer is a broken HTML fragment, not the clean ethnonym Lycians. The damaged retrieved source also requires repair before a clean answer can be independently accepted.",
+  "Use a clean 'Lycians' answer only with a validated people-name source and replayed input.",
+  [("before_action", "Telmessos (Caria)", "Telebehi in the Lycian language"), ("before_action", "Lycian language", "ancient <a href=\"Lycians\">Lycians")]),
+ (189, "Who is the English football coach", "repair_candidate", ["answer_visible_before_search", "question_typo", "query_copies_answer"],
+  "The initial Manchester City season passage already names Steve Coppell and his 32-day resignation. Search copies that answer-bearing sentence. The question also misspells Manchester, so the pair needs editorial and action repair.",
+  "Correct Manchester and use a direct answer from the initial season passage.",
+  [("before_action", "1997–98 Manchester City F.C. season", "Steve Coppell, who resigned after just 32 days")]),
+ (190, "Who is the English football coach", "repair_candidate", ["paired_unnecessary_search", "question_typo"],
+  "Steve Coppell is directly named in the initial season passage, and his retrieved biography confirms he is an English coach and former player. The original search is redundant; Manchester is misspelled in the question.",
+  "Rebuild as a clean direct-answer example.",
+  [("before_action", "1997–98 Manchester City F.C. season", "Steve Coppell, who resigned after just 32 days"), ("before_action", "Steve Coppell", "English football coach and former player")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-119.jsonl", cohort="v123_internal_candidates")

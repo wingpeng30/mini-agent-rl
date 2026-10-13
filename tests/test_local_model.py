@@ -4,7 +4,7 @@ import json
 
 from mini_agent_rl.domain import Message
 from mini_agent_rl.model.context import ContextBudgetError, budget_messages
-from mini_agent_rl.model.local import ActionParseError, LocalModelConfig, generation_terminator_ids, parse_agent_action, split_reasoning_action, trim_generation_terminators
+from mini_agent_rl.model.local import ActionParseError, LocalModelConfig, first_json_object_end, generation_terminator_ids, parse_agent_action, split_reasoning_action, trim_generation_terminators
 from mini_agent_rl.runtime.runner import AgentRunner
 
 
@@ -83,6 +83,32 @@ def test_local_config_does_not_load_model():
     assert LocalModelConfig(adapter_path="checkpoints/test").adapter_path == "checkpoints/test"
     with pytest.raises(ValueError):
         LocalModelConfig(device="cpu", load_in_4bit=True)
+
+
+def test_first_json_completion_is_opt_in_and_requires_direct_actions():
+    assert LocalModelConfig().action_completion == "eos"
+    assert LocalModelConfig(action_completion="first-json-v1").action_completion == "first-json-v1"
+    with pytest.raises(ValueError, match="non-thinking"):
+        LocalModelConfig(action_completion="first-json-v1", enable_thinking=True)
+
+
+@pytest.mark.parametrize(("text", "expected"), [
+    ('{"action":"search","query":"x } \\\" {"}\\n{"action":"answer","answer":"later"}',
+     len('{"action":"search","query":"x } \\\" {"}')),
+    (' {"action":{"kind":"search"},"query":"x"} tail', len(' {"action":{"kind":"search"},"query":"x"}')),
+    ('{"action":"unknown"} {"action":"answer","answer":"later"}', len('{"action":"unknown"}')),
+    ('["not an action"] {"action":"answer","answer":"later"}', None),
+    ('{"action":"answer","answer":"brace } in string"}', len('{"action":"answer","answer":"brace } in string"}')),
+])
+def test_first_json_completion_stops_at_first_structural_object(text, expected):
+    assert first_json_object_end(text) == expected
+
+
+def test_first_json_completion_does_not_skip_invalid_first_action():
+    text = '{"action":"unknown"} {"action":"answer","answer":"later"}'
+    end = first_json_object_end(text)
+    with pytest.raises(ActionParseError):
+        parse_agent_action(text[:end])
 
 
 def test_context_budget_preserves_protocol_question_and_valid_tool_json():

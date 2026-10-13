@@ -1,0 +1,87 @@
+{
+  "decision": {
+    "adapter": "/root/autodl-tmp/mini-agent-rl/runs/v133-goal-p-system/p3-training/rl/adapter-final",
+    "confirmed": false,
+    "reason": "incumbent_retained",
+    "replication": null,
+    "selected": "old_rl"
+  },
+  "gpu_seconds": 597.9120254144073,
+  "models": [
+    {
+      "both_support": 17,
+      "f1": 0.5802083333333333,
+      "goal_G_regression": 7,
+      "invalid": 3,
+      "model": "goal_j",
+      "new_eval": 6,
+      "searches": 29,
+      "total": 13
+    },
+    {
+      "both_support": 32,
+      "f1": 0.7345982142857143,
+      "goal_G_regression": 7,
+      "invalid": 0,
+      "model": "old_rl",
+      "new_eval": 12,
+      "searches": 32,
+      "total": 19
+    },
+    {
+      "both_support": 14,
+      "f1": 0.5697916666666667,
+      "goal_G_regression": 7,
+      "invalid": 0,
+      "model": "direct",
+      "new_eval": 5,
+      "searches": 32,
+      "total": 12
+    },
+    {
+      "both_support": 32,
+      "f1": 0.6947916666666667,
+      "goal_G_regression": 7,
+      "invalid": 0,
+      "model": "sft",
+      "new_eval": 9,
+      "searches": 60,
+      "total": 16
+    }
+  ],
+  "stages": [
+    {
+      "name": "baseline",
+      "seconds": 87.9749944806099
+    },
+    {
+      "name": "signal",
+      "seconds": 52.43917962908745
+    },
+    {
+      "name": "direct",
+      "seconds": 199.06007789820433
+    },
+    {
+      "name": "sft",
+      "seconds": 32.18849866837263
+    },
+    {
+      "name": "warm_signal",
+      "seconds": 104.74036321789026
+    },
+    {
+      "name": "warm_rl",
+      "skipped": "mixed_groups_below_four"
+    },
+    {
+      "name": "evaluation",
+      "seconds": 110.7648484557867
+    },
+    {
+      "name": "final",
+      "seconds": 10.744063064455986
+    }
+  ],
+  "status": "complete"
+}

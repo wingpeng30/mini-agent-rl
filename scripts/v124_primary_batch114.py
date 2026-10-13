@@ -1,0 +1,48 @@
+"""Primary examination of v123 internal candidate states 131–140."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (131, "What position did retired Portuguese professional footballer", "repair_candidate", ["malformed_question", "query_copies_full_answer_bearing_list"],
+  "The Womé article lists Maniche among the league-sharing players, and retrieval identifies Maniche as a Portuguese retired footballer and central midfielder. The question lacks a grammatical main verb for the target position, while the query copies the entire long list rather than targeting Maniche's role.",
+  "Rewrite the question to name Maniche or clearly identify him, and query his playing position from the visible name.",
+  [("before_action", "Pierre Womé", "Maniche, Marko Marin"), ("retrieved_after_search", "Maniche", "retired Portuguese professional footballer who played as a central midfielder")]),
+ (132, "What position did retired Portuguese professional footballer", "repair_candidate", ["paired_malformed_question", "answer_supported"],
+  "The retrieved Maniche passage supports central midfielder, and the Womé list supports the identity link. The malformed question and inefficient paired search require rebuilding before use.",
+  "Keep this answer only for a newly reviewed unambiguous Maniche question.",
+  [("before_action", "Pierre Womé", "Maniche, Marko Marin"), ("before_action", "Maniche", "played as a central midfielder")]),
+ (133, "Robert William Kozaren served as mayor", "repair_candidate", ["answer_visible_before_search", "query_copies_answer"],
+  "The initial Robert Kozaren document explicitly names Hamtramck, Michigan as his mayoral city. The query copies that answer-bearing sentence, teaching an unnecessary search.",
+  "Use direct answer from initial evidence; remove the search state.",
+  [("before_action", "Robert Kozaren", "Mayor of the City of Hamtramck, Michigan"), ("retrieved_after_search", "Hamtramck, Michigan", "city in Wayne County")]),
+ (134, "Robert William Kozaren served as mayor", "repair_candidate", ["paired_unnecessary_search"],
+  "Hamtramck, Michigan is supported directly in the first-pass document. The answer is correct but its paired search was redundant.",
+  "Rebuild as a direct-answer example if useful.",
+  [("before_action", "Robert Kozaren", "Mayor of the City of Hamtramck, Michigan")]),
+ (135, "Which mammal, the third largest", "repair_candidate", ["query_preselects_answer_without_relation", "retrieval_adds_name_relation"],
+  "The initial hippopotamus text gives the third-largest-land-mammal clue but contains no Igano Kabamaru relation. The query inserts Hippopotamus as if that relation were established; retrieval later supplies the Hippo Mouth naming fact. The query therefore risks target leakage by conjecture.",
+  "Search Igano Kabamaru's name meaning directly without inserting the inferred animal, then replay.",
+  [("before_action", "Hippopotamus", "third-largest type of land mammal"), ("retrieved_after_search", "Igano Kabamaru", "Hippo Mouth of Iga")]),
+ (136, "Which mammal, the third largest", "repair_candidate", ["paired_query_target_leakage", "answer_supported_after_search"],
+  "The final Hippopotamus answer is supported by the retrieved Igano Kabamaru passage and initial size clue. The preceding query had already supplied that animal before the naming link was visible, so the pair should not supervise grounded search as-is.",
+  "Reassess after a neutral name-meaning query replay.",
+  [("before_action", "Igano Kabamaru", "nicknamed Kabamaru (hippo's mouth)"), ("before_action", "Hippopotamus", "third-largest type of land mammal")]),
+ (137, "Were The Shaggy Dog and Alice in Wonderland", "quarantine_pending_repair", ["both_film_titles_underspecified", "query_arbitrarily_selects_2010_film"],
+  "The initial context contains at least a 1988 and a 2010 Alice in Wonderland film. The query chooses a line from the 2010 film without a disambiguating clue in the question, and retrieval chooses the 1959 Shaggy Dog film. Bare titles do not determine the intended comparison.",
+  "Specify both film years or directors and rebuild the question/action pair.",
+  [("before_action", "Alice in Wonderland (1988 film)", "released in 1988"), ("before_action", "Alice in Wonderland (2010 film)", "2010 American fantasy adventure film"), ("retrieved_after_search", "The Shaggy Dog (1959 film)", "1959 Walt Disney film")]),
+ (138, "Were The Shaggy Dog and Alice in Wonderland", "quarantine_pending_repair", ["paired_title_ambiguity"],
+  "The no answer fits the retrieved 1959 Shaggy Dog and 2010 Alice pairing, and also the visible 1988 Alice alternative, but this does not establish a unique film pair. The source context itself demonstrates the ambiguity.",
+  "Review a disambiguated film pair; do not retain this answer under bare titles.",
+  [("before_action", "Alice in Wonderland (1988 film)", "released in 1988"), ("before_action", "Alice in Wonderland (2010 film)", "2010 American fantasy adventure film"), ("before_action", "The Shaggy Dog (1959 film)", "1959 Walt Disney film")]),
+ (139, "In the Central Tablelands region", "repair_candidate", ["query_unrelated_moxy_show", "retrieval_adds_river_relation"],
+  "The first-pass New South Wales article gives Australia, but does not tie Jenolan River to that state. The query appends The Moxy Show, an unrelated cartoon; retrieval nevertheless finds a Jenolan River passage with the full location. Retrieval success does not validate this query.",
+  "Query Jenolan River location from the question alone and replay the retrieval.",
+  [("before_action", "New South Wales", "state on the east coast of :Australia"), ("before_action", "The Moxy Show", "animated anthology television series"), ("retrieved_after_search", "Jenolan River", "Central Tablelands region of New South Wales, Australia")]),
+ (140, "In the Central Tablelands region", "repair_candidate", ["paired_unrelated_query", "answer_supported"],
+  "Australia is explicitly supported by the Jenolan River document at answer time. Its paired search added an unrelated Moxy Show term and needs replacement before this pair can teach a sound query strategy.",
+  "Keep the answer only after a relevant query replay and review.",
+  [("before_action", "Jenolan River", "Central Tablelands region of New South Wales, Australia")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-114.jsonl", cohort="v123_internal_candidates")

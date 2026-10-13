@@ -1,0 +1,11 @@
+{
+  "status": "complete_seed42_gate_failed",
+  "successful_optimizer_updates": 256,
+  "gpu_generations": 473,
+  "real_searches": 257,
+  "full_search_trajectories": 128,
+  "training_runs": 2,
+  "seed43_executed": false,
+  "released": false,
+  "stop_reason": "complete evidence probe gain is 1, required 2"
+}

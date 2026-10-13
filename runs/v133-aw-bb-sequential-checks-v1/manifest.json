@@ -1,0 +1,31 @@
+{
+  "completed": true,
+  "accepted_version": null,
+  "parent": "AM seed42-A",
+  "parent_sha256": "3bcd1f85382c1d7775fa674c1a6e1e68c80911a69b86de209d20f2ab6269280c",
+  "published": "Goal Z",
+  "published_sha256": "d15d3864c1ccb810a6be7e5719d7b5d0ac87c353408ed85d973bb6393ff16b52",
+  "actual_generation": 269,
+  "actual_search": 65,
+  "actual_updates": 0,
+  "teacher_calls": 0,
+  "new_confirmation": 0,
+  "stages": {
+    "AW": "rejected_probe",
+    "AX": "closed_material",
+    "AY": "closed_material",
+    "AZ": "not_triggered",
+    "BA": "not_triggered",
+    "BB": "not_triggered"
+  },
+  "hashes": {
+    "runs/v133-goal-aw-hop-reader-v1/final-status.json": "8cfb79300ef598a5922916cbb85323e5e74bdac2314ce65bc13716a497d7d3f4",
+    "runs/v133-goal-ay-real-state-distillation-v2/final-status.json": "0794f02009ca9e663646421beec004aa39721b9d54c12686baa9488b3a17ec67",
+    "runs/v133-goal-ay-real-state-distillation-v2/material-gate.json": "300f78f56b3d7b54a1cda0f69789680089a57cf04ae8d24f8b19619d14d3f052",
+    "runs/v133-goal-ax-independent-reader-v1/manifest.json": "0619ffcb717e43b16acd1bc1c97a5241d4e6edaf1ef381c46c8cbf528dcfbed1",
+    "docs/v133-aw-bb-sequential-plan.md": "a403ae87a7b5bd0f9f96091adb4af68fcb6773da21120b26bb9bd52e1b428068",
+    "runs/v133-aw-bb-sequential-checks-v1/FINAL_REPORT.md": "e2c0a84f8fc1d0571f3c4ec43762cd685476a08ea6f3ada077faf1f8e81dfb96"
+  },
+  "prior_AY_failure_preserved": true,
+  "repair_rerun_explicitly_user_authorized": true
+}

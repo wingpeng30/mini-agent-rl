@@ -1,0 +1,99 @@
+{
+  "changes_vs_v118": {
+    "sft_c": {
+      "changed_raw": [
+        "g000",
+        "g001"
+      ],
+      "lost_correct": [],
+      "new_correct": [
+        "g001"
+      ],
+      "retained_correct": [
+        "g009",
+        "g012",
+        "g013"
+      ]
+    },
+    "sft_d": {
+      "changed_raw": [
+        "g000",
+        "g001",
+        "g015"
+      ],
+      "lost_correct": [],
+      "new_correct": [
+        "g001",
+        "g015"
+      ],
+      "retained_correct": [
+        "g009",
+        "g012",
+        "g013"
+      ]
+    }
+  },
+  "evaluation_16_now_exposed_to_research_decisions": true,
+  "input_sha256": "b160fc622362632f60f1a9b5103dc0b37ea8e63ffee4a56095330c08845232d8",
+  "metrics": {
+    "sft_c": {
+      "em": 4,
+      "f1": 0.45387477106227103,
+      "n": 16,
+      "protocol_valid": 16
+    },
+    "sft_d": {
+      "em": 5,
+      "f1": 0.516374771062271,
+      "n": 16,
+      "protocol_valid": 16
+    },
+    "v118": {
+      "em": 3,
+      "f1": 0.3497081043956044,
+      "n": 16,
+      "protocol_valid": 14
+    }
+  },
+  "not_end_to_end_retrieval": true,
+  "run_state_sha256": "d68b92616fdc679ba44149949f7d111f716698a621f11f04aa15a7825fd20b28",
+  "runtime_seconds": 44.363,
+  "speed_check": {
+    "after_full_cases": 2,
+    "decision": "continue",
+    "mean_generation_seconds": 2.063,
+    "projected_total_seconds": 113.879
+  },
+  "status": "complete_exploratory_synthetic_history_comparison",
+  "trajectories_sha256": "df247a8b26cdca01aaee4d7d141491fed774ec9840c0e742835ee3721425edab",
+  "v118_fit_probe": {
+    "case_results": {
+      "core:129": {
+        "em": 0,
+        "gold": "agreements",
+        "prediction": "",
+        "protocol_valid": false
+      },
+      "core:217": {
+        "em": 0,
+        "gold": "director",
+        "prediction": "film director",
+        "protocol_valid": true
+      },
+      "core:46": {
+        "em": 0,
+        "gold": "England",
+        "prediction": "It lies amongst the foothills of the South Pennines.",
+        "protocol_valid": true
+      },
+      "core:80": {
+        "em": 0,
+        "gold": "rock band",
+        "prediction": "rock",
+        "protocol_valid": true
+      }
+    },
+    "em": 0,
+    "n": 4
+  }
+}

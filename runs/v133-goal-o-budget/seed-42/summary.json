@@ -1,0 +1,18 @@
+{
+  "base_unchanged": true,
+  "checkpoints": [
+    1,
+    4
+  ],
+  "elapsed_seconds": 225.076,
+  "groups": 64,
+  "passes": 4,
+  "reference_unchanged": true,
+  "reload_max_abs": {
+    "1": 0.0,
+    "4": 0.0
+  },
+  "seed": 42,
+  "status": "PASSED",
+  "updates": 33
+}

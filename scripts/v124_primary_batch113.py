@@ -1,0 +1,46 @@
+"""Primary examination of v123 internal candidate states 121–130."""
+from scripts.v124_primary_batch001 import save_batch
+
+SPECS = [
+ (121, "Do War and Peace and Mireille", "repair_candidate", ["work_identity_underspecified", "conditional_act_count"],
+  "Mireille is explicitly an opera in five acts. War and Peace is described as an opera in two parts and 13 scenes, only sometimes arranged as five acts. The bare work titles and unqualified 'same number' overstate a conditional comparison.",
+  "Name both operas and specify the five-act arrangement before rebuilding the pair.",
+  [("before_action", "Mireille (opera)", "opera in five acts"), ("retrieved_after_search", "War and Peace (opera)", "sometimes arranged as five acts")]),
+ (122, "Do War and Peace and Mireille", "repair_candidate", ["paired_conditional_answer", "question_ambiguity"],
+  "The yes answer applies only when War and Peace is arranged as five acts; its article first describes two parts and 13 scenes. The unqualified question does not state that arrangement.",
+  "Qualify the arrangement and independently review the rewritten answer pair.",
+  [("before_action", "Mireille (opera)", "opera in five acts"), ("before_action", "War and Peace (opera)", "opera in two parts"), ("before_action", "War and Peace (opera)", "sometimes arranged as five acts")]),
+ (123, "Nuts and Volts and American Heritage", "quarantine_pending_repair", ["publication_origin_not_established", "query_preselects_first_publication"],
+  "Nuts and Volts is explicitly an American magazine based in California. The American Heritage excerpt says that it covers United States history, which does not itself establish its publication country. The query repeats the known first-magazine location rather than targeting the missing second-magazine origin.",
+  "Find a time-appropriate source explicitly identifying the second publication's origin, then rebuild and review; do not infer publication origin from subject matter.",
+  [("before_action", "Nuts and Volts", "monthly American magazine"), ("retrieved_after_search", "American Heritage (magazine)", "history of the United States of America")]),
+ (124, "Nuts and Volts and American Heritage", "quarantine_pending_repair", ["paired_second_origin_unsupported"],
+  "United States is supported for Nuts and Volts. The provided American Heritage passage supports a US-history topic, not an explicit publication location; the second half of 'both publications from' remains unproved within the action-time evidence.",
+  "Require an explicit second-origin citation and fresh review before any retain decision.",
+  [("before_action", "Nuts and Volts", "monthly American magazine"), ("before_action", "American Heritage (magazine)", "history of the United States of America")]),
+ (125, "Which city is the Hilton Budapest City", "repair_candidate", ["answer_visible_before_search", "query_repeats_answer"],
+  "The initial Hilton Budapest City article already says the hotel is near the Western Railway Station in Budapest. The search query copies that answer-bearing sentence, so this is an unnecessary-search target.",
+  "Use the direct-answer action from the initial evidence; remove the search pair.",
+  [("before_action", "Hilton Budapest City", "Western Railway Station in Budapest"), ("retrieved_after_search", "WestEnd City Center", "in Budapest, Hungary")]),
+ (126, "Which city is the Hilton Budapest City", "repair_candidate", ["paired_unnecessary_search", "answer_over_specific"],
+  "Budapest is supported before search. The answer includes Hungary although only a city is requested; that extra country is not the core failure, but this answer was paired with a redundant search.",
+  "Retain only a reviewed direct Budapest answer if the target format allows it.",
+  [("before_action", "Hilton Budapest City", "Western Railway Station in Budapest"), ("before_action", "WestEnd City Center", "in Budapest, Hungary")]),
+ (127, "In which county is the Engineers Country Club", "retain_candidate", ["query_uses_visible_location", "retrieval_adds_county"],
+  "The club is initially located in Roslyn Harbor, New York. Retrieval gives both an Engineers Country Club event passage explicitly placing it in Nassau County and a Roslyn Harbor county passage.", None,
+  [("before_action", "Engineers Country Club", "located in Roslyn Harbor, New York"), ("retrieved_after_search", "1919 PGA Championship", "Engineers Country Club in Roslyn Harbor, New York, east of New York City on Long Island in Nassau County"), ("retrieved_after_search", "Roslyn Harbor, New York", "village in Nassau County")]),
+ (128, "In which county is the Engineers Country Club", "retain_candidate", [],
+  "The club-to-Roslyn Harbor and Roslyn Harbor-to-Nassau County links are both visible at answer time; the event article also states Nassau County directly.", None,
+  [("before_action", "Engineers Country Club", "located in Roslyn Harbor, New York"), ("before_action", "Roslyn Harbor, New York", "village in Nassau County")]),
+ (129, "Are Unmistaken Child and Walt Disney", "repair_candidate", ["second_title_underspecified", "query_repeats_first_film"],
+  "Unmistaken Child is already identified as a documentary. The retrieved Walt Disney (film) article adds the second documentary fact, but the bare 'Walt Disney' title can mean a person and the query repeats the first film rather than resolving that target.",
+  "Name the 2015 PBS Walt Disney film in the question and query; correct the spelling of documentary, then replay.",
+  [("before_action", "Unmistaken Child", "independent documentary film"), ("retrieved_after_search", "Walt Disney (film)", "documentary film created by PBS")]),
+ (130, "Are Unmistaken Child and Walt Disney", "repair_candidate", ["paired_ambiguous_second_title"],
+  "Yes is supported if Walt Disney means the PBS film, as both articles call the works documentaries. The question itself does not identify the second work as a film and misspells documentary.",
+  "Use a disambiguated question and review its newly paired answer.",
+  [("before_action", "Unmistaken Child", "independent documentary film"), ("before_action", "Walt Disney (film)", "documentary film created by PBS")]),
+]
+
+if __name__ == "__main__":
+ save_batch(SPECS, "primary-batch-113.jsonl", cohort="v123_internal_candidates")
